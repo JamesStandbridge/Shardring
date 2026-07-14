@@ -11,6 +11,14 @@ func test_launcher_config_defaults_prepare_single_shot_and_future_multi_shot() -
 	assert_gt(config.linger_after_last_shot_seconds, 0.0)
 	assert_gt(config.launcher_lifetime_seconds, 0.0)
 	assert_gt(config.max_active_projectiles, config.max_active_launchers)
+	assert_eq(config.telegraph_mode, ProjectileLauncherConfig.TelegraphMode.TO_TARGET)
+	assert_gt(config.telegraph_visual_length_meters, 0.0)
+	assert_gt(config.telegraph_visual_width_meters, 0.0)
+	assert_gt(config.telegraph_visual_thickness_meters, 0.0)
+	assert_gt(config.launcher_charge_scale_max, config.launcher_charge_scale_min)
+	assert_true(config.projectile_config.trail_enabled)
+	assert_gt(config.projectile_config.trail_length_meters, 0.0)
+	assert_gt(config.projectile_config.trail_width_meters, 0.0)
 
 
 func test_launcher_transitions_from_telegraph_to_shot_and_linger() -> void:
@@ -34,6 +42,86 @@ func test_launcher_transitions_from_telegraph_to_shot_and_linger() -> void:
 
 	remove_child(system)
 	system.free()
+
+
+func test_launcher_telegraph_tracks_player_and_shot_uses_that_direction() -> void:
+	var root := Node3D.new()
+	var player := PlayerController.new()
+	var system := _create_projectile_system()
+
+	player.name = "Player"
+	player.position = Vector3(0.0, 1.05, 8.0)
+	system.name = "ProjectileSystem"
+	system.player_path = NodePath("../Player")
+	system.launcher_config.telegraph_duration_seconds = 0.2
+	system.launcher_config.projectile_config.speed_meters_per_second = 10.0
+	system.launcher_config.telegraph_visual_length_meters = 30.0
+	system.launcher_config.telegraph_target_padding_meters = 0.0
+
+	root.add_child(player)
+	root.add_child(system)
+	add_child(root)
+	await get_tree().process_frame
+
+	assert_true(system.force_spawn_launcher_at(Vector3(0.0, 0.55, 0.0)))
+	assert_eq(system.get_active_telegraph_count(), 1)
+	assert_gt(system.get_first_active_launcher_direction().z, 0.99)
+
+	player.global_position = Vector3(8.0, 1.05, 0.0)
+	system.step_system_for_tests(0.1)
+
+	var fired_direction := system.get_first_active_launcher_direction()
+	assert_gt(fired_direction.x, 0.99)
+
+	system.step_system_for_tests(0.11)
+
+	assert_eq(system.get_active_projectile_count(), 1)
+	var shot_origin := Vector3(0.0, system.launcher_config.shot_height_meters, 0.0)
+	var projectile_travel := (
+		(system.get_first_active_projectile_position() - shot_origin).normalized()
+	)
+	assert_gt(projectile_travel.dot(fired_direction), 0.98)
+
+	remove_child(root)
+	root.free()
+
+
+func test_telegraph_length_progresses_with_charge() -> void:
+	var root := Node3D.new()
+	var player := PlayerController.new()
+	var system := _create_projectile_system()
+
+	player.name = "Player"
+	player.position = Vector3(0.0, 1.05, 12.0)
+	system.name = "ProjectileSystem"
+	system.player_path = NodePath("../Player")
+	system.launcher_config.telegraph_duration_seconds = 1.0
+	system.launcher_config.telegraph_visual_length_meters = 20.0
+	system.launcher_config.telegraph_min_length_meters = 2.0
+	system.launcher_config.telegraph_target_padding_meters = 1.0
+
+	root.add_child(player)
+	root.add_child(system)
+	add_child(root)
+	await get_tree().process_frame
+
+	assert_true(system.force_spawn_launcher_at(Vector3.ZERO))
+	var initial_length := system.get_first_active_launcher_telegraph_length()
+	var initial_charge := system.get_first_active_launcher_charge_ratio()
+
+	system.step_system_for_tests(0.5)
+
+	assert_gt(system.get_first_active_launcher_telegraph_length(), initial_length)
+	assert_gt(system.get_first_active_launcher_charge_ratio(), initial_charge)
+	assert_true(
+		(
+			system.get_first_active_launcher_telegraph_length()
+			<= system.launcher_config.telegraph_visual_length_meters
+		)
+	)
+
+	remove_child(root)
+	root.free()
 
 
 func test_projectile_linear_motion_uses_direction_speed_and_delta() -> void:
@@ -130,7 +218,7 @@ func test_projectile_system_keeps_runtime_node_count_bounded_for_many_projectile
 
 	assert_eq(system.get_active_projectile_count(), 1000)
 	assert_eq(system.get_runtime_node_count(), initial_node_count)
-	assert_true(system.get_runtime_node_count() <= 3)
+	assert_true(system.get_runtime_node_count() <= 4)
 
 	remove_child(system)
 	system.free()

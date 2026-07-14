@@ -4,11 +4,15 @@
 
 [resource]
 script = ExtResource("1_arena_config_script")
-radius_meters = 24.0
+radius_meters = 42.0
 thickness_meters = 1.0
-cell_count = 36
-boundary_vertex_count = 96
-min_cell_site_distance_meters = 2.4
+cell_count = 72
+boundary_vertex_count = 128
+boundary_irregularity_meters = 3.2
+boundary_irregularity_control_points = 14
+min_cell_site_distance_meters = 3.0
+surface_height_amplitude_meters = 0.45
+surface_height_frequency = 0.13
 reconstruction_interval_seconds = 30.0
 generation_seed = 42
 debug_show_cell_labels = false

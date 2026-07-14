@@ -41,12 +41,14 @@ func test_cells_are_irregular_polygons_inside_arena_disk() -> void:
 	config.radius_meters = 16.0
 	config.cell_count = 24
 	config.thickness_meters = 1.25
+	config.boundary_irregularity_meters = 1.5
 	var arena := ArenaController.new()
 	arena.arena_config = config
 
 	arena.generate_arena()
 
 	var max_vertex_count := 0
+	var has_irregular_boundary_vertex := false
 	for cell: ArenaCell in arena.get_cells():
 		max_vertex_count = maxi(max_vertex_count, cell.polygon.size())
 		assert_gte(cell.polygon.size(), 3)
@@ -54,9 +56,14 @@ func test_cells_are_irregular_polygons_inside_arena_disk() -> void:
 		assert_eq(cell.thickness_meters, config.thickness_meters)
 		assert_eq(cell.state, ArenaCell.ArenaCellState.NORMAL)
 		for vertex: Vector2 in cell.polygon:
-			assert_lte(vertex.length(), config.radius_meters + 0.01)
+			assert_lte(
+				vertex.length(), config.radius_meters + config.boundary_irregularity_meters + 0.01
+			)
+			if vertex.length() > config.radius_meters + 0.25:
+				has_irregular_boundary_vertex = true
 
 	assert_gte(max_vertex_count, 5)
+	assert_true(has_irregular_boundary_vertex)
 
 	arena.free()
 
@@ -73,9 +80,26 @@ func test_spawn_and_random_positions_are_on_valid_cells() -> void:
 	for index in range(20):
 		var valid_position := arena.get_random_valid_position(rng)
 		assert_true(_is_inside_any_cell(valid_position, arena.get_cells()))
-		assert_eq(valid_position.y, 0.0)
+		assert_almost_eq(
+			valid_position.y, arena.get_surface_height_at_position(valid_position), 0.001
+		)
 
 	arena.free()
+
+
+func test_surface_height_is_deterministic_and_subtle() -> void:
+	var first_arena := _build_arena_with_seed(321)
+	var second_arena := _build_arena_with_seed(321)
+	var sample_position := Vector3(8.0, 0.0, -11.0)
+
+	var first_height := first_arena.get_surface_height_at_position(sample_position)
+	var second_height := second_arena.get_surface_height_at_position(sample_position)
+
+	assert_almost_eq(first_height, second_height, 0.001)
+	assert_lte(absf(first_height), first_arena.arena_config.surface_height_amplitude_meters + 0.001)
+
+	first_arena.free()
+	second_arena.free()
 
 
 func _build_arena_with_seed(generation_seed_value: int) -> ArenaController:

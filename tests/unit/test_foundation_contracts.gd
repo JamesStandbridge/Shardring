@@ -104,16 +104,32 @@ func test_foundation_resource_defaults_are_playable() -> void:
 	assert_gt(arena_config.radius_meters, 0.0)
 	assert_gt(arena_config.cell_count, 0)
 	assert_eq(arena_config.thickness_meters, 1.0)
+	assert_gt(arena_config.boundary_irregularity_meters, 0.0)
+	assert_gt(arena_config.boundary_irregularity_control_points, 2)
+	assert_gt(arena_config.surface_height_amplitude_meters, 0.0)
+	assert_gt(arena_config.surface_height_frequency, 0.0)
 	assert_not_null(default_arena_config)
-	assert_eq(default_arena_config.radius_meters, 24.0)
-	assert_eq(default_arena_config.cell_count, 36)
+	assert_eq(default_arena_config.radius_meters, 42.0)
+	assert_eq(default_arena_config.cell_count, 72)
+	assert_gt(default_arena_config.boundary_irregularity_meters, 0.0)
+	assert_gt(default_arena_config.surface_height_amplitude_meters, 0.0)
 	assert_not_null(basic_projectile_config)
 	assert_eq(basic_projectile_config.motion_type, ProjectileConfig.MotionType.LINEAR)
 	assert_gt(basic_projectile_config.speed_meters_per_second, 0.0)
 	assert_gt(basic_projectile_config.lifetime_seconds, 0.0)
 	assert_gt(basic_projectile_config.collision_radius_meters, 0.0)
 	assert_gt(basic_projectile_config.visual_radius_meters, 0.0)
+	assert_true(
+		(
+			basic_projectile_config.collision_radius_meters
+			<= basic_projectile_config.visual_radius_meters
+		)
+	)
 	assert_true(basic_projectile_config.damage_on_contact)
+	assert_true(basic_projectile_config.trail_enabled)
+	assert_gt(basic_projectile_config.trail_length_meters, 0.0)
+	assert_gt(basic_projectile_config.trail_width_meters, 0.0)
+	assert_gt(basic_projectile_config.trail_emission_energy, 0.0)
 	assert_not_null(basic_launcher_config)
 	assert_eq(
 		basic_launcher_config.launcher_type, ProjectileLauncherConfig.LauncherType.SINGLE_SHOT
@@ -122,19 +138,53 @@ func test_foundation_resource_defaults_are_playable() -> void:
 	assert_gt(basic_launcher_config.telegraph_duration_seconds, 0.0)
 	assert_eq(basic_launcher_config.shot_count, 1)
 	assert_gt(basic_launcher_config.spawn_interval_seconds, 0.0)
+	assert_eq(
+		basic_launcher_config.telegraph_mode, ProjectileLauncherConfig.TelegraphMode.TO_TARGET
+	)
+	assert_gt(basic_launcher_config.telegraph_visual_length_meters, 0.0)
+	assert_gt(basic_launcher_config.telegraph_visual_width_meters, 0.0)
+	assert_gt(basic_launcher_config.telegraph_visual_thickness_meters, 0.0)
+	assert_gt(basic_launcher_config.telegraph_surface_height_meters, 0.0)
+	assert_gt(basic_launcher_config.telegraph_min_length_meters, 0.0)
+	assert_true(
+		(
+			basic_launcher_config.telegraph_min_length_meters
+			<= basic_launcher_config.telegraph_visual_length_meters
+		)
+	)
+	assert_gt(basic_launcher_config.telegraph_target_padding_meters, 0.0)
+	assert_gt(
+		basic_launcher_config.launcher_charge_scale_max,
+		basic_launcher_config.launcher_charge_scale_min
+	)
 	assert_gt(projectile_config.speed_meters_per_second, 0.0)
 	assert_gt(projectile_config.lifetime_seconds, 0.0)
 	assert_gt(projectile_config.collision_radius_meters, 0.0)
 	assert_gt(projectile_config.visual_radius_meters, 0.0)
+	assert_true(projectile_config.collision_radius_meters <= projectile_config.visual_radius_meters)
 	assert_eq(projectile_config.motion_type, ProjectileConfig.MotionType.LINEAR)
 	assert_eq(projectile_config.death_reason, &"projectile")
 	assert_true(projectile_config.damage_on_contact)
+	assert_true(projectile_config.trail_enabled)
+	assert_gt(projectile_config.trail_length_meters, 0.0)
+	assert_gt(projectile_config.trail_width_meters, 0.0)
 	assert_eq(launcher_config.launcher_type, ProjectileLauncherConfig.LauncherType.SINGLE_SHOT)
 	assert_not_null(launcher_config.projectile_config)
 	assert_gt(launcher_config.telegraph_duration_seconds, 0.0)
 	assert_eq(launcher_config.shot_count, 1)
 	assert_gt(launcher_config.shot_interval_seconds, 0.0)
 	assert_gt(launcher_config.min_distance_from_player_meters, 0.0)
+	assert_eq(launcher_config.telegraph_mode, ProjectileLauncherConfig.TelegraphMode.TO_TARGET)
+	assert_gt(launcher_config.telegraph_visual_length_meters, 0.0)
+	assert_gt(launcher_config.telegraph_visual_width_meters, 0.0)
+	assert_gt(launcher_config.telegraph_visual_thickness_meters, 0.0)
+	assert_gt(launcher_config.telegraph_surface_height_meters, 0.0)
+	assert_true(
+		(
+			launcher_config.telegraph_min_length_meters
+			<= launcher_config.telegraph_visual_length_meters
+		)
+	)
 	assert_gt(launcher_config.max_active_launchers, 0)
 	assert_gt(launcher_config.max_active_projectiles, launcher_config.max_active_launchers)
 	assert_gt(difficulty_config.max_intensity, difficulty_config.starting_intensity)

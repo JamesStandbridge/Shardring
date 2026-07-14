@@ -12,7 +12,7 @@ alwaysApply: false
 - The player system prioritizes reliable movement and readable state. Keep input, movement, death handling, and upgrades separated.
 - Do not put economy, save, meta progression, or shop logic inside `PlayerController`.
 - Arena logic owns playable terrain representation. Use `ArenaController` and `ArenaCell` for cells, valid positions, terrain state, destruction, hazards, and future reconstruction.
-- The arena must remain a circular platform split into irregular non-hexagonal cells. Do not add a special central shop or permanent central purchase assumption.
+- The arena must remain a roughly circular platform split into irregular non-hexagonal cells, with controlled boundary irregularity and subtle walkable surface variation. Do not add a special central shop or permanent central purchase assumption.
 - Hazards are terrain states such as destroyed, lava, ice, and collapsing. Do not hard-code hazards as player special cases; the player should react to abstract terrain state.
 - Projectile systems must separate configuration, spawning, and behavior. Add new projectile families through data and focused behavior classes, not a single massive spawner.
 - Projectile runtime must scale to hundreds of launchers and thousands of projectiles. Do not create one scene/node per projectile for high-volume projectile families; use bounded data-oriented pools and batched rendering where possible.

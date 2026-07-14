@@ -3,10 +3,10 @@ extends CanvasLayer
 
 @export var run_controller_path: NodePath
 
-@onready var _message_label: Label = $MessageLabel
-
 var _run_controller: RunController
 var _message_text := ""
+
+@onready var _message_label: Label = $MessageLabel
 
 
 func _ready() -> void:

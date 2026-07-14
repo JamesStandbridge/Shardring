@@ -3,12 +3,13 @@ extends Node3D
 
 const TERRAIN_COLLISION_LAYER := 1 << 1
 const PLAYER_SPAWN_HEIGHT_METERS := 1.05
-const BOUNDARY_EPSILON_METERS := 0.08
+const BOUNDARY_EPSILON_METERS := 0.14
 
 @export var arena_config: ArenaConfig = ArenaConfig.new()
 
 var _cells: Array[ArenaCell] = []
 var _generated_root: Node3D
+var _boundary_polygon := PackedVector2Array()
 
 
 func _ready() -> void:
@@ -47,7 +48,10 @@ func get_cells() -> Array[ArenaCell]:
 
 
 func get_spawn_position() -> Vector3:
-	return Vector3(0.0, PLAYER_SPAWN_HEIGHT_METERS, 0.0)
+	var spawn_point := Vector2.ZERO
+	return Vector3(
+		spawn_point.x, _get_surface_height(spawn_point) + PLAYER_SPAWN_HEIGHT_METERS, spawn_point.y
+	)
 
 
 func get_random_valid_position(rng: RandomNumberGenerator) -> Vector3:
@@ -56,16 +60,20 @@ func get_random_valid_position(rng: RandomNumberGenerator) -> Vector3:
 
 	var cell := _pick_weighted_cell(rng)
 	var point := _sample_point_in_cell(cell, rng)
-	return Vector3(point.x, 0.0, point.y)
+	return Vector3(point.x, _get_surface_height(point), point.y)
+
+
+func get_surface_height_at_position(world_position: Vector3) -> float:
+	return _get_surface_height(Vector2(world_position.x, world_position.z))
 
 
 func _build_cells() -> Array[ArenaCell]:
 	var sites := _generate_sites()
-	var boundary_polygon := _create_boundary_polygon()
+	_boundary_polygon = _create_boundary_polygon()
 	var built_cells: Array[ArenaCell] = []
 
 	for site_index in range(sites.size()):
-		var cell_polygon := PackedVector2Array(boundary_polygon)
+		var cell_polygon := PackedVector2Array(_boundary_polygon)
 		for other_index in range(sites.size()):
 			if site_index == other_index:
 				continue
@@ -91,19 +99,26 @@ func _generate_sites() -> PackedVector2Array:
 	var total := maxi(arena_config.cell_count, 3)
 	var attempts := 0
 	var max_attempts := total * 80
+	var site_spawn_radius := (
+		maxf(
+			arena_config.radius_meters - maxf(arena_config.boundary_irregularity_meters, 0.0),
+			arena_config.radius_meters * 0.5
+		)
+		* 0.94
+	)
 	sites.append(Vector2.ZERO)
 
 	while sites.size() < total and attempts < max_attempts:
 		attempts += 1
 		var angle := rng.randf_range(0.0, TAU)
-		var radius := sqrt(rng.randf()) * arena_config.radius_meters * 0.92
+		var radius := sqrt(rng.randf()) * site_spawn_radius
 		var candidate := Vector2(cos(angle), sin(angle)) * radius
 		if _is_far_enough_from_existing_sites(candidate, sites):
 			sites.append(candidate)
 
 	while sites.size() < total:
 		var angle := rng.randf_range(0.0, TAU)
-		var radius := sqrt(rng.randf()) * arena_config.radius_meters * 0.92
+		var radius := sqrt(rng.randf()) * site_spawn_radius
 		sites.append(Vector2(cos(angle), sin(angle)) * radius)
 
 	return sites
@@ -123,12 +138,46 @@ func _is_far_enough_from_existing_sites(candidate: Vector2, sites: PackedVector2
 func _create_boundary_polygon() -> PackedVector2Array:
 	var boundary_polygon := PackedVector2Array()
 	var vertex_count := maxi(arena_config.boundary_vertex_count, 24)
+	var control_points := maxi(arena_config.boundary_irregularity_control_points, 3)
+	var control_offsets := _create_boundary_control_offsets(control_points)
 
 	for vertex_index in range(vertex_count):
 		var angle := float(vertex_index) / float(vertex_count) * TAU
-		boundary_polygon.append(Vector2(cos(angle), sin(angle)) * arena_config.radius_meters)
+		var radius := _get_boundary_radius(vertex_index, vertex_count, control_offsets)
+		boundary_polygon.append(Vector2(cos(angle), sin(angle)) * radius)
 
 	return boundary_polygon
+
+
+func _create_boundary_control_offsets(control_points: int) -> Array[float]:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = arena_config.generation_seed + 7919
+
+	var offsets: Array[float] = []
+	var irregularity := maxf(arena_config.boundary_irregularity_meters, 0.0)
+	for control_index in range(control_points):
+		offsets.append(rng.randf_range(-irregularity, irregularity))
+
+	return offsets
+
+
+func _get_boundary_radius(
+	vertex_index: int, vertex_count: int, control_offsets: Array[float]
+) -> float:
+	if control_offsets.is_empty():
+		return arena_config.radius_meters
+
+	var control_count := control_offsets.size()
+	var control_position := float(vertex_index) / float(vertex_count) * float(control_count)
+	var first_index := int(floorf(control_position)) % control_count
+	var second_index := (first_index + 1) % control_count
+	var blend := control_position - floorf(control_position)
+	var smooth_blend := blend * blend * (3.0 - 2.0 * blend)
+	var radius_offset := lerpf(
+		control_offsets[first_index], control_offsets[second_index], smooth_blend
+	)
+	var min_radius := arena_config.radius_meters * 0.72
+	return maxf(arena_config.radius_meters + radius_offset, min_radius)
 
 
 func _clip_polygon_to_site_half_plane(
@@ -198,40 +247,39 @@ func _create_cell_mesh(cell: ArenaCell) -> ArrayMesh:
 	var surface_tool := SurfaceTool.new()
 	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
 
-	_add_top_polygon_triangles(surface_tool, cell.polygon, 0.0)
+	_add_top_polygon_triangles(surface_tool, cell.polygon)
 	_add_outer_boundary_walls(surface_tool, cell)
 
 	surface_tool.generate_normals()
 	return surface_tool.commit()
 
 
-func _add_top_polygon_triangles(
-	surface_tool: SurfaceTool, polygon: PackedVector2Array, y: float
-) -> void:
+func _add_top_polygon_triangles(surface_tool: SurfaceTool, polygon: PackedVector2Array) -> void:
 	var triangles := Geometry2D.triangulate_polygon(polygon)
 	for triangle_index in range(0, triangles.size(), 3):
 		var first := polygon[triangles[triangle_index]]
 		var second := polygon[triangles[triangle_index + 1]]
 		var third := polygon[triangles[triangle_index + 2]]
-		surface_tool.add_vertex(_to_vector3(first, y))
-		surface_tool.add_vertex(_to_vector3(third, y))
-		surface_tool.add_vertex(_to_vector3(second, y))
+		surface_tool.add_vertex(_to_surface_vector3(first))
+		surface_tool.add_vertex(_to_surface_vector3(third))
+		surface_tool.add_vertex(_to_surface_vector3(second))
 
 
 func _add_outer_boundary_walls(surface_tool: SurfaceTool, cell: ArenaCell) -> void:
-	var bottom_y := -cell.thickness_meters
 	for vertex_index in range(cell.polygon.size()):
 		var current := cell.polygon[vertex_index]
 		var next := cell.polygon[(vertex_index + 1) % cell.polygon.size()]
 		if not _is_outer_boundary_edge(current, next):
 			continue
 
+		var current_top := _to_surface_vector3(current)
+		var next_top := _to_surface_vector3(next)
 		_add_quad(
 			surface_tool,
-			_to_vector3(current, 0.0),
-			_to_vector3(current, bottom_y),
-			_to_vector3(next, bottom_y),
-			_to_vector3(next, 0.0)
+			current_top,
+			current_top - Vector3.UP * cell.thickness_meters,
+			next_top - Vector3.UP * cell.thickness_meters,
+			next_top
 		)
 
 
@@ -245,9 +293,9 @@ func _create_cell_collision_shape(cell: ArenaCell) -> ConcavePolygonShape3D:
 		var first := cell.polygon[triangles[triangle_index]]
 		var second := cell.polygon[triangles[triangle_index + 1]]
 		var third := cell.polygon[triangles[triangle_index + 2]]
-		faces.append(_to_vector3(first, 0.0))
-		faces.append(_to_vector3(third, 0.0))
-		faces.append(_to_vector3(second, 0.0))
+		faces.append(_to_surface_vector3(first))
+		faces.append(_to_surface_vector3(third))
+		faces.append(_to_surface_vector3(second))
 
 	shape.set_faces(faces)
 	return shape
@@ -256,7 +304,9 @@ func _create_cell_collision_shape(cell: ArenaCell) -> ConcavePolygonShape3D:
 func _create_cell_label(cell: ArenaCell) -> Label3D:
 	var label := Label3D.new()
 	label.text = str(cell.index)
-	label.position = cell.get_center_position() + Vector3.UP * 0.08
+	var center := cell.get_center_position()
+	center.y = get_surface_height_at_position(center)
+	label.position = center + Vector3.UP * 0.08
 	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	label.modulate = Color(0.65, 0.7, 0.78)
 	return label
@@ -333,10 +383,30 @@ func _sample_point_in_cell(cell: ArenaCell, rng: RandomNumberGenerator) -> Vecto
 
 
 func _is_outer_boundary_edge(first: Vector2, second: Vector2) -> bool:
-	return (
-		first.length() >= arena_config.radius_meters - BOUNDARY_EPSILON_METERS
-		and second.length() >= arena_config.radius_meters - BOUNDARY_EPSILON_METERS
-	)
+	return _is_point_on_boundary(first) and _is_point_on_boundary(second)
+
+
+func _is_point_on_boundary(point: Vector2) -> bool:
+	if _boundary_polygon.size() < 2:
+		return false
+
+	for vertex_index in range(_boundary_polygon.size()):
+		var first := _boundary_polygon[vertex_index]
+		var second := _boundary_polygon[(vertex_index + 1) % _boundary_polygon.size()]
+		if _distance_to_segment(point, first, second) <= BOUNDARY_EPSILON_METERS:
+			return true
+
+	return false
+
+
+func _distance_to_segment(point: Vector2, first: Vector2, second: Vector2) -> float:
+	var segment := second - first
+	var segment_length_squared := segment.length_squared()
+	if is_zero_approx(segment_length_squared):
+		return point.distance_to(first)
+
+	var ratio := clampf((point - first).dot(segment) / segment_length_squared, 0.0, 1.0)
+	return point.distance_to(first + segment * ratio)
 
 
 func _add_quad(
@@ -350,8 +420,21 @@ func _add_quad(
 	surface_tool.add_vertex(fourth)
 
 
-func _to_vector3(point: Vector2, y: float) -> Vector3:
-	return Vector3(point.x, y, point.y)
+func _to_surface_vector3(point: Vector2) -> Vector3:
+	return Vector3(point.x, _get_surface_height(point), point.y)
+
+
+func _get_surface_height(point: Vector2) -> float:
+	var amplitude := maxf(arena_config.surface_height_amplitude_meters, 0.0)
+	if is_zero_approx(amplitude):
+		return 0.0
+
+	var frequency := maxf(arena_config.surface_height_frequency, 0.001)
+	var seed_offset := float(arena_config.generation_seed % 997)
+	var first_wave := sin(point.x * frequency + seed_offset * 0.17) * 0.5
+	var second_wave := cos(point.y * frequency * 0.83 - seed_offset * 0.11) * 0.35
+	var diagonal_wave := sin((point.x + point.y) * frequency * 0.47 + seed_offset * 0.07) * 0.15
+	return (first_wave + second_wave + diagonal_wave) * amplitude
 
 
 func _clear_generated_arena() -> void:

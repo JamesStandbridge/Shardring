@@ -105,7 +105,10 @@ func get_skipped_spawn_count() -> int:
 func get_active_telegraph_count() -> int:
 	var count := 0
 	for launcher_index in range(_launcher_active.size()):
-		if _launcher_active[launcher_index] and _launcher_states[launcher_index] == LauncherState.TELEGRAPHING:
+		if (
+			_launcher_active[launcher_index]
+			and _launcher_states[launcher_index] == LauncherState.TELEGRAPHING
+		):
 			count += 1
 	return count
 
@@ -153,7 +156,7 @@ func clear_all() -> void:
 func force_spawn_launcher_at(spawn_position: Vector3) -> bool:
 	var player_position := _get_player_target_position()
 	var shot_position := spawn_position
-	shot_position.y = launcher_config.shot_height_meters
+	shot_position.y += _get_launcher_shot_height_offset()
 	var direction := _direction_to_player(shot_position, player_position)
 	return _spawn_launcher(spawn_position, direction)
 
@@ -371,12 +374,12 @@ func spawn_launcher_near_arena() -> bool:
 	var player_position := _get_player_target_position()
 	for attempt in range(maxi(launcher_config.spawn_search_attempts, 1)):
 		var candidate := _arena.get_random_valid_position(_rng)
-		candidate.y = launcher_config.spawn_height_meters
+		candidate.y += launcher_config.spawn_height_meters
 		if candidate.distance_to(player_position) < launcher_config.min_distance_from_player_meters:
 			continue
 
 		var shot_position := candidate
-		shot_position.y = launcher_config.shot_height_meters
+		shot_position.y += _get_launcher_shot_height_offset()
 		var direction := _direction_to_player(shot_position, player_position)
 		return _spawn_launcher(candidate, direction)
 
@@ -405,15 +408,18 @@ func _spawn_launcher(spawn_position: Vector3, direction: Vector3) -> bool:
 	_launcher_lifetimes[launcher_index] = launcher_config.launcher_lifetime_seconds
 	_refresh_launcher_aim(launcher_index)
 	_update_render_batches()
-	DebugLog.info(
-		&"Projectiles",
-		(
-			"launcher spawned index=%d pos=%s telegraph=%.2f"
-			% [
-				launcher_index,
-				spawn_position,
-				_launcher_telegraph_lengths[launcher_index],
-			]
+	(
+		DebugLog
+		. info(
+			&"Projectiles",
+			(
+				"launcher spawned index=%d pos=%s telegraph=%.2f"
+				% [
+					launcher_index,
+					spawn_position,
+					_launcher_telegraph_lengths[launcher_index],
+				]
+			)
 		)
 	)
 	return true
@@ -497,21 +503,23 @@ func _fire_launcher(launcher_index: int) -> void:
 	if _launcher_shots_remaining[launcher_index] <= 0:
 		return
 
-	var shot_position := _launcher_positions[launcher_index]
-	shot_position.y = launcher_config.shot_height_meters
+	var shot_position := _get_launcher_shot_position(launcher_index)
 	var direction := _launcher_directions[launcher_index]
 
 	if _spawn_projectile(shot_position, direction):
 		_launcher_shots_remaining[launcher_index] -= 1
-		DebugLog.info(
-			&"Projectiles",
-			(
-				"launcher fired index=%d remaining=%d direction=%s"
-				% [
-					launcher_index,
-					_launcher_shots_remaining[launcher_index],
-					direction,
-				]
+		(
+			DebugLog
+			. info(
+				&"Projectiles",
+				(
+					"launcher fired index=%d remaining=%d direction=%s"
+					% [
+						launcher_index,
+						_launcher_shots_remaining[launcher_index],
+						direction,
+					]
+				)
 			)
 		)
 
@@ -666,7 +674,9 @@ func _update_telegraph_batch() -> void:
 
 		var visible_length := _get_visible_telegraph_length(launcher_index)
 		var instance_transform := _create_telegraph_transform(
-			_launcher_positions[launcher_index], _launcher_directions[launcher_index], visible_length
+			_launcher_positions[launcher_index],
+			_launcher_directions[launcher_index],
+			visible_length
 		)
 		multimesh.set_instance_transform(visible_index, instance_transform)
 		visible_index += 1
@@ -738,9 +748,18 @@ func _deactivate_launcher(launcher_index: int) -> void:
 	_launcher_states[launcher_index] = LauncherState.INACTIVE
 
 
-func _refresh_launcher_aim(launcher_index: int) -> void:
+func _get_launcher_shot_position(launcher_index: int) -> Vector3:
 	var shot_position := _launcher_positions[launcher_index]
-	shot_position.y = launcher_config.shot_height_meters
+	shot_position.y += _get_launcher_shot_height_offset()
+	return shot_position
+
+
+func _get_launcher_shot_height_offset() -> float:
+	return maxf(launcher_config.shot_height_meters - launcher_config.spawn_height_meters, 0.0)
+
+
+func _refresh_launcher_aim(launcher_index: int) -> void:
+	var shot_position := _get_launcher_shot_position(launcher_index)
 
 	var target_position := _launcher_target_positions[launcher_index]
 	if _player != null:
@@ -751,7 +770,7 @@ func _refresh_launcher_aim(launcher_index: int) -> void:
 			+ _launcher_directions[launcher_index] * launcher_config.telegraph_visual_length_meters
 		)
 
-	target_position.y = launcher_config.shot_height_meters
+	target_position.y = shot_position.y
 	_launcher_target_positions[launcher_index] = target_position
 	_launcher_directions[launcher_index] = _direction_to_target(shot_position, target_position)
 	_launcher_telegraph_lengths[launcher_index] = _calculate_telegraph_length(
@@ -761,7 +780,7 @@ func _refresh_launcher_aim(launcher_index: int) -> void:
 
 func _direction_to_player(from_position: Vector3, player_position: Vector3) -> Vector3:
 	var target := player_position
-	target.y = launcher_config.shot_height_meters
+	target.y = from_position.y
 	return _direction_to_target(from_position, target)
 
 
@@ -778,7 +797,9 @@ func _calculate_telegraph_length(from_position: Vector3, target_position: Vector
 
 	var from_flat := Vector2(from_position.x, from_position.z)
 	var target_flat := Vector2(target_position.x, target_position.z)
-	var target_length := from_flat.distance_to(target_flat) + launcher_config.telegraph_target_padding_meters
+	var target_length := (
+		from_flat.distance_to(target_flat) + launcher_config.telegraph_target_padding_meters
+	)
 	return clampf(target_length, min_length, max_length)
 
 
