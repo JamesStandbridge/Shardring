@@ -1,0 +1,24 @@
+.DS_Store
+
+# Godot generated state.
+.godot/
+.import/
+*.translation
+
+# Godot 4.4+ .uid sidecars are source files and must stay versioned.
+
+# Local toolchain cache managed by scripts/bootstrap_macos.sh.
+.tools/
+
+# Runtime/test output.
+reports/gut/*
+!reports/gut/.gitkeep
+*.log
+*.tmp
+
+# Local exports/builds.
+exports/
+builds/
+*.dmg
+*.app
+*.pck

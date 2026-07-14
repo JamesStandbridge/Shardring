@@ -1,0 +1,127 @@
+[gd_scene load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://src/main/main.gd" id="1_main_script"]
+[ext_resource type="Script" path="res://src/gameplay/run/run_controller.gd" id="2_run_controller_script"]
+[ext_resource type="Script" path="res://src/gameplay/player/player_controller.gd" id="3_player_controller_script"]
+[ext_resource type="Script" path="res://src/gameplay/player/third_person_camera_rig.gd" id="4_camera_rig_script"]
+[ext_resource type="Script" path="res://src/main/runtime_debug_overlay.gd" id="5_debug_overlay_script"]
+
+[sub_resource type="Environment" id="Environment_playground"]
+background_mode = 1
+background_color = Color(0.105882, 0.121569, 0.145098, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.82, 0.86, 0.94, 1)
+ambient_light_energy = 0.85
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ground"]
+albedo_color = Color(0.28, 0.32, 0.39, 1)
+roughness = 0.78
+
+[sub_resource type="BoxMesh" id="BoxMesh_ground"]
+material = SubResource("StandardMaterial3D_ground")
+size = Vector3(28, 0.4, 28)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ground"]
+size = Vector3(28, 0.4, 28)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_player"]
+albedo_color = Color(0.82, 0.86, 0.92, 1)
+roughness = 0.58
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_player"]
+material = SubResource("StandardMaterial3D_player")
+radius = 0.38
+height = 1.8
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
+radius = 0.38
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_marker"]
+albedo_color = Color(0.211765, 0.843137, 0.85098, 1)
+emission_enabled = true
+emission = Color(0.211765, 0.843137, 0.85098, 1)
+emission_energy_multiplier = 1.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_marker"]
+material = SubResource("StandardMaterial3D_marker")
+size = Vector3(0.22, 0.14, 0.8)
+
+[node name="PlayerMovementPlayground" type="Node3D"]
+script = ExtResource("1_main_script")
+
+[node name="RunController" type="Node" parent="."]
+script = ExtResource("2_run_controller_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_playground")
+
+[node name="KeyLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, 0, 6, 0)
+light_color = Color(1, 0.96, 0.88, 1)
+light_energy = 2.4
+
+[node name="FillLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
+light_color = Color(0.64, 0.76, 1, 1)
+light_energy = 1.15
+omni_range = 42.0
+
+[node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+collision_layer = 2
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_ground")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_ground")
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
+collision_layer = 1
+collision_mask = 2
+script = ExtResource("3_player_controller_script")
+camera_path = NodePath("../ThirdPersonCameraRig/SpringArm3D/Camera3D")
+
+[node name="Body" type="MeshInstance3D" parent="Player"]
+mesh = SubResource("CapsuleMesh_player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("CapsuleShape3D_player")
+
+[node name="DirectionMarker" type="MeshInstance3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, -0.42)
+mesh = SubResource("BoxMesh_marker")
+
+[node name="ThirdPersonCameraRig" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+script = ExtResource("4_camera_rig_script")
+target_path = NodePath("../Player")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="ThirdPersonCameraRig"]
+collision_mask = 2
+spring_length = 6.8
+margin = 0.2
+
+[node name="Camera3D" type="Camera3D" parent="ThirdPersonCameraRig/SpringArm3D"]
+current = true
+fov = 70.0
+
+[node name="DebugOverlay" type="CanvasLayer" parent="."]
+script = ExtResource("5_debug_overlay_script")
+run_controller_path = NodePath("../RunController")
+player_path = NodePath("../Player")
+
+[node name="DebugLabel" type="Label" parent="DebugOverlay"]
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 260.0
+offset_bottom = 180.0
+text = "Run: READY
+Time: 0.00s
+Speed: 0.00
+Y Speed: 0.00
+Grounded: false
+Jumps: 1"

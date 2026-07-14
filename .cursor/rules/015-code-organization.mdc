@@ -1,0 +1,21 @@
+---
+description: Strict code organization, file boundaries, abstraction quality, and refactoring expectations for source and tests.
+globs: src/**/*.gd,src/**/*.tscn,src/**/*.tres,tests/**/*.gd
+alwaysApply: false
+---
+
+# Code Organization And Abstractions
+
+- Keep files organized around one clear responsibility. Do not create god classes, grab-bag helpers, or scenes that mix unrelated gameplay domains.
+- Keep scripts short enough to understand without scrolling through multiple unrelated concerns. When a file grows because it owns several responsibilities, split it by domain behavior, state model, data/configuration, or reusable helper.
+- Prefer small, named methods that express intent over long procedural blocks.
+- Extract logic only when it creates a clearer contract, removes meaningful duplication, isolates a stable domain concept, or makes tests easier to write.
+- Avoid premature abstraction. Do not add interfaces, managers, services, or generic frameworks before there is a concrete repeated need in the current codebase.
+- Prefer elegant, local factorization over broad rewrites. Keep refactors close to the feature or bug being changed unless the user explicitly asks for wider cleanup.
+- Keep Godot scenes lean: scenes compose nodes and resources; domain logic belongs in scripts with clear typed APIs.
+- Keep data and balancing in `Resource` classes under `src/data`; keep runtime orchestration in the relevant gameplay domain.
+- Do not hide gameplay contracts behind loosely typed dictionaries, magic strings, or implicit node paths when a typed method, enum, `Resource`, or signal would be clearer.
+- Use explicit, cohesive names for files, classes, methods, signals, and exported properties. Names should reveal the domain concept, not the implementation accident.
+- When adding a new system, create the smallest folder/file structure that matches `docs/architecture.md` and can grow without moving unrelated code later.
+- When modifying a long or messy file, leave it more structured than you found it if the cleanup is directly related to the task.
+- Keep tests organized around the behavior they protect. Avoid massive test files that mix unrelated contracts.

@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="ProjectileLauncherConfig" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/data/projectile_launcher_config.gd" id="1_launcher_config_script"]
+[ext_resource type="Resource" path="res://src/data/projectiles/basic_linear_projectile.tres" id="2_basic_projectile"]
+
+[resource]
+script = ExtResource("1_launcher_config_script")
+launcher_type = 0
+projectile_config = ExtResource("2_basic_projectile")
+telegraph_duration_seconds = 1.35
+shot_count = 1
+shot_interval_seconds = 0.35
+linger_after_last_shot_seconds = 0.35
+launcher_lifetime_seconds = 2.5
+min_distance_from_player_meters = 8.0
+spawn_height_meters = 0.55
+shot_height_meters = 1.25
+spawn_interval_seconds = 3.2
+initial_spawn_delay_seconds = 1.0
+spawn_search_attempts = 16
+max_active_launchers = 256
+max_active_projectiles = 4096
+launcher_visual_radius_meters = 0.55
+telegraph_mode = 1
+telegraph_visual_length_meters = 28.0
+telegraph_visual_width_meters = 0.18
+telegraph_visual_thickness_meters = 0.04
+telegraph_surface_height_meters = 0.1
+telegraph_min_length_meters = 2.5
+telegraph_target_padding_meters = 1.2
+launcher_charge_scale_min = 0.68
+launcher_charge_scale_max = 1.35
+launcher_color = Color(0.68, 0.08, 0.06, 1)
+charge_color = Color(1, 0.34, 0.08, 1)
+telegraph_color = Color(1, 0.18, 0.05, 1)
+emission_energy = 1.8

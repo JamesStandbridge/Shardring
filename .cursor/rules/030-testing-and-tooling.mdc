@@ -1,0 +1,18 @@
+---
+description: Project commands, GUT testing, quality checks, Godot tooling, and validation expectations.
+globs: src/**/*.gd,src/**/*.tscn,src/**/*.tres,tests/**/*.gd,scripts/*.sh,justfile,.gutconfig.json,project.godot
+alwaysApply: false
+---
+
+# Testing And Tooling
+
+- Use the project toolchain: Godot standard non-.NET `4.7-stable`, GUT `9.7.1`, gdtoolkit `4.5.0`, and `just`.
+- The local Godot binary defaults to `.tools/godot/4.7-stable/Godot.app/Contents/MacOS/Godot`; respect `GODOT_BIN` overrides.
+- Use `scripts/check.sh` or `just check` for full validation. It runs format check, lint, parse checks, and GUT tests headlessly.
+- Use `scripts/run_tests.sh` or `just test` for GUT-only validation.
+- Add or update unit tests in `tests/unit` for deterministic gameplay calculations.
+- Add or update integration tests in `tests/integration` when behavior crosses scenes or domains.
+- Keep tests aligned with the current contracts for input actions, physics layers, resources, autoloads, run state, scene composition, and arena/player behavior.
+- Run the most relevant checks before finishing code changes. If a check cannot be run, state exactly why.
+- Do not start, stop, or restart long-running services through process compose. Ask the user if that becomes necessary.
+- Keep generated reports under `reports/gut` and do not treat test artifacts as source of truth.

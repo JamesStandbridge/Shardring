@@ -1,0 +1,17 @@
+---
+description: Core Shardring project context and non-negotiable workflow rules.
+alwaysApply: true
+---
+
+# Shardring Core Context
+
+- Shardring is a long-term Godot 4.7 stable, standard non-.NET, typed GDScript project.
+- The game is a third-person 3D arena survival roguelite. The player survives on a procedural circular arena while readable dangers, terrain states, run currency, and upgrades create pressure.
+- Treat `GAME.md`, `RULES.md`, `docs/architecture.md`, `docs/roadmap.md`, and `docs/technical_design/development_order.md` as the project source of truth before making architectural or gameplay changes.
+- Preserve playable foundations. Each milestone should keep the main scene launchable, visible in Godot, testable, and hard to throw away later.
+- Do not introduce temporary shortcuts that force a rewrite at the next roadmap milestone.
+- If the user explicitly and intentionally asks for a change that contradicts existing repository rules or changes the game architecture, treat the request as a source-of-truth update for that turn: update obsolete `.cursor/rules/*.mdc` files, add any missing rules, and update impacted docs or tests in the same change. If the user's intent is ambiguous, ask before changing architecture or rules.
+- Do not use process compose on behalf of the user. If a service needs to be stopped or restarted, ask the user explicitly.
+- Do not revert or overwrite unrelated worktree changes. They may come from parallel tasks.
+- Keep implementation choices aligned with the existing design system, scene structure, domain boundaries, tracing/debug patterns, authorization-like contracts, events, and tests already present in the repository.
+- Prefer the project scripts and shortcuts: `scripts/check.sh`, `scripts/run_tests.sh`, `just check`, and `just test`.

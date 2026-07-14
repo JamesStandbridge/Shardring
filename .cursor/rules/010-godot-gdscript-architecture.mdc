@@ -1,0 +1,22 @@
+---
+description: Godot, GDScript, scene, Resource, signal, and project structure conventions.
+globs: src/**/*.gd,src/**/*.tscn,src/**/*.tres,project.godot
+alwaysApply: false
+---
+
+# Godot And GDScript Architecture
+
+- Use Godot `4.7-stable`, standard non-.NET, with typed GDScript by default.
+- Keep application code in GDScript unless the user explicitly approves C#, GDExtension, or a gameplay addon.
+- Use explicit types for exported properties, parameters, returns, arrays, dictionaries, and important locals when inference is unclear.
+- Use `class_name` in `PascalCase`; keep script files in `snake_case`.
+- Put reusable gameplay balancing values in versioned `Resource` classes under `src/data` instead of scattering constants through controllers.
+- Current foundation resources are `PlayerMovementConfig`, `ArenaConfig`, `ProjectileConfig`, `DifficultyConfig`, and `UpgradeConfig`.
+- Keep `src/main/main.tscn` as the official game entry point.
+- Keep `src/dev/playgrounds` for isolated validation scenes only. Playground scenes may use graybox objects and debug overlays, but final runtime code must not depend on playground-only logic.
+- Respect the domain layout from `docs/architecture.md`: `src/main`, `src/gameplay/run`, `player`, `arena`, `projectiles`, `hazards`, `difficulty`, `events`, `economy`, `upgrades`, `progression`, `save`, `src/data`, and `src/shared`.
+- Use local scene signals for local behavior. Use the `GameEvents` autoload only for concrete cross-domain events.
+- Do not add a new global signal or autoload without a clear cross-domain use and matching tests or documentation.
+- Preserve the official input actions: `move_forward`, `move_backward`, `move_left`, `move_right`, `jump`, `interact`, `restart_run`, and `debug_toggle`.
+- Preserve the official 3D physics layer names: `player`, `terrain`, `danger`, `pickup`, and reserved `shop`.
+- Keep Godot `.uid` sidecar files versioned with their matching scripts, scenes, and resources.

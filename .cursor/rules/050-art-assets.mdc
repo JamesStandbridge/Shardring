@@ -1,0 +1,20 @@
+---
+description: Art direction, AI asset workflow, naming, folders, palette, and Godot asset integration rules.
+globs: assets/art/**/*,docs/art/**/*.md
+alwaysApply: false
+---
+
+# Art Assets
+
+- Follow the stylized techno-ritual art direction from `docs/art/art_direction.md`.
+- Prioritize readability from a third-person camera: simple silhouettes, strong contrast, stable gameplay colors, and low-poly premium forms.
+- Use the functional palette consistently. Dangers are red, orange, or magenta; temporary interactables are cyan; run currency is gold; cross-game currency is white-violet.
+- Do not use decorative colors that conflict with gameplay color meaning.
+- Avoid photorealistic textures, high-detail assets that disappear at distance, and mostly beige, brown, purple, or uniform dark-blue palettes.
+- Use `assets/art/source_blender` for `.blend` sources, `assets/art/exports_godot` for `.glb` runtime exports, `assets/art/generated_concepts` for generated concepts, and `assets/art/reference` for validated references.
+- Start assets from simple Blender primitives, bevels, extrusions, and simple materials.
+- Apply transforms before export. Use `1 Godot unit = 1 approximate meter`.
+- Name objects and files in `snake_case`: `asset_<name>.blend`, `asset_<name>.glb`, `concept_<name>.png`, and `mat_<role>`.
+- Do not import external textures or assets without checking their license.
+- Test important assets in Godot with the game camera before adding detail.
+- Keep collision generation explicit in Godot or through a documented suffix convention when that convention exists.

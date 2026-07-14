@@ -1,0 +1,19 @@
+---
+description: Documentation source of truth, game design vocabulary, roadmap, ADRs, and doc maintenance rules.
+globs: README.md,GAME.md,RULES.md,docs/**/*.md
+alwaysApply: false
+---
+
+# Documentation And Design
+
+- Keep existing documentation language unless the user asks otherwise. These Cursor rules are intentionally written in English for agents.
+- `GAME.md` defines the game vision, pillars, loop, progression model, and official vocabulary.
+- `RULES.md` is the gameplay rules source of truth and is tested as a required project document.
+- `docs/architecture.md` defines domain boundaries and system contracts.
+- `docs/roadmap.md` and `docs/technical_design/development_order.md` define the intended build order and validation requirements.
+- `docs/decisions` contains architectural decision records. Add or update an ADR when a stable technical, game direction, or art direction decision changes.
+- Do not let docs drift from code. When changing a stable contract, update the matching system doc, tests, and source references in the same change.
+- Use official vocabulary consistently: `Run`, `Danger`, `Hazard`, `Projectile`, `Upgrade`, `Meta progression`, and `Intensity`.
+- Keep meta progression documented but deferred until the run loop, economy, and save requirements are mature.
+- Document gameplay values as data-driven configurations rather than burying them in prose-only decisions.
+- Favor concise docs that state contracts, current limits, and next extension points.

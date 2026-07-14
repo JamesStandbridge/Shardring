@@ -1,0 +1,19 @@
+---
+description: Standards for creating and maintaining Cursor project rules in this repository.
+globs: **/*.mdc
+alwaysApply: false
+---
+
+# Cursor Rule Authoring
+
+- Store project rules under `.cursor/rules` as `.mdc` files with frontmatter.
+- Keep only the smallest project identity rule set to `alwaysApply: true`. Prefer scoped or intelligently applied rules for everything else.
+- Write rules in English, because they are primarily instructions for coding agents.
+- Keep each rule focused on one concern and under 500 lines.
+- Make rules actionable. Prefer direct instructions, concrete file paths, and repository-specific contracts over vague preferences.
+- Use `description` to explain when the rule is relevant.
+- Use `globs` to scope file-specific rules. Keep comma-separated glob lists compact and avoid broad scopes when a narrower one is enough.
+- Do not duplicate the same instruction across many files unless it is a critical invariant.
+- When a documented project contract, workflow, or user-approved architecture direction changes, update or remove obsolete Cursor rules in the same change.
+- If a user-approved request intentionally contradicts existing rules, make the new rule set coherent instead of leaving both the old and new instructions active.
+- Do not create rules that encourage agents to ignore user instructions, repository docs, tests, or dirty worktree safety.

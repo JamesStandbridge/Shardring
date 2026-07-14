@@ -1,0 +1,27 @@
+---
+description: Gameplay domain contracts for run, player, arena, difficulty, economy, upgrades, hazards, projectiles, events, progression, and save systems.
+globs: src/gameplay/**/*.gd,src/data/**/*.gd,src/main/**/*.gd,tests/**/*.gd
+alwaysApply: false
+---
+
+# Gameplay System Contracts
+
+- `RunController` owns the run lifecycle. Other systems must react to the run state instead of creating their own local run loop.
+- Current official run states are `READY`, `PLAYING`, and `DEAD`.
+- Survival time advances only while `PLAYING`; deaths go through `register_death(reason)`; restarts go through `restart_run()`.
+- The player system prioritizes reliable movement and readable state. Keep input, movement, death handling, and upgrades separated.
+- Do not put economy, save, meta progression, or shop logic inside `PlayerController`.
+- Arena logic owns playable terrain representation. Use `ArenaController` and `ArenaCell` for cells, valid positions, terrain state, destruction, hazards, and future reconstruction.
+- The arena must remain a circular platform split into irregular non-hexagonal cells. Do not add a special central shop or permanent central purchase assumption.
+- Hazards are terrain states such as destroyed, lava, ice, and collapsing. Do not hard-code hazards as player special cases; the player should react to abstract terrain state.
+- Projectile systems must separate configuration, spawning, and behavior. Add new projectile families through data and focused behavior classes, not a single massive spawner.
+- Projectile runtime must scale to hundreds of launchers and thousands of projectiles. Do not create one scene/node per projectile for high-volume projectile families; use bounded data-oriented pools and batched rendering where possible.
+- Projectile launchers are the visible source of threat. Projectiles are the moving/instant danger emitted by launchers. Preserve that separation when adding new projectile families.
+- Fast, explosive, homing, laser, and cannon-ball-style dangers must remain readable through silhouette, timing, warning, or color before they become unavoidable.
+- `Difficulty` converts survival time into intensity, cadence, and unlocks. It should not know the internal implementation details of projectiles, hazards, or events.
+- Economy must separate run currency from future cross-game currency. Run currency resets every run; cross-game currency is rare, persistent, and deferred until the core loop is stable.
+- Do not implement save or persistent progression as part of immediate run logic. The save system will only persist cross-game data later.
+- Upgrades are run-scoped and data-driven: id, display name, price, prerequisites, stack limits, and explicit effect.
+- Avoid scattered player flags for upgrades. Keep a clear source of truth for active upgrade effects.
+- Special events must be rare, data-driven, readable, and survivable when combined with current hazards and projectiles.
+- Every gameplay milestone should include visible behavior in the main scene or a playground, data-driven configuration, deterministic unit tests for calculations, and a short manual validation path.

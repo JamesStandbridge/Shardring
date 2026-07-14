@@ -1,0 +1,85 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Shardring: Bootstrap macOS",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/bootstrap_macos.sh",
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true,
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Shardring: Check",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/check.sh",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true,
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Shardring: Run Tests",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/run_tests.sh",
+      "group": "test",
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true,
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Shardring: Run Game",
+      "type": "shell",
+      "command": "${workspaceFolder}/.tools/godot/4.7-stable/Godot.app/Contents/MacOS/Godot",
+      "args": [
+        "--path",
+        "${workspaceFolder}"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true,
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Shardring: Open Godot Editor",
+      "type": "shell",
+      "command": "${workspaceFolder}/.tools/godot/4.7-stable/Godot.app/Contents/MacOS/Godot",
+      "args": [
+        "--editor",
+        "--path",
+        "${workspaceFolder}"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true,
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Shardring: Run Player Playground",
+      "type": "shell",
+      "command": "${workspaceFolder}/.tools/godot/4.7-stable/Godot.app/Contents/MacOS/Godot",
+      "args": [
+        "--path",
+        "${workspaceFolder}",
+        "--scene",
+        "res://src/dev/playgrounds/player_movement_playground.tscn"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true,
+        "panel": "dedicated"
+      }
+    }
+  ]
+}
