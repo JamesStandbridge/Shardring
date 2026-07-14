@@ -12,9 +12,12 @@ require_command() {
 }
 
 main() {
+  require_command python3
   require_command gdformat
   require_command gdlint
   require_command gdparse
+
+  python3 "${ROOT_DIR}/scripts/art/validate_asset_manifest.py"
 
   local gd_files=()
   while IFS= read -r -d '' file; do
@@ -35,4 +38,3 @@ main() {
 }
 
 main "$@"
-

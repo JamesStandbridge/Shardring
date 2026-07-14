@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="StageSequenceConfig" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/data/stages/stage_sequence_config.gd" id="1_stage_sequence_config"]
+[ext_resource type="Resource" path="res://src/data/stages/maps/toybox_mint_map.tres" id="2_mint_map"]
+[ext_resource type="Resource" path="res://src/data/stages/maps/toybox_candy_map.tres" id="3_candy_map"]
+
+[resource]
+script = ExtResource("1_stage_sequence_config")
+maps = Array[Resource]([ExtResource("2_mint_map"), ExtResource("3_candy_map")])
+base_required_threat_budget = 22.0
+threat_budget_per_level = 8.0
+difficulty_intensity_per_level = 0.25
+map_seed_stride = 1009

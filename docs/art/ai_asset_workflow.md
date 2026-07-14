@@ -2,41 +2,60 @@
 
 ## Objectif
 
-Produire des assets coherents sans competence manuelle Blender avancee. L'IA peut generer ou piloter Blender, mais les assets doivent rester simples, controlables et faciles a importer dans Godot.
+Produire des assets coherents sans demander au developpeur de designer
+manuellement. Le pipeline n'est plus "generer des primitives et les utiliser en
+final" : il doit sourcer, nettoyer, tracer et valider les assets.
 
-## Pipeline
+## Pipeline Principal
 
-1. Choisir un asset dans `docs/art/asset_prompts.md`.
-2. Generer un modele simple dans Blender par script ou outil IA.
-3. Sauvegarder la source dans `assets/art/source_blender`.
-4. Exporter une version Godot dans `assets/art/exports_godot`.
-5. Tester l'asset dans Godot avec la camera de jeu avant d'ajouter des details.
-6. Si l'asset est important, ajouter une capture ou reference dans `assets/art/reference`.
+Le pipeline officiel est hybride.
+
+1. Chercher une base CC0/procuree ou generer une variante IA licenciee.
+2. Stocker la source dans `assets/art/source_external/` ou
+   `assets/art/source_ai/`.
+3. Nettoyer dans Blender : echelle, orientation, pivot, sockets, materiaux.
+4. Sauvegarder le fichier de travail dans `assets/art/working_blender/`.
+5. Exporter le GLB dans `assets/art/exports_godot/`.
+6. Creer une scene wrapper dans `src/visual/assets/`.
+7. Renseigner `assets/art/asset_manifest.json`.
+8. Tester dans `just art-review`, puis lancer `just check`.
+
+`just art-kit` reste disponible pour regenerer les placeholders actuels, mais
+ces assets sont deprecies pour le rendu final.
 
 ## Regles De Production
 
-- Commencer par primitives Blender : cube, sphere, cylindre, cone, bevel, extrusion.
+- Ne pas traiter des primitives scriptees comme assets finaux.
+- Joindre en un seul mesh les assets utilises par `MultiMesh` lorsque le runtime
+  en a besoin.
+- Garder `1 Godot unit = 1 metre approximatif`.
 - Appliquer les transforms avant export.
-- Nommer les objets en `snake_case`.
-- Garder une echelle simple : 1 unite Godot = 1 metre approximatif.
-- Preferer `.blend` comme source et `.glb` comme export runtime.
+- Nommer objets et fichiers en `snake_case`.
+- Preferer source externe/IA + `.blend` de travail + `.glb` runtime + wrapper.
 - Ne pas importer de textures externes sans verifier leur licence.
-- Garder les materiaux nommes selon `docs/art/art_direction.md`.
+- Garder les dangers en rouge, orange ou magenta, mais sous forme de VFX
+  propres et pas de traits debug.
+- Garder les assets lisibles avant d'ajouter de l'humour.
 
 ## Nommage
 
-- Source Blender : `asset_<nom>.blend`
+- Source externe : dossier ou archive sous `assets/art/source_external/`
+- Source IA : dossier sous `assets/art/source_ai/`
+- Travail Blender : `asset_<nom>.blend`
 - Export Godot : `asset_<nom>.glb`
+- Scene wrapper : `<nom>_arcade_wrapper.tscn`
 - Concept image : `concept_<nom>.png`
-- Materiau : `mat_<role>`
+- Materiau : `mat_arcade_<role>`
+- Script generateur : `generate_<kit_ou_asset>.py`
 
 ## Checklist Avant Integration
 
-- Silhouette lisible de loin.
+- Silhouette lisible en moins de 2 secondes.
 - Couleur conforme a la fonction gameplay.
-- Pas de details inutiles.
+- Danger plus visible que le detail comique.
 - Pivot place logiquement.
-- Taille coherente avec joueur et arene.
-- Export `.glb` ouvert dans Godot sans erreur.
-- Collision a generer dans Godot ou via suffixe dedie plus tard.
-
+- `VisualRoot` et `GroundAnchor` existent dans le wrapper.
+- Les lanceurs declarent un `MuzzleSocket`.
+- Taille coherente avec collision et hurtbox.
+- Export `.glb` charge dans Godot.
+- Manifest asset a jour.

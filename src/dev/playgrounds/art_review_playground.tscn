@@ -1,0 +1,123 @@
+[gd_scene load_steps=15 format=3]
+
+[ext_resource type="PackedScene" path="res://src/visual/assets/player_arcade_wrapper.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://src/visual/assets/chaser_arcade_wrapper.tscn" id="2_chaser"]
+[ext_resource type="PackedScene" path="res://src/visual/assets/launcher_arcade_wrapper.tscn" id="3_launcher"]
+[ext_resource type="PackedScene" path="res://src/visual/assets/projectile_arcade_wrapper.tscn" id="4_projectile"]
+[ext_resource type="PackedScene" path="res://src/visual/assets/exit_gate_arcade_wrapper.tscn" id="5_gate"]
+
+[sub_resource type="Environment" id="Environment_art_review"]
+background_mode = 1
+background_color = Color(0.58, 0.68, 0.72, 1)
+ambient_light_source = 2
+ambient_light_color = Color(1, 0.96, 0.88, 1)
+ambient_light_energy = 0.82
+
+[sub_resource type="StandardMaterial3D" id="Material_floor"]
+albedo_color = Color(0.38, 0.53, 0.48, 1)
+roughness = 0.72
+
+[sub_resource type="PlaneMesh" id="Plane_floor"]
+material = SubResource("Material_floor")
+size = Vector2(18, 12)
+
+[sub_resource type="StandardMaterial3D" id="Material_beam"]
+transparency = 1
+albedo_color = Color(1, 0.12, 0.18, 0.62)
+shading_mode = 0
+emission_enabled = true
+emission = Color(1, 0.12, 0.18, 1)
+emission_energy_multiplier = 2.2
+
+[sub_resource type="CylinderMesh" id="Mesh_beam_segment"]
+material = SubResource("Material_beam")
+top_radius = 0.055
+bottom_radius = 0.055
+height = 1.15
+radial_segments = 16
+
+[sub_resource type="SphereMesh" id="Mesh_marker"]
+material = SubResource("Material_beam")
+radius = 0.18
+height = 0.36
+
+[sub_resource type="StandardMaterial3D" id="Material_label_dark"]
+albedo_color = Color(0.12, 0.15, 0.19, 1)
+roughness = 0.65
+
+[sub_resource type="BoxMesh" id="Mesh_label_plinth"]
+material = SubResource("Material_label_dark")
+size = Vector3(1.7, 0.08, 0.8)
+
+[node name="ArtReviewPlayground" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_art_review")
+
+[node name="KeyLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, 0, 7, 0)
+light_color = Color(1, 0.94, 0.84, 1)
+light_energy = 1.4
+
+[node name="FillLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 3)
+light_color = Color(0.6, 0.75, 1, 1)
+light_energy = 0.65
+omni_range = 18.0
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 0, 4.2, 8)
+current = true
+fov = 60.0
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = SubResource("Plane_floor")
+
+[node name="PlayerPreview" parent="." instance=ExtResource("1_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4, 0.95, 0)
+
+[node name="ChaserPreview" parent="." instance=ExtResource("2_chaser")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6, 0.95, 0)
+
+[node name="LauncherPreview" parent="." instance=ExtResource("3_launcher")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0.3, 0.55, 0)
+
+[node name="ProjectilePreview" parent="." instance=ExtResource("4_projectile")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 2.9, 0.95, 0)
+
+[node name="ExitGatePreview" parent="." instance=ExtResource("5_gate")]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 5.2, 1.05, 0)
+
+[node name="TelegraphPreview" type="Node3D" parent="."]
+
+[node name="MuzzleMarker" type="MeshInstance3D" parent="TelegraphPreview"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85, 1.05, -0.55)
+mesh = SubResource("Mesh_marker")
+
+[node name="BeamSegmentA" type="MeshInstance3D" parent="TelegraphPreview"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 1.55, 1.05, -0.55)
+mesh = SubResource("Mesh_beam_segment")
+
+[node name="BeamSegmentB" type="MeshInstance3D" parent="TelegraphPreview"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 2.95, 1.05, -0.55)
+mesh = SubResource("Mesh_beam_segment")
+
+[node name="BeamSegmentC" type="MeshInstance3D" parent="TelegraphPreview"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 4.35, 1.05, -0.55)
+mesh = SubResource("Mesh_beam_segment")
+
+[node name="TargetMarker" type="MeshInstance3D" parent="TelegraphPreview"]
+transform = Transform3D(1.25, 0, 0, 0, 0.18, 0, 0, 0, 1.25, 5.1, 1.05, -0.55)
+mesh = SubResource("Mesh_marker")
+
+[node name="PlayerPlinth" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4, 0.04, 1.05)
+mesh = SubResource("Mesh_label_plinth")
+
+[node name="EnemyPlinth" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6, 0.04, 1.05)
+mesh = SubResource("Mesh_label_plinth")
+
+[node name="LauncherPlinth" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.04, 1.05)
+mesh = SubResource("Mesh_label_plinth")

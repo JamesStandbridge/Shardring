@@ -1,0 +1,3794 @@
+{
+  "backup_selections": {
+    "chaser": [
+      "cute_animated_monsters:demon",
+      "cute_animated_monsters:alien",
+      "cute_animated_monsters:greendemon",
+      "cute_animated_monsters:mushroom"
+    ],
+    "exit_gate": [
+      "cyberpunk_game_kit:platform_2x2",
+      "cyberpunk_game_kit:rail_long",
+      "cyberpunk_game_kit:light_square"
+    ],
+    "launcher": [
+      "cyberpunk_game_kit:turret_gun",
+      "cyberpunk_game_kit:turret_gundouble"
+    ],
+    "player": [
+      "cyberpunk_game_kit:character",
+      "toon_shooter_game_kit:character_hazmat",
+      "toon_shooter_game_kit:character_soldier"
+    ],
+    "projectile": [
+      "toon_shooter_game_kit:firegrenade"
+    ]
+  },
+  "generated_by": "scripts/art/catalog_external_assets.py",
+  "packs": [
+    {
+      "assets": [
+        {
+          "asset_name": "Alien",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/Blends/Alien.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/FBX/Alien.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Alien.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/OBJ/Alien.obj"
+            ]
+          },
+          "id": "cute_animated_monsters:alien",
+          "notes": [
+            "backup_v1_candidate:chaser"
+          ],
+          "pack_id": "cute_animated_monsters",
+          "recommended_source_path": "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Alien.gltf",
+          "role_guess": "chaser"
+        },
+        {
+          "asset_name": "Cyclops",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/Blends/Cyclops.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/FBX/Cyclops.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Cyclops.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/OBJ/Cyclops.obj"
+            ]
+          },
+          "id": "cute_animated_monsters:cyclops",
+          "notes": [
+            "primary_v1_candidate"
+          ],
+          "pack_id": "cute_animated_monsters",
+          "recommended_source_path": "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Cyclops.gltf",
+          "role_guess": "chaser"
+        },
+        {
+          "asset_name": "Demon",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/Blends/Demon.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/FBX/Demon.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Demon.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/OBJ/Demon.obj"
+            ]
+          },
+          "id": "cute_animated_monsters:demon",
+          "notes": [
+            "backup_v1_candidate:chaser"
+          ],
+          "pack_id": "cute_animated_monsters",
+          "recommended_source_path": "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Demon.gltf",
+          "role_guess": "chaser"
+        },
+        {
+          "asset_name": "GreenDemon",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/Blends/GreenDemon.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/FBX/GreenDemon.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/glTF/GreenDemon.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/OBJ/GreenDemon.obj"
+            ]
+          },
+          "id": "cute_animated_monsters:greendemon",
+          "notes": [
+            "backup_v1_candidate:chaser"
+          ],
+          "pack_id": "cute_animated_monsters",
+          "recommended_source_path": "assets/art/source_external/quaternius/cute_animated_monsters/glTF/GreenDemon.gltf",
+          "role_guess": "chaser"
+        },
+        {
+          "asset_name": "Mushroom",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/Blends/Mushroom.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/FBX/Mushroom.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Mushroom.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/OBJ/Mushroom.obj"
+            ]
+          },
+          "id": "cute_animated_monsters:mushroom",
+          "notes": [
+            "backup_v1_candidate:chaser"
+          ],
+          "pack_id": "cute_animated_monsters",
+          "recommended_source_path": "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Mushroom.gltf",
+          "role_guess": "chaser"
+        },
+        {
+          "asset_name": "Alien_Tall",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/Blends/Alien_Tall.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/FBX/Alien_Tall.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Alien_Tall.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/OBJ/Alien_Tall.obj"
+            ]
+          },
+          "id": "cute_animated_monsters:alien_tall",
+          "notes": [],
+          "pack_id": "cute_animated_monsters",
+          "recommended_source_path": "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Alien_Tall.gltf",
+          "role_guess": "future_enemy"
+        },
+        {
+          "asset_name": "Bat",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/Blends/Bat.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/FBX/Bat.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Bat.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/OBJ/Bat.obj"
+            ]
+          },
+          "id": "cute_animated_monsters:bat",
+          "notes": [],
+          "pack_id": "cute_animated_monsters",
+          "recommended_source_path": "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Bat.gltf",
+          "role_guess": "future_enemy"
+        },
+        {
+          "asset_name": "Bee",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/Blends/Bee.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/FBX/Bee.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Bee.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/OBJ/Bee.obj"
+            ]
+          },
+          "id": "cute_animated_monsters:bee",
+          "notes": [],
+          "pack_id": "cute_animated_monsters",
+          "recommended_source_path": "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Bee.gltf",
+          "role_guess": "future_enemy"
+        },
+        {
+          "asset_name": "Cactus",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/Blends/Cactus.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/FBX/Cactus.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Cactus.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/OBJ/Cactus.obj"
+            ]
+          },
+          "id": "cute_animated_monsters:cactus",
+          "notes": [],
+          "pack_id": "cute_animated_monsters",
+          "recommended_source_path": "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Cactus.gltf",
+          "role_guess": "future_enemy"
+        },
+        {
+          "asset_name": "Chicken",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/Blends/Chicken.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/FBX/Chicken.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Chicken.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/OBJ/Chicken.obj"
+            ]
+          },
+          "id": "cute_animated_monsters:chicken",
+          "notes": [],
+          "pack_id": "cute_animated_monsters",
+          "recommended_source_path": "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Chicken.gltf",
+          "role_guess": "future_enemy"
+        },
+        {
+          "asset_name": "Crab",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/Blends/Crab.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/FBX/Crab.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Crab.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/OBJ/Crab.obj"
+            ]
+          },
+          "id": "cute_animated_monsters:crab",
+          "notes": [],
+          "pack_id": "cute_animated_monsters",
+          "recommended_source_path": "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Crab.gltf",
+          "role_guess": "future_enemy"
+        },
+        {
+          "asset_name": "Cthulhu",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/Blends/Cthulhu.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/FBX/Cthulhu.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Cthulhu.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/OBJ/Cthulhu.obj"
+            ]
+          },
+          "id": "cute_animated_monsters:cthulhu",
+          "notes": [],
+          "pack_id": "cute_animated_monsters",
+          "recommended_source_path": "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Cthulhu.gltf",
+          "role_guess": "future_enemy"
+        },
+        {
+          "asset_name": "Deer",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/Blends/Deer.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/FBX/Deer.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Deer.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/OBJ/Deer.obj"
+            ]
+          },
+          "id": "cute_animated_monsters:deer",
+          "notes": [],
+          "pack_id": "cute_animated_monsters",
+          "recommended_source_path": "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Deer.gltf",
+          "role_guess": "future_enemy"
+        },
+        {
+          "asset_name": "Ghost",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/Blends/Ghost.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/FBX/Ghost.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Ghost.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/OBJ/Ghost.obj"
+            ]
+          },
+          "id": "cute_animated_monsters:ghost",
+          "notes": [],
+          "pack_id": "cute_animated_monsters",
+          "recommended_source_path": "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Ghost.gltf",
+          "role_guess": "future_enemy"
+        },
+        {
+          "asset_name": "Panda",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/Blends/Panda.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/FBX/Panda.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Panda.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/OBJ/Panda.obj"
+            ]
+          },
+          "id": "cute_animated_monsters:panda",
+          "notes": [],
+          "pack_id": "cute_animated_monsters",
+          "recommended_source_path": "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Panda.gltf",
+          "role_guess": "future_enemy"
+        },
+        {
+          "asset_name": "Penguin",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/Blends/Penguin.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/FBX/Penguin.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Penguin.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/OBJ/Penguin.obj"
+            ]
+          },
+          "id": "cute_animated_monsters:penguin",
+          "notes": [],
+          "pack_id": "cute_animated_monsters",
+          "recommended_source_path": "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Penguin.gltf",
+          "role_guess": "future_enemy"
+        },
+        {
+          "asset_name": "Pig",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/Blends/Pig.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/FBX/Pig.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Pig.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/OBJ/Pig.obj"
+            ]
+          },
+          "id": "cute_animated_monsters:pig",
+          "notes": [],
+          "pack_id": "cute_animated_monsters",
+          "recommended_source_path": "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Pig.gltf",
+          "role_guess": "future_enemy"
+        },
+        {
+          "asset_name": "Skull",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/Blends/Skull.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/FBX/Skull.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Skull.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/OBJ/Skull.obj"
+            ]
+          },
+          "id": "cute_animated_monsters:skull",
+          "notes": [],
+          "pack_id": "cute_animated_monsters",
+          "recommended_source_path": "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Skull.gltf",
+          "role_guess": "future_enemy"
+        },
+        {
+          "asset_name": "Tree",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/Blends/Tree.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/FBX/Tree.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Tree.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/OBJ/Tree.obj"
+            ]
+          },
+          "id": "cute_animated_monsters:tree",
+          "notes": [],
+          "pack_id": "cute_animated_monsters",
+          "recommended_source_path": "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Tree.gltf",
+          "role_guess": "future_enemy"
+        },
+        {
+          "asset_name": "YellowDragon",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/Blends/YellowDragon.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/FBX/YellowDragon.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/glTF/YellowDragon.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/OBJ/YellowDragon.obj"
+            ]
+          },
+          "id": "cute_animated_monsters:yellowdragon",
+          "notes": [],
+          "pack_id": "cute_animated_monsters",
+          "recommended_source_path": "assets/art/source_external/quaternius/cute_animated_monsters/glTF/YellowDragon.gltf",
+          "role_guess": "future_enemy"
+        },
+        {
+          "asset_name": "Yeti",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/Blends/Yeti.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/FBX/Yeti.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Yeti.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cute_animated_monsters/OBJ/Yeti.obj"
+            ]
+          },
+          "id": "cute_animated_monsters:yeti",
+          "notes": [],
+          "pack_id": "cute_animated_monsters",
+          "recommended_source_path": "assets/art/source_external/quaternius/cute_animated_monsters/glTF/Yeti.gltf",
+          "role_guess": "future_enemy"
+        }
+      ],
+      "display_name": "Quaternius Cute Animated Monsters",
+      "id": "cute_animated_monsters",
+      "license": "CC0 1.0 Universal; documented from Quaternius source page",
+      "preview_paths": [
+        "assets/art/source_external/quaternius/cute_animated_monsters/Preview.jpg"
+      ],
+      "raw_counts": {
+        ".blend": 21,
+        ".fbx": 21,
+        ".gltf": 21,
+        ".jpg": 1,
+        ".mtl": 21,
+        ".obj": 21,
+        ".png": 21
+      },
+      "root_path": "assets/art/source_external/quaternius/cute_animated_monsters",
+      "source_url": "https://quaternius.com/packs/cutemonsters.html",
+      "texture_count": 21
+    },
+    {
+      "assets": [
+        {
+          "asset_name": "Door",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Door.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Door.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Door.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Door.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:door",
+          "notes": [
+            "primary_v1_candidate"
+          ],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Door.gltf",
+          "role_guess": "exit_gate"
+        },
+        {
+          "asset_name": "Enemy_2Legs_Gun",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Enemy_2Legs_Gun.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_2Legs_Gun.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_2Legs_Gun.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_2Legs_Gun.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:enemy_2legs_gun",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_2Legs_Gun.gltf",
+          "role_guess": "future_enemy"
+        },
+        {
+          "asset_name": "Enemy_Flying",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Enemy_Flying.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_Flying.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_Flying.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_Flying.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:enemy_flying",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_Flying.gltf",
+          "role_guess": "future_enemy"
+        },
+        {
+          "asset_name": "Enemy_Flying_Gun",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Enemy_Flying_Gun.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_Flying_Gun.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_Flying_Gun.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_Flying_Gun.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:enemy_flying_gun",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_Flying_Gun.gltf",
+          "role_guess": "future_enemy"
+        },
+        {
+          "asset_name": "Enemy_Large",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Enemy_Large.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_Large.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_Large.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_Large.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:enemy_large",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_Large.gltf",
+          "role_guess": "future_enemy"
+        },
+        {
+          "asset_name": "Enemy_Large_Gun",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Enemy_Large_Gun.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_Large_Gun.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_Large_Gun.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_Large_Gun.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:enemy_large_gun",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_Large_Gun.gltf",
+          "role_guess": "future_enemy"
+        },
+        {
+          "asset_name": "Turret_Cannon",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Turret_Cannon.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Turret_Cannon.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Turret_Cannon.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Turret_Cannon.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:turret_cannon",
+          "notes": [
+            "primary_v1_candidate"
+          ],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Turret_Cannon.gltf",
+          "role_guess": "launcher"
+        },
+        {
+          "asset_name": "Turret_Gun",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Turret_Gun.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Turret_Gun.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Turret_Gun.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Turret_Gun.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:turret_gun",
+          "notes": [
+            "backup_v1_candidate:launcher"
+          ],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Turret_Gun.gltf",
+          "role_guess": "launcher"
+        },
+        {
+          "asset_name": "Turret_GunDouble",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Turret_GunDouble.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Turret_GunDouble.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Turret_GunDouble.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Turret_GunDouble.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:turret_gundouble",
+          "notes": [
+            "backup_v1_candidate:launcher"
+          ],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Turret_GunDouble.gltf",
+          "role_guess": "launcher"
+        },
+        {
+          "asset_name": "Turret_Teleporter",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Turret_Teleporter.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Turret_Teleporter.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Turret_Teleporter.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Turret_Teleporter.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:turret_teleporter",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Turret_Teleporter.gltf",
+          "role_guess": "launcher"
+        },
+        {
+          "asset_name": "Character",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Character.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Character/Character.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Character/Character.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Character/Character.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:character",
+          "notes": [
+            "backup_v1_candidate:player"
+          ],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Character/Character.gltf",
+          "role_guess": "player"
+        },
+        {
+          "asset_name": "Enemy_2Legs",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Enemy_2Legs.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_2Legs.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_2Legs.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_2Legs.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:enemy_2legs",
+          "notes": [
+            "primary_v1_candidate"
+          ],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Enemies/Enemy_2Legs.gltf",
+          "role_guess": "player"
+        },
+        {
+          "asset_name": "AC",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/AC.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/AC.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/AC.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/AC.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:ac",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/AC.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "AC_Side",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/AC_Side.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/AC_Side.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/AC_Side.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/AC_Side.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:ac_side",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/AC_Side.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "AC_Stacked",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/AC_Stacked.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/AC_Stacked.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/AC_Stacked.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/AC_Stacked.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:ac_stacked",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/AC_Stacked.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Antenna_1",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Antenna_1.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Antenna_1.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Antenna_1.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Antenna_1.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:antenna_1",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Antenna_1.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Antenna_2",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Antenna_2.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Antenna_2.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Antenna_2.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Antenna_2.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:antenna_2",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Antenna_2.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Cable_Long",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Cable_Long.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Cable_Long.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Cable_Long.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Cable_Long.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:cable_long",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Cable_Long.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Cable_Small",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Cable_Small.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Cable_Small.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Cable_Small.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Cable_Small.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:cable_small",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Cable_Small.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Cable_Thick",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Cable_Thick.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Cable_Thick.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Cable_Thick.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Cable_Thick.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:cable_thick",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Cable_Thick.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Collectible_Board",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Collectible_Board.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Collectible_Board.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Collectible_Board.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Collectible_Board.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:collectible_board",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Collectible_Board.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Collectible_Gear",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Collectible_Gear.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Collectible_Gear.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Collectible_Gear.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Collectible_Gear.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:collectible_gear",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Collectible_Gear.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Computer",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Computer.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Computer.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Computer.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Computer.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:computer",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Computer.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Computer_Large",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Computer_Large.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Computer_Large.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Computer_Large.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Computer_Large.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:computer_large",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Computer_Large.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Fence",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Fence.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Fence.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Fence.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Fence.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:fence",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Fence.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Lever",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Lever.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Lever.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Lever.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Lever.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:lever",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Lever.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Light_Square",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Light_Square.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Light_Square.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Light_Square.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Light_Square.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:light_square",
+          "notes": [
+            "backup_v1_candidate:exit_gate"
+          ],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Light_Square.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Light_Street_1",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Light_Street_1.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Light_Street_1.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Light_Street_1.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Light_Street_1.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:light_street_1",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Light_Street_1.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Light_Street_2",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Light_Street_2.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Light_Street_2.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Light_Street_2.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Light_Street_2.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:light_street_2",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Light_Street_2.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Lootbox",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Lootbox.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Lootbox.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Lootbox.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Lootbox.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:lootbox",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Lootbox.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Pickup_Health",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Pickup_Health.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Pickup_Health.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Pickup_Health.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Pickup_Health.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:pickup_health",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Pickup_Health.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Pickup_Heart",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Pickup_Heart.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Pickup_Heart.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Pickup_Heart.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Pickup_Heart.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:pickup_heart",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Pickup_Heart.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Pickup_Tank",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Pickup_Tank.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Pickup_Tank.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Pickup_Tank.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Pickup_Tank.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:pickup_tank",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Pickup_Tank.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Pipe_1",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Pipe_1.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Pipe_1.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Pipe_1.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Pipe_1.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:pipe_1",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Pipe_1.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Pipe_2",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Pipe_2.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Pipe_2.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Pipe_2.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Pipe_2.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:pipe_2",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Pipe_2.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Pipe_Corner",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Pipe_Corner.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Pipe_Corner.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Pipe_Corner.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Pipe_Corner.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:pipe_corner",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Pipe_Corner.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Pipe_Corner_2",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Pipe_Corner_2.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Pipe_Corner_2.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Pipe_Corner_2.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Pipe_Corner_2.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:pipe_corner_2",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Pipe_Corner_2.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Platform_1x1_Empty",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Platform_1x1_Empty.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_1x1_Empty.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_1x1_Empty.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_1x1_Empty.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:platform_1x1_empty",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_1x1_Empty.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Platform_2x1_Empty",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Platform_2x1_Empty.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_2x1_Empty.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_2x1_Empty.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_2x1_Empty.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:platform_2x1_empty",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_2x1_Empty.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Platform_2x2",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Platform_2x2.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_2x2.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_2x2.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_2x2.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:platform_2x2",
+          "notes": [
+            "backup_v1_candidate:exit_gate"
+          ],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_2x2.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Platform_2x2_Empty",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Platform_2x2_Empty.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_2x2_Empty.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_2x2_Empty.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_2x2_Empty.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:platform_2x2_empty",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_2x2_Empty.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Platform_4x1",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Platform_4x1.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_4x1.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_4x1.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_4x1.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:platform_4x1",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_4x1.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Platform_4x1_Empty",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Platform_4x1_Empty.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_4x1_Empty.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_4x1_Empty.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_4x1_Empty.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:platform_4x1_empty",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_4x1_Empty.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Platform_4x2",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Platform_4x2.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_4x2.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_4x2.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_4x2.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:platform_4x2",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_4x2.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Platform_4x4",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Platform_4x4.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_4x4.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_4x4.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_4x4.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:platform_4x4",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_4x4.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Platform_4x4_Empty",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Platform_4x4_Empty.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_4x4_Empty.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_4x4_Empty.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_4x4_Empty.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:platform_4x4_empty",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Platform_4x4_Empty.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Rail_Corner",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Rail_Corner.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Rail_Corner.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Rail_Corner.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Rail_Corner.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:rail_corner",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Rail_Corner.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Rail_Corner_2",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Rail_Corner_2.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Rail_Corner_2.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Rail_Corner_2.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Rail_Corner_2.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:rail_corner_2",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Rail_Corner_2.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Rail_Long",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Rail_Long.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Rail_Long.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Rail_Long.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Rail_Long.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:rail_long",
+          "notes": [
+            "backup_v1_candidate:exit_gate"
+          ],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Rail_Long.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Rail_Short",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Rail_Short.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Rail_Short.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Rail_Short.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Rail_Short.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:rail_short",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Rail_Short.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Sign_1",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Sign_1.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_1.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_1.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_1.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:sign_1",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_1.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Sign_2",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Sign_2.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_2.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_2.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_2.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:sign_2",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_2.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Sign_3",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Sign_3.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_3.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_3.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_3.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:sign_3",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_3.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Sign_4",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Sign_4.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_4.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_4.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_4.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:sign_4",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_4.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Sign_Corner_1",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Sign_Corner_1.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_1.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_1.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_1.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:sign_corner_1",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_1.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Sign_Corner_2",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Sign_Corner_2.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_2.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_2.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_2.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:sign_corner_2",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_2.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Sign_Corner_3",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Sign_Corner_3.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_3.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_3.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_3.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:sign_corner_3",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_3.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Sign_Corner_3_Fenced",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Sign_Corner_3_Fenced.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_3_Fenced.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_3_Fenced.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_3_Fenced.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:sign_corner_3_fenced",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_3_Fenced.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Sign_Corner_Hazard",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Sign_Corner_Hazard.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_Hazard.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_Hazard.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_Hazard.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:sign_corner_hazard",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_Hazard.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Sign_Corner_Small1",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Sign_Corner_Small1.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_Small1.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_Small1.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_Small1.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:sign_corner_small1",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_Small1.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Sign_Corner_Small2",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Sign_Corner_Small2.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_Small2.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_Small2.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_Small2.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:sign_corner_small2",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Corner_Small2.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Sign_Small_1",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Sign_Small_1.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Small_1.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Small_1.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Small_1.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:sign_small_1",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Small_1.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Sign_Small_2",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Sign_Small_2.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Small_2.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Small_2.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Small_2.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:sign_small_2",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Small_2.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Sign_Small_3",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Sign_Small_3.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Small_3.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Small_3.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Small_3.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:sign_small_3",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Sign_Small_3.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Support",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Support.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Support.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Support.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Support.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:support",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Support.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Support_Long",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Support_Long.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Support_Long.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Support_Long.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Support_Long.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:support_long",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Support_Long.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Support_Short",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Support_Short.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Support_Short.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Support_Short.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Support_Short.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:support_short",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/Support_Short.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "TV_1",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/TV_1.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/TV_1.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/TV_1.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/TV_1.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:tv_1",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/TV_1.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "TV_2",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/TV_2.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/TV_2.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/TV_2.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/TV_2.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:tv_2",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/TV_2.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "TV_3",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/TV_3.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/TV_3.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/TV_3.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/TV_3.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:tv_3",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Platforms/TV_3.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Tank",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Blends/Tank.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Tank.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Tank.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Tank.obj"
+            ]
+          },
+          "id": "cyberpunk_game_kit:tank",
+          "notes": [],
+          "pack_id": "cyberpunk_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/cyberpunk_game_kit/Pickups and Objects/Tank.gltf",
+          "role_guess": "prop"
+        }
+      ],
+      "display_name": "Quaternius Cyberpunk Game Kit",
+      "id": "cyberpunk_game_kit",
+      "license": "CC0 1.0 Universal; archive includes License.txt",
+      "preview_paths": [
+        "assets/art/source_external/quaternius/cyberpunk_game_kit/Preview.jpg"
+      ],
+      "raw_counts": {
+        ".blend": 71,
+        ".fbx": 71,
+        ".gltf": 71,
+        ".jpg": 1,
+        ".mtl": 71,
+        ".obj": 71,
+        ".png": 1,
+        ".txt": 1
+      },
+      "root_path": "assets/art/source_external/quaternius/cyberpunk_game_kit",
+      "source_url": "https://quaternius.com/packs/cyberpunkgamekit.html",
+      "texture_count": 1
+    },
+    {
+      "assets": [
+        {
+          "asset_name": "Character_Enemy",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Characters/Blends/Character_Enemy.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Characters/FBX/Character_Enemy.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Characters/glTF/Character_Enemy.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Characters/OBJ/Character_Enemy.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:character_enemy",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Characters/glTF/Character_Enemy.gltf",
+          "role_guess": "player"
+        },
+        {
+          "asset_name": "Character_Hazmat",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Characters/Blends/Character_Hazmat.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Characters/FBX/Character_Hazmat.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Characters/glTF/Character_Hazmat.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Characters/OBJ/Character_Hazmat.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:character_hazmat",
+          "notes": [
+            "backup_v1_candidate:player"
+          ],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Characters/glTF/Character_Hazmat.gltf",
+          "role_guess": "player"
+        },
+        {
+          "asset_name": "Character_Soldier",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Characters/Blends/Character_Soldier.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Characters/FBX/Character_Soldier.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Characters/glTF/Character_Soldier.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Characters/OBJ/Character_Soldier.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:character_soldier",
+          "notes": [
+            "backup_v1_candidate:player"
+          ],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Characters/glTF/Character_Soldier.gltf",
+          "role_guess": "player"
+        },
+        {
+          "asset_name": "ExplodingBarrel",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/ExplodingBarrel.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/ExplodingBarrel.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/ExplodingBarrel.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/ExplodingBarrel.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:explodingbarrel",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/ExplodingBarrel.gltf",
+          "role_guess": "projectile"
+        },
+        {
+          "asset_name": "ExplodingBarrel_Spilled",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/ExplodingBarrel_Spilled.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/ExplodingBarrel_Spilled.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/ExplodingBarrel_Spilled.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/ExplodingBarrel_Spilled.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:explodingbarrel_spilled",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/ExplodingBarrel_Spilled.gltf",
+          "role_guess": "projectile"
+        },
+        {
+          "asset_name": "FireGrenade",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/Blends/FireGrenade.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/FBX/FireGrenade.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/FireGrenade.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/OBJ/FireGrenade.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:firegrenade",
+          "notes": [
+            "backup_v1_candidate:projectile"
+          ],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/FireGrenade.gltf",
+          "role_guess": "projectile"
+        },
+        {
+          "asset_name": "Grenade",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/Blends/Grenade.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/FBX/Grenade.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/Grenade.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/OBJ/Grenade.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:grenade",
+          "notes": [
+            "primary_v1_candidate"
+          ],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/Grenade.gltf",
+          "role_guess": "projectile"
+        },
+        {
+          "asset_name": "GrenadeLauncher",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/Blends/GrenadeLauncher.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/FBX/GrenadeLauncher.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/GrenadeLauncher.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/OBJ/GrenadeLauncher.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:grenadelauncher",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/GrenadeLauncher.gltf",
+          "role_guess": "projectile"
+        },
+        {
+          "asset_name": "Landmine",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Landmine.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Landmine.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Landmine.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Landmine.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:landmine",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Landmine.gltf",
+          "role_guess": "projectile"
+        },
+        {
+          "asset_name": "RocketLauncher",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/Blends/RocketLauncher.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/FBX/RocketLauncher.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/RocketLauncher.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/OBJ/RocketLauncher.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:rocketlauncher",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/RocketLauncher.gltf",
+          "role_guess": "projectile"
+        },
+        {
+          "asset_name": "ShortCannon",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/Blends/ShortCannon.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/FBX/ShortCannon.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/ShortCannon.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/OBJ/ShortCannon.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:shortcannon",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/ShortCannon.gltf",
+          "role_guess": "projectile"
+        },
+        {
+          "asset_name": "AK",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/Blends/AK.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/FBX/AK.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/AK.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/OBJ/AK.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:ak",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/AK.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Barrier_Fixed",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Barrier_Fixed.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Barrier_Fixed.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Barrier_Fixed.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Barrier_Fixed.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:barrier_fixed",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Barrier_Fixed.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Barrier_Large",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Barrier_Large.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Barrier_Large.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Barrier_Large.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Barrier_Large.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:barrier_large",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Barrier_Large.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Barrier_Single",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Barrier_Single.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Barrier_Single.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Barrier_Single.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Barrier_Single.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:barrier_single",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Barrier_Single.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Barrier_Trash",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Barrier_Trash.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Barrier_Trash.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Barrier_Trash.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Barrier_Trash.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:barrier_trash",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Barrier_Trash.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "BearTrap_Closed",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/BearTrap_Closed.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/BearTrap_Closed.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/BearTrap_Closed.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/BearTrap_Closed.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:beartrap_closed",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/BearTrap_Closed.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "BearTrap_Open",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/BearTrap_Open.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/BearTrap_Open.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/BearTrap_Open.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/BearTrap_Open.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:beartrap_open",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/BearTrap_Open.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "BrickWall_1",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/BrickWall_1.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/BrickWall_1.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/BrickWall_1.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/BrickWall_1.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:brickwall_1",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/BrickWall_1.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "BrickWall_2",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/BrickWall_2.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/BrickWall_2.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/BrickWall_2.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/BrickWall_2.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:brickwall_2",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/BrickWall_2.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "CardboardBoxes_1",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/CardboardBoxes_1.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/CardboardBoxes_1.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/CardboardBoxes_1.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/CardboardBoxes_1.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:cardboardboxes_1",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/CardboardBoxes_1.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "CardboardBoxes_2",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/CardboardBoxes_2.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/CardboardBoxes_2.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/CardboardBoxes_2.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/CardboardBoxes_2.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:cardboardboxes_2",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/CardboardBoxes_2.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "CardboardBoxes_3",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/CardboardBoxes_3.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/CardboardBoxes_3.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/CardboardBoxes_3.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/CardboardBoxes_3.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:cardboardboxes_3",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/CardboardBoxes_3.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "CardboardBoxes_4",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/CardboardBoxes_4.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/CardboardBoxes_4.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/CardboardBoxes_4.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/CardboardBoxes_4.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:cardboardboxes_4",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/CardboardBoxes_4.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Container_Long",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Container_Long.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Container_Long.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Container_Long.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Container_Long.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:container_long",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Container_Long.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Container_Small",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Container_Small.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Container_Small.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Container_Small.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Container_Small.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:container_small",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Container_Small.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Crate",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Crate.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Crate.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Crate.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Crate.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:crate",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Crate.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Debris_BrokenCar",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Debris_BrokenCar.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Debris_BrokenCar.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Debris_BrokenCar.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Debris_BrokenCar.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:debris_brokencar",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Debris_BrokenCar.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Debris_Papers_1",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Debris_Papers_1.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Debris_Papers_1.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Debris_Papers_1.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Debris_Papers_1.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:debris_papers_1",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Debris_Papers_1.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Debris_Papers_2",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Debris_Papers_2.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Debris_Papers_2.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Debris_Papers_2.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Debris_Papers_2.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:debris_papers_2",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Debris_Papers_2.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Debris_Papers_3",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Debris_Papers_3.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Debris_Papers_3.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Debris_Papers_3.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Debris_Papers_3.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:debris_papers_3",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Debris_Papers_3.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Debris_Pile",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Debris_Pile.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Debris_Pile.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Debris_Pile.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Debris_Pile.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:debris_pile",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Debris_Pile.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Debris_Tires",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Debris_Tires.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Debris_Tires.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Debris_Tires.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Debris_Tires.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:debris_tires",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Debris_Tires.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Fence",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Fence.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Fence.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Fence.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Fence.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:fence",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Fence.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Fence_Long",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Fence_Long.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Fence_Long.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Fence_Long.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Fence_Long.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:fence_long",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Fence_Long.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "GasCan",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/GasCan.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/GasCan.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/GasCan.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/GasCan.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:gascan",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/GasCan.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "GasTank",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/GasTank.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/GasTank.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/GasTank.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/GasTank.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:gastank",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/GasTank.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Health",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Health.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Health.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Health.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Health.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:health",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Health.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Key",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Key.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Key.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Key.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Key.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:key",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Key.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Knife_1",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/Blends/Knife_1.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/FBX/Knife_1.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/Knife_1.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/OBJ/Knife_1.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:knife_1",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/Knife_1.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Knife_2",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/Blends/Knife_2.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/FBX/Knife_2.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/Knife_2.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/OBJ/Knife_2.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:knife_2",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/Knife_2.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "MetalFence",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/MetalFence.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/MetalFence.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/MetalFence.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/MetalFence.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:metalfence",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/MetalFence.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Pallet",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Pallet.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Pallet.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Pallet.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Pallet.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:pallet",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Pallet.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Pallet_Broken",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Pallet_Broken.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Pallet_Broken.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Pallet_Broken.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Pallet_Broken.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:pallet_broken",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Pallet_Broken.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Pipes",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Pipes.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Pipes.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Pipes.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Pipes.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:pipes",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Pipes.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Pistol",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/Blends/Pistol.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/FBX/Pistol.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/Pistol.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/OBJ/Pistol.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:pistol",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/Pistol.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Revolver",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/Blends/Revolver.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/FBX/Revolver.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/Revolver.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/OBJ/Revolver.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:revolver",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/Revolver.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Revolver_Small",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/Blends/Revolver_Small.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/FBX/Revolver_Small.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/Revolver_Small.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/OBJ/Revolver_Small.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:revolver_small",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/Revolver_Small.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "SMG",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/Blends/SMG.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/FBX/SMG.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/SMG.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/OBJ/SMG.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:smg",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/SMG.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "SackTrench",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/SackTrench.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/SackTrench.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/SackTrench.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/SackTrench.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:sacktrench",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/SackTrench.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "SackTrench_Small",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/SackTrench_Small.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/SackTrench_Small.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/SackTrench_Small.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/SackTrench_Small.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:sacktrench_small",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/SackTrench_Small.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Shotgun",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/Blends/Shotgun.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/FBX/Shotgun.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/Shotgun.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/OBJ/Shotgun.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:shotgun",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/Shotgun.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Shovel",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/Blends/Shovel.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/FBX/Shovel.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/Shovel.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/OBJ/Shovel.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:shovel",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/Shovel.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Sign",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Sign.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Sign.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Sign.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Sign.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:sign",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Sign.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Sniper",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/Blends/Sniper.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/FBX/Sniper.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/Sniper.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/OBJ/Sniper.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:sniper",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/Sniper.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Sniper_2",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/Blends/Sniper_2.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/FBX/Sniper_2.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/Sniper_2.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/OBJ/Sniper_2.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:sniper_2",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Guns/glTF/Sniper_2.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Sofa",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Sofa.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Sofa.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Sofa.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Sofa.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:sofa",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Sofa.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Sofa_Small",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Sofa_Small.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Sofa_Small.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Sofa_Small.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Sofa_Small.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:sofa_small",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Sofa_Small.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "StreetLight",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/StreetLight.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/StreetLight.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/StreetLight.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/StreetLight.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:streetlight",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/StreetLight.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Structure_1",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Structure_1.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Structure_1.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Structure_1.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Structure_1.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:structure_1",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Structure_1.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Structure_2",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Structure_2.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Structure_2.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Structure_2.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Structure_2.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:structure_2",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Structure_2.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Structure_3",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Structure_3.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Structure_3.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Structure_3.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Structure_3.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:structure_3",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Structure_3.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Structure_4",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Structure_4.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Structure_4.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Structure_4.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Structure_4.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:structure_4",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Structure_4.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Tank",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Tank.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Tank.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Tank.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Tank.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:tank",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Tank.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "TrafficCone",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/TrafficCone.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/TrafficCone.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/TrafficCone.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/TrafficCone.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:trafficcone",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/TrafficCone.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "TrashContainer",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/TrashContainer.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/TrashContainer.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/TrashContainer.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/TrashContainer.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:trashcontainer",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/TrashContainer.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "TrashContainer_Open",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/TrashContainer_Open.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/TrashContainer_Open.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/TrashContainer_Open.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/TrashContainer_Open.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:trashcontainer_open",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/TrashContainer_Open.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Tree_1",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Tree_1.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Tree_1.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Tree_1.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Tree_1.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:tree_1",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Tree_1.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Tree_2",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Tree_2.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Tree_2.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Tree_2.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Tree_2.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:tree_2",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Tree_2.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Tree_3",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Tree_3.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Tree_3.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Tree_3.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Tree_3.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:tree_3",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Tree_3.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "Tree_4",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/Tree_4.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/Tree_4.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Tree_4.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/Tree_4.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:tree_4",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/Tree_4.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "WaterTank_Floor",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/WaterTank_Floor.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/WaterTank_Floor.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/WaterTank_Floor.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/WaterTank_Floor.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:watertank_floor",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/WaterTank_Floor.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "WaterTank_Platform",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/WaterTank_Platform.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/WaterTank_Platform.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/WaterTank_Platform.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/WaterTank_Platform.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:watertank_platform",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/WaterTank_Platform.gltf",
+          "role_guess": "prop"
+        },
+        {
+          "asset_name": "WoodPlanks",
+          "formats": {
+            "blend": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/Blends/WoodPlanks.blend"
+            ],
+            "fbx": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/FBX/WoodPlanks.fbx"
+            ],
+            "gltf": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/WoodPlanks.gltf"
+            ],
+            "obj": [
+              "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/OBJ/WoodPlanks.obj"
+            ]
+          },
+          "id": "toon_shooter_game_kit:woodplanks",
+          "notes": [],
+          "pack_id": "toon_shooter_game_kit",
+          "recommended_source_path": "assets/art/source_external/quaternius/toon_shooter_game_kit/Environment/glTF/WoodPlanks.gltf",
+          "role_guess": "prop"
+        }
+      ],
+      "display_name": "Quaternius Toon Shooter Game Kit",
+      "id": "toon_shooter_game_kit",
+      "license": "CC0 1.0 Universal; documented from Quaternius source page",
+      "preview_paths": [
+        "assets/art/source_external/quaternius/toon_shooter_game_kit/Preview.jpg"
+      ],
+      "raw_counts": {
+        ".blend": 74,
+        ".fbx": 74,
+        ".gltf": 74,
+        ".jpg": 1,
+        ".mtl": 74,
+        ".obj": 74,
+        ".png": 2
+      },
+      "root_path": "assets/art/source_external/quaternius/toon_shooter_game_kit",
+      "source_url": "https://quaternius.com/packs/toonshootergamekit.html",
+      "texture_count": 2
+    }
+  ],
+  "primary_selection": {
+    "chaser": "cute_animated_monsters:cyclops",
+    "exit_gate": "cyberpunk_game_kit:door",
+    "launcher": "cyberpunk_game_kit:turret_cannon",
+    "player": "cyberpunk_game_kit:enemy_2legs",
+    "projectile": "toon_shooter_game_kit:grenade"
+  },
+  "schema_version": 1,
+  "source_root": "assets/art/source_external/quaternius"
+}

@@ -6,6 +6,7 @@ const PLAYER_SPAWN_HEIGHT_METERS := 1.05
 const BOUNDARY_EPSILON_METERS := 0.14
 
 @export var arena_config: ArenaConfig = ArenaConfig.new()
+@export var arena_theme: ArenaThemeConfig = ArenaThemeConfig.new()
 
 var _cells: Array[ArenaCell] = []
 var _generated_root: Node3D
@@ -43,6 +44,17 @@ func generate_arena() -> void:
 	)
 
 
+func configure_for_stage(
+	stage_arena_config: ArenaConfig, stage_theme: ArenaThemeConfig, generation_seed: int
+) -> void:
+	if stage_arena_config != null:
+		arena_config = stage_arena_config.duplicate(true) as ArenaConfig
+		arena_config.generation_seed = generation_seed
+	if stage_theme != null:
+		arena_theme = stage_theme
+	generate_arena()
+
+
 func get_cells() -> Array[ArenaCell]:
 	return _cells.duplicate()
 
@@ -52,6 +64,11 @@ func get_spawn_position() -> Vector3:
 	return Vector3(
 		spawn_point.x, _get_surface_height(spawn_point) + PLAYER_SPAWN_HEIGHT_METERS, spawn_point.y
 	)
+
+
+func get_center_ground_position() -> Vector3:
+	var center := Vector2.ZERO
+	return Vector3(center.x, _get_surface_height(center), center.y)
 
 
 func get_random_valid_position(rng: RandomNumberGenerator) -> Vector3:
@@ -314,8 +331,9 @@ func _create_cell_label(cell: ArenaCell) -> Label3D:
 
 func _create_cell_material(cell_index: int) -> StandardMaterial3D:
 	var material := StandardMaterial3D.new()
-	var shade_offset := 0.026 * float(cell_index % 5)
-	material.albedo_color = Color(0.3 + shade_offset, 0.34 + shade_offset, 0.41 + shade_offset, 1.0)
+	if arena_theme == null:
+		arena_theme = ArenaThemeConfig.new()
+	material.albedo_color = arena_theme.get_floor_color(cell_index)
 	material.cull_mode = BaseMaterial3D.CULL_DISABLED
 	material.roughness = 0.78
 	return material

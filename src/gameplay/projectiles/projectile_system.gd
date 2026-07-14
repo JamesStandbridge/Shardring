@@ -9,27 +9,30 @@ enum LauncherState {
 	PERSISTENT,
 }
 
-const PLAYER_COLLISION_RADIUS_METERS := 0.55
-const PLAYER_COLLISION_HEIGHT_METERS := 1.8
 const DEBUG_SKIP_LOG_INTERVAL := 25
 
 @export var launcher_config: ProjectileLauncherConfig = ProjectileLauncherConfig.new()
 @export var run_controller_path: NodePath
 @export var arena_path: NodePath
 @export var player_path: NodePath
+@export var health_component_path: NodePath
 @export var generation_seed: int = 1337
+@export var automatic_spawning_enabled: bool = true
 
 var _run_controller: RunController
 var _arena: ArenaController
 var _player: PlayerController
+var _health_component: HealthComponent
 var _rng := RandomNumberGenerator.new()
 var _spawn_timer_seconds: float = 0.0
+var _visual_time_seconds: float = 0.0
 var _skipped_spawn_count: int = 0
 var _last_logged_skip_count: int = 0
 
 var _launcher_active: Array[bool] = []
 var _launcher_positions: Array[Vector3] = []
 var _launcher_directions: Array[Vector3] = []
+var _launcher_muzzle_positions: Array[Vector3] = []
 var _launcher_target_positions: Array[Vector3] = []
 var _launcher_telegraph_lengths: Array[float] = []
 var _launcher_states: Array[int] = []
@@ -49,6 +52,8 @@ var _launcher_multimesh_instance: MultiMeshInstance3D
 var _projectile_multimesh_instance: MultiMeshInstance3D
 var _projectile_trail_multimesh_instance: MultiMeshInstance3D
 var _telegraph_multimesh_instance: MultiMeshInstance3D
+var _telegraph_muzzle_marker_multimesh_instance: MultiMeshInstance3D
+var _telegraph_target_marker_multimesh_instance: MultiMeshInstance3D
 
 
 func _ready() -> void:
@@ -56,6 +61,7 @@ func _ready() -> void:
 	_run_controller = get_node_or_null(run_controller_path) as RunController
 	_arena = get_node_or_null(arena_path) as ArenaController
 	_player = get_node_or_null(player_path) as PlayerController
+	_health_component = get_node_or_null(health_component_path) as HealthComponent
 	_initialize_pools()
 	_create_render_batches()
 	_connect_run_controller()
@@ -75,7 +81,9 @@ func _physics_process(delta: float) -> void:
 	if not _is_run_playing():
 		return
 
-	_update_spawn_timer(delta)
+	_visual_time_seconds += delta
+	if automatic_spawning_enabled:
+		_update_spawn_timer(delta)
 	_update_launchers(delta)
 	_update_projectiles(delta)
 	_check_player_projectile_collision()
@@ -100,6 +108,31 @@ func get_active_projectile_count() -> int:
 
 func get_skipped_spawn_count() -> int:
 	return _skipped_spawn_count
+
+
+func supports_danger_family(family: DangerDefinition.DangerFamily) -> bool:
+	return family == DangerDefinition.DangerFamily.PROJECTILE_LAUNCHER
+
+
+func request_spawn_danger(definition: DangerDefinition) -> bool:
+	if definition == null or not supports_danger_family(definition.family):
+		return false
+
+	var requested_launcher_config := definition.specialized_config as ProjectileLauncherConfig
+	if requested_launcher_config == null:
+		return false
+
+	return request_spawn_launcher(requested_launcher_config)
+
+
+func get_active_danger_count(definition: DangerDefinition) -> int:
+	if definition == null or not supports_danger_family(definition.family):
+		return 0
+	return get_active_launcher_count()
+
+
+func get_total_active_danger_count() -> int:
+	return get_active_launcher_count() + get_active_projectile_count()
 
 
 func get_active_telegraph_count() -> int:
@@ -142,6 +175,7 @@ func clear_all() -> void:
 	for launcher_index in range(_launcher_active.size()):
 		_launcher_active[launcher_index] = false
 		_launcher_states[launcher_index] = LauncherState.INACTIVE
+		_launcher_muzzle_positions[launcher_index] = Vector3.ZERO
 		_launcher_target_positions[launcher_index] = Vector3.ZERO
 		_launcher_telegraph_lengths[launcher_index] = 0.0
 
@@ -155,9 +189,9 @@ func clear_all() -> void:
 
 func force_spawn_launcher_at(spawn_position: Vector3) -> bool:
 	var player_position := _get_player_target_position()
-	var shot_position := spawn_position
-	shot_position.y += _get_launcher_shot_height_offset()
-	var direction := _direction_to_player(shot_position, player_position)
+	var direction := ProjectileTelegraphVisuals.direction_to_flat_target(
+		spawn_position, player_position
+	)
 	return _spawn_launcher(spawn_position, direction)
 
 
@@ -165,7 +199,14 @@ func force_spawn_projectile(spawn_position: Vector3, direction: Vector3) -> bool
 	return _spawn_projectile(spawn_position, direction.normalized())
 
 
+func request_spawn_launcher(requested_launcher_config: ProjectileLauncherConfig = null) -> bool:
+	if requested_launcher_config != null:
+		launcher_config = requested_launcher_config
+	return spawn_launcher_near_arena()
+
+
 func step_system_for_tests(delta: float) -> void:
+	_visual_time_seconds += delta
 	_update_launchers(delta)
 	_update_projectiles(delta)
 	_check_player_projectile_collision()
@@ -193,6 +234,7 @@ func _initialize_pools() -> void:
 	_launcher_active.resize(launcher_capacity)
 	_launcher_positions.resize(launcher_capacity)
 	_launcher_directions.resize(launcher_capacity)
+	_launcher_muzzle_positions.resize(launcher_capacity)
 	_launcher_target_positions.resize(launcher_capacity)
 	_launcher_telegraph_lengths.resize(launcher_capacity)
 	_launcher_states.resize(launcher_capacity)
@@ -205,6 +247,7 @@ func _initialize_pools() -> void:
 		_launcher_active[launcher_index] = false
 		_launcher_positions[launcher_index] = Vector3.ZERO
 		_launcher_directions[launcher_index] = Vector3.FORWARD
+		_launcher_muzzle_positions[launcher_index] = Vector3.ZERO
 		_launcher_target_positions[launcher_index] = Vector3.ZERO
 		_launcher_telegraph_lengths[launcher_index] = 0.0
 		_launcher_states[launcher_index] = LauncherState.INACTIVE
@@ -242,54 +285,109 @@ func _create_render_batches() -> void:
 	_telegraph_multimesh_instance = _create_telegraph_batch()
 	add_child(_telegraph_multimesh_instance)
 
+	_telegraph_muzzle_marker_multimesh_instance = _create_telegraph_marker_batch(
+		"TelegraphMuzzleMarkerBatch",
+		ProjectileTelegraphVisuals.get_muzzle_marker_radius(launcher_config)
+	)
+	add_child(_telegraph_muzzle_marker_multimesh_instance)
+
+	_telegraph_target_marker_multimesh_instance = _create_telegraph_marker_batch(
+		"TelegraphTargetMarkerBatch",
+		ProjectileTelegraphVisuals.get_target_marker_radius(launcher_config)
+	)
+	add_child(_telegraph_target_marker_multimesh_instance)
+
 
 func _create_launcher_batch() -> MultiMeshInstance3D:
-	var sphere_mesh := SphereMesh.new()
-	sphere_mesh.radius = launcher_config.launcher_visual_radius_meters
-	sphere_mesh.height = launcher_config.launcher_visual_radius_meters * 2.0
+	var launcher_mesh := _extract_first_mesh_from_scene(launcher_config.launcher_scene)
+	var material: Material = null
+	if launcher_mesh == null:
+		var sphere_mesh := SphereMesh.new()
+		sphere_mesh.radius = launcher_config.launcher_visual_radius_meters
+		sphere_mesh.height = launcher_config.launcher_visual_radius_meters * 2.0
+		launcher_mesh = sphere_mesh
 
-	var material := StandardMaterial3D.new()
-	material.albedo_color = launcher_config.launcher_color
-	material.emission_enabled = true
-	material.emission = launcher_config.charge_color
-	material.emission_energy_multiplier = launcher_config.emission_energy
+		var fallback_material := StandardMaterial3D.new()
+		fallback_material.albedo_color = launcher_config.launcher_color
+		fallback_material.emission_enabled = true
+		fallback_material.emission = launcher_config.charge_color
+		fallback_material.emission_energy_multiplier = launcher_config.emission_energy
+		material = fallback_material
 
 	return _create_multimesh_instance(
-		"LauncherBatch", sphere_mesh, material, _launcher_active.size()
+		"LauncherBatch", launcher_mesh, material, _launcher_active.size()
 	)
 
 
 func _create_projectile_batch() -> MultiMeshInstance3D:
-	var sphere_mesh := SphereMesh.new()
-	sphere_mesh.radius = launcher_config.projectile_config.visual_radius_meters
-	sphere_mesh.height = launcher_config.projectile_config.visual_radius_meters * 2.0
+	var projectile_mesh := _extract_first_mesh_from_scene(
+		launcher_config.projectile_config.visual_scene
+	)
+	var material: Material = null
+	if projectile_mesh == null:
+		var sphere_mesh := SphereMesh.new()
+		sphere_mesh.radius = launcher_config.projectile_config.visual_radius_meters
+		sphere_mesh.height = launcher_config.projectile_config.visual_radius_meters * 2.0
+		projectile_mesh = sphere_mesh
 
-	var material := StandardMaterial3D.new()
-	material.albedo_color = launcher_config.projectile_config.danger_color
-	material.emission_enabled = true
-	material.emission = launcher_config.projectile_config.danger_color
-	material.emission_energy_multiplier = launcher_config.projectile_config.emission_energy
+		var fallback_material := StandardMaterial3D.new()
+		fallback_material.albedo_color = launcher_config.projectile_config.danger_color
+		fallback_material.emission_enabled = true
+		fallback_material.emission = launcher_config.projectile_config.danger_color
+		fallback_material.emission_energy_multiplier = (
+			launcher_config.projectile_config.emission_energy
+		)
+		material = fallback_material
 
 	return _create_multimesh_instance(
-		"ProjectileBatch", sphere_mesh, material, _projectile_active.size()
+		"ProjectileBatch", projectile_mesh, material, _projectile_active.size()
 	)
 
 
 func _create_telegraph_batch() -> MultiMeshInstance3D:
-	var box_mesh := BoxMesh.new()
-	box_mesh.size = Vector3(
-		launcher_config.telegraph_visual_width_meters,
-		launcher_config.telegraph_visual_thickness_meters,
-		maxf(launcher_config.telegraph_visual_length_meters, 0.001)
-	)
+	var cylinder_mesh := CylinderMesh.new()
+	var radius := ProjectileTelegraphVisuals.get_beam_radius(launcher_config)
+	cylinder_mesh.top_radius = radius
+	cylinder_mesh.bottom_radius = radius
+	cylinder_mesh.height = maxf(launcher_config.telegraph_visual_length_meters, 0.001)
+	cylinder_mesh.radial_segments = 16
 
 	var material := StandardMaterial3D.new()
-	material.albedo_color = launcher_config.telegraph_color
+	material.albedo_color = ProjectileTelegraphVisuals.get_beam_color(launcher_config)
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	material.emission_enabled = true
-	material.emission = launcher_config.telegraph_color
-	material.emission_energy_multiplier = launcher_config.emission_energy
+	material.emission = ProjectileTelegraphVisuals.get_beam_color(launcher_config)
+	material.emission_energy_multiplier = ProjectileTelegraphVisuals.get_emission_energy(
+		launcher_config
+	)
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	material.no_depth_test = ProjectileTelegraphVisuals.get_no_depth_test(launcher_config)
 
-	return _create_multimesh_instance("TelegraphBatch", box_mesh, material, _launcher_active.size())
+	return _create_multimesh_instance(
+		"TelegraphBatch",
+		cylinder_mesh,
+		material,
+		_launcher_active.size() * ProjectileTelegraphVisuals.get_segment_count(launcher_config)
+	)
+
+
+func _create_telegraph_marker_batch(name_value: String, radius: float) -> MultiMeshInstance3D:
+	var sphere_mesh := SphereMesh.new()
+	sphere_mesh.radius = maxf(radius, 0.01)
+	sphere_mesh.height = maxf(radius, 0.01) * 2.0
+
+	var material := StandardMaterial3D.new()
+	material.albedo_color = ProjectileTelegraphVisuals.get_marker_color(launcher_config)
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.emission_enabled = true
+	material.emission = ProjectileTelegraphVisuals.get_marker_color(launcher_config)
+	material.emission_energy_multiplier = (
+		ProjectileTelegraphVisuals.get_emission_energy(launcher_config) * 1.15
+	)
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	material.no_depth_test = ProjectileTelegraphVisuals.get_no_depth_test(launcher_config)
+
+	return _create_multimesh_instance(name_value, sphere_mesh, material, _launcher_active.size())
 
 
 func _create_projectile_trail_batch() -> MultiMeshInstance3D:
@@ -315,7 +413,8 @@ func _create_projectile_trail_batch() -> MultiMeshInstance3D:
 func _create_multimesh_instance(
 	name_value: String, mesh: Mesh, material: Material, capacity: int
 ) -> MultiMeshInstance3D:
-	mesh.surface_set_material(0, material)
+	if material != null and mesh.get_surface_count() > 0:
+		mesh.surface_set_material(0, material)
 
 	var multimesh := MultiMesh.new()
 	multimesh.transform_format = MultiMesh.TRANSFORM_3D
@@ -327,6 +426,31 @@ func _create_multimesh_instance(
 	instance.name = name_value
 	instance.multimesh = multimesh
 	return instance
+
+
+func _extract_first_mesh_from_scene(scene: PackedScene) -> Mesh:
+	if scene == null:
+		return null
+
+	var root := scene.instantiate()
+	var mesh_instance := _find_first_mesh_instance(root)
+	var mesh: Mesh = null
+	if mesh_instance != null and mesh_instance.mesh != null:
+		mesh = mesh_instance.mesh.duplicate() as Mesh
+	root.free()
+	return mesh
+
+
+func _find_first_mesh_instance(node: Node) -> MeshInstance3D:
+	if node is MeshInstance3D:
+		return node as MeshInstance3D
+
+	for child: Node in node.get_children():
+		var found := _find_first_mesh_instance(child)
+		if found != null:
+			return found
+
+	return null
 
 
 func _connect_run_controller() -> void:
@@ -378,9 +502,9 @@ func spawn_launcher_near_arena() -> bool:
 		if candidate.distance_to(player_position) < launcher_config.min_distance_from_player_meters:
 			continue
 
-		var shot_position := candidate
-		shot_position.y += _get_launcher_shot_height_offset()
-		var direction := _direction_to_player(shot_position, player_position)
+		var direction := ProjectileTelegraphVisuals.direction_to_flat_target(
+			candidate, player_position
+		)
 		return _spawn_launcher(candidate, direction)
 
 	_increment_skipped_spawn()
@@ -395,7 +519,12 @@ func _spawn_launcher(spawn_position: Vector3, direction: Vector3) -> bool:
 
 	_launcher_active[launcher_index] = true
 	_launcher_positions[launcher_index] = spawn_position
-	_launcher_directions[launcher_index] = _normalized_or_forward(direction)
+	_launcher_directions[launcher_index] = ProjectileTelegraphVisuals.normalized_or_forward(
+		direction
+	)
+	_launcher_muzzle_positions[launcher_index] = _calculate_muzzle_position(
+		spawn_position, _launcher_directions[launcher_index]
+	)
 	_launcher_target_positions[launcher_index] = (
 		spawn_position
 		+ _launcher_directions[launcher_index] * launcher_config.telegraph_visual_length_meters
@@ -503,7 +632,7 @@ func _fire_launcher(launcher_index: int) -> void:
 	if _launcher_shots_remaining[launcher_index] <= 0:
 		return
 
-	var shot_position := _get_launcher_shot_position(launcher_index)
+	var shot_position := _get_launcher_muzzle_position(launcher_index)
 	var direction := _launcher_directions[launcher_index]
 
 	if _spawn_projectile(shot_position, direction):
@@ -557,43 +686,46 @@ func _update_projectiles(delta: float) -> void:
 
 
 func _check_player_projectile_collision() -> void:
-	if _player == null or _run_controller == null:
+	if _player == null or _health_component == null:
 		return
 	if not launcher_config.projectile_config.damage_on_contact:
 		return
 
-	var player_position := _player.global_position
+	var damage_profile := launcher_config.projectile_config.damage_profile
+	if damage_profile == null:
+		return
+
 	for projectile_index in range(_projectile_active.size()):
 		if not _projectile_active[projectile_index]:
 			continue
 		if _projectile_hits_player(
-			_projectile_positions[projectile_index],
-			player_position,
-			_projectile_collision_radii[projectile_index]
+			_projectile_positions[projectile_index], _projectile_collision_radii[projectile_index]
 		):
 			_projectile_active[projectile_index] = false
-			DebugLog.info(
-				&"Projectiles",
-				(
-					"hit player projectile=%d reason=%s"
-					% [projectile_index, launcher_config.projectile_config.death_reason]
-				)
+			var applied_damage := _health_component.apply_damage(
+				damage_profile, _projectile_positions[projectile_index]
 			)
-			_run_controller.register_death(launcher_config.projectile_config.death_reason)
-			return
+			if applied_damage > 0.0:
+				(
+					DebugLog
+					. info(
+						&"Projectiles",
+						(
+							"hit player projectile=%d damage=%.2f type=%s"
+							% [
+								projectile_index,
+								applied_damage,
+								DamageProfile.DamageType.keys()[damage_profile.damage_type],
+							]
+						)
+					)
+				)
+			if not _health_component.is_alive():
+				return
 
 
-func _projectile_hits_player(
-	projectile_position: Vector3, player_position: Vector3, projectile_radius: float
-) -> bool:
-	var vertical_offset := projectile_position.y - player_position.y
-	if vertical_offset < 0.0 or vertical_offset > PLAYER_COLLISION_HEIGHT_METERS:
-		return false
-
-	var projectile_horizontal := Vector2(projectile_position.x, projectile_position.z)
-	var player_horizontal := Vector2(player_position.x, player_position.z)
-	var hit_radius := projectile_radius + PLAYER_COLLISION_RADIUS_METERS
-	return projectile_horizontal.distance_to(player_horizontal) <= hit_radius
+func _projectile_hits_player(projectile_position: Vector3, projectile_radius: float) -> bool:
+	return _player.is_sphere_intersecting_hurtbox(projectile_position, projectile_radius)
 
 
 func _update_render_batches() -> void:
@@ -614,8 +746,9 @@ func _update_launcher_batch() -> void:
 			continue
 
 		var scale_ratio := _get_launcher_charge_ratio(launcher_index)
+		var direction_basis := _create_launcher_visual_basis(launcher_index)
 		var instance_transform := Transform3D(
-			Basis.IDENTITY.scaled(Vector3.ONE * scale_ratio), _launcher_positions[launcher_index]
+			direction_basis.scaled(Vector3.ONE * scale_ratio), _launcher_positions[launcher_index]
 		)
 		multimesh.set_instance_transform(visible_index, instance_transform)
 		visible_index += 1
@@ -630,8 +763,15 @@ func _update_projectile_batch() -> void:
 		if not _projectile_active[projectile_index]:
 			continue
 
+		var direction := ProjectileTelegraphVisuals.normalized_or_forward(
+			_projectile_directions[projectile_index]
+		)
 		multimesh.set_instance_transform(
-			visible_index, Transform3D(Basis.IDENTITY, _projectile_positions[projectile_index])
+			visible_index,
+			Transform3D(
+				ProjectileTelegraphVisuals.create_forward_basis(direction),
+				_projectile_positions[projectile_index]
+			)
 		)
 		visible_index += 1
 
@@ -650,13 +790,16 @@ func _update_projectile_trail_batch() -> void:
 		if not _projectile_active[projectile_index]:
 			continue
 
-		var direction := _normalized_or_forward(_projectile_directions[projectile_index])
+		var direction := ProjectileTelegraphVisuals.normalized_or_forward(
+			_projectile_directions[projectile_index]
+		)
 		var center := (
 			_projectile_positions[projectile_index]
 			- direction * (projectile_config.trail_length_meters * 0.5)
 		)
 		multimesh.set_instance_transform(
-			visible_index, Transform3D(_create_direction_basis(direction), center)
+			visible_index,
+			Transform3D(ProjectileTelegraphVisuals.create_forward_basis(direction), center)
 		)
 		visible_index += 1
 
@@ -664,8 +807,12 @@ func _update_projectile_trail_batch() -> void:
 
 
 func _update_telegraph_batch() -> void:
-	var visible_index := 0
+	var beam_visible_index := 0
+	var marker_visible_index := 0
 	var multimesh := _telegraph_multimesh_instance.multimesh
+	var muzzle_marker_multimesh := _telegraph_muzzle_marker_multimesh_instance.multimesh
+	var target_marker_multimesh := _telegraph_target_marker_multimesh_instance.multimesh
+	var segment_count := ProjectileTelegraphVisuals.get_segment_count(launcher_config)
 	for launcher_index in range(_launcher_active.size()):
 		if not _launcher_active[launcher_index]:
 			continue
@@ -673,15 +820,44 @@ func _update_telegraph_batch() -> void:
 			continue
 
 		var visible_length := _get_visible_telegraph_length(launcher_index)
-		var instance_transform := _create_telegraph_transform(
-			_launcher_positions[launcher_index],
-			_launcher_directions[launcher_index],
-			visible_length
+		var segment_step := visible_length / float(segment_count)
+		var segment_length := maxf(
+			(
+				segment_step
+				* (1.0 - ProjectileTelegraphVisuals.get_segment_gap_ratio(launcher_config))
+			),
+			0.001
 		)
-		multimesh.set_instance_transform(visible_index, instance_transform)
-		visible_index += 1
+		for segment_index in range(segment_count):
+			var segment_origin := (
+				_get_telegraph_origin_position(launcher_index)
+				+ _launcher_directions[launcher_index] * segment_step * float(segment_index)
+			)
+			var instance_transform := ProjectileTelegraphVisuals.create_segment_transform(
+				launcher_config,
+				segment_origin,
+				_launcher_directions[launcher_index],
+				segment_length,
+				_visual_time_seconds,
+				segment_index,
+				launcher_index
+			)
+			multimesh.set_instance_transform(beam_visible_index, instance_transform)
+			beam_visible_index += 1
 
-	multimesh.visible_instance_count = visible_index
+		muzzle_marker_multimesh.set_instance_transform(
+			marker_visible_index,
+			Transform3D(Basis.IDENTITY, _get_launcher_muzzle_position(launcher_index))
+		)
+		target_marker_multimesh.set_instance_transform(
+			marker_visible_index,
+			Transform3D(Basis.IDENTITY, _launcher_target_positions[launcher_index])
+		)
+		marker_visible_index += 1
+
+	multimesh.visible_instance_count = beam_visible_index
+	muzzle_marker_multimesh.visible_instance_count = marker_visible_index
+	target_marker_multimesh.visible_instance_count = marker_visible_index
 
 
 func _get_launcher_charge_ratio(launcher_index: int) -> float:
@@ -711,24 +887,6 @@ func _get_visible_telegraph_length(launcher_index: int) -> float:
 	return lerpf(start_length, base_length, _get_launcher_charge_progress(launcher_index))
 
 
-func _create_telegraph_transform(
-	origin_position: Vector3, direction: Vector3, visible_length: float
-) -> Transform3D:
-	var flat_direction := Vector3(direction.x, 0.0, direction.z)
-	if flat_direction.is_zero_approx():
-		flat_direction = Vector3.FORWARD
-	flat_direction = flat_direction.normalized()
-
-	var clamped_length := maxf(visible_length, 0.001)
-	var center := origin_position + flat_direction * (clamped_length * 0.5)
-	center.y = launcher_config.telegraph_surface_height_meters
-	var length_scale := clamped_length / maxf(launcher_config.telegraph_visual_length_meters, 0.001)
-	var telegraph_basis := Basis.looking_at(flat_direction, Vector3.UP).scaled(
-		Vector3(1.0, 1.0, length_scale)
-	)
-	return Transform3D(telegraph_basis, center)
-
-
 func _find_free_launcher_slot() -> int:
 	for launcher_index in range(_launcher_active.size()):
 		if not _launcher_active[launcher_index]:
@@ -748,49 +906,65 @@ func _deactivate_launcher(launcher_index: int) -> void:
 	_launcher_states[launcher_index] = LauncherState.INACTIVE
 
 
+func _get_launcher_muzzle_position(launcher_index: int) -> Vector3:
+	return _launcher_muzzle_positions[launcher_index]
+
+
 func _get_launcher_shot_position(launcher_index: int) -> Vector3:
-	var shot_position := _launcher_positions[launcher_index]
-	shot_position.y += _get_launcher_shot_height_offset()
-	return shot_position
+	return _get_launcher_muzzle_position(launcher_index)
 
 
 func _get_launcher_shot_height_offset() -> float:
 	return maxf(launcher_config.shot_height_meters - launcher_config.spawn_height_meters, 0.0)
 
 
+func _calculate_muzzle_position(root_position: Vector3, direction: Vector3) -> Vector3:
+	var muzzle_offset := launcher_config.muzzle_local_offset
+	if muzzle_offset.is_zero_approx():
+		return root_position + Vector3.UP * _get_launcher_shot_height_offset()
+	return (
+		root_position
+		+ (
+			ProjectileTelegraphVisuals.create_visual_basis_from_direction(
+				launcher_config, direction
+			)
+			* muzzle_offset
+		)
+	)
+
+
+func _get_telegraph_origin_position(launcher_index: int) -> Vector3:
+	return _get_launcher_muzzle_position(launcher_index)
+
+
 func _refresh_launcher_aim(launcher_index: int) -> void:
-	var shot_position := _get_launcher_shot_position(launcher_index)
+	var direction := _launcher_directions[launcher_index]
+	var shot_position := _calculate_muzzle_position(_launcher_positions[launcher_index], direction)
 
 	var target_position := _launcher_target_positions[launcher_index]
 	if _player != null:
 		target_position = _get_player_target_position()
 	else:
 		target_position = (
-			shot_position
-			+ _launcher_directions[launcher_index] * launcher_config.telegraph_visual_length_meters
+			shot_position + direction * launcher_config.telegraph_visual_length_meters
 		)
 
 	target_position.y = shot_position.y
+	direction = ProjectileTelegraphVisuals.direction_to_target(shot_position, target_position)
+	shot_position = _calculate_muzzle_position(_launcher_positions[launcher_index], direction)
+	target_position.y = shot_position.y
+	direction = ProjectileTelegraphVisuals.direction_to_target(shot_position, target_position)
+
+	_launcher_muzzle_positions[launcher_index] = shot_position
 	_launcher_target_positions[launcher_index] = target_position
-	_launcher_directions[launcher_index] = _direction_to_target(shot_position, target_position)
+	_launcher_directions[launcher_index] = direction
 	_launcher_telegraph_lengths[launcher_index] = _calculate_telegraph_length(
 		shot_position, target_position
 	)
 
 
-func _direction_to_player(from_position: Vector3, player_position: Vector3) -> Vector3:
-	var target := player_position
-	target.y = from_position.y
-	return _direction_to_target(from_position, target)
-
-
-func _direction_to_target(from_position: Vector3, target_position: Vector3) -> Vector3:
-	var direction := target_position - from_position
-	return _normalized_or_forward(direction)
-
-
 func _calculate_telegraph_length(from_position: Vector3, target_position: Vector3) -> float:
-	var max_length := maxf(launcher_config.telegraph_visual_length_meters, 0.001)
+	var max_length := ProjectileTelegraphVisuals.get_base_length(launcher_config)
 	var min_length := clampf(launcher_config.telegraph_min_length_meters, 0.0, max_length)
 	if launcher_config.telegraph_mode == ProjectileLauncherConfig.TelegraphMode.FIXED_LENGTH:
 		return max_length
@@ -803,18 +977,10 @@ func _calculate_telegraph_length(from_position: Vector3, target_position: Vector
 	return clampf(target_length, min_length, max_length)
 
 
-func _normalized_or_forward(direction: Vector3) -> Vector3:
-	if direction.is_zero_approx():
-		return Vector3.FORWARD
-	return direction.normalized()
-
-
-func _create_direction_basis(direction: Vector3) -> Basis:
-	var safe_direction := _normalized_or_forward(direction)
-	var up_direction := Vector3.UP
-	if absf(safe_direction.dot(up_direction)) > 0.98:
-		up_direction = Vector3.RIGHT
-	return Basis.looking_at(safe_direction, up_direction)
+func _create_launcher_visual_basis(launcher_index: int) -> Basis:
+	return ProjectileTelegraphVisuals.create_visual_basis_from_direction(
+		launcher_config, _launcher_directions[launcher_index]
+	)
 
 
 func _get_player_target_position() -> Vector3:

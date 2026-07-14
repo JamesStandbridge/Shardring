@@ -9,14 +9,32 @@ alwaysApply: false
 - `RunController` owns the run lifecycle. Other systems must react to the run state instead of creating their own local run loop.
 - Current official run states are `READY`, `PLAYING`, and `DEAD`.
 - Survival time advances only while `PLAYING`; deaths go through `register_death(reason)`; restarts go through `restart_run()`.
+- `StageController` owns level/map progression inside a run. Do not put map transitions, stage quotas, exit-gate behavior, or theme cycling inside `RunController` or `DangerDirector`.
+- Stage objectives are based on survived threat budget from successful `DangerDirector` spawns, not on forcing chasers or other enemies to resolve in a specific way.
+- Runs are persistent across stage transitions. Stage transitions may reposition the player and clear active dangers, but must not reset health, future run currency, or future upgrades.
+- Maps are finite data definitions reused by infinite level indexes. Add new maps through `MapDefinition`, `ArenaConfig`, and `ArenaThemeConfig`, not one-off scene logic.
+- The exit gate appears after the stage objective, while dangers may continue. Transition happens only when the player traverses the open gate.
+- Normal damage must go through `DamageProfile -> HealthComponent`. Dangers should not call `RunController.register_death()` directly unless a future mechanic is explicitly instant-death.
+- Damage types are enum-backed and shared across sources. Do not route damage type behavior through strings or dictionaries in per-hit code.
+- High-volume dangers must perform their own batched collision first, then call `HealthComponent.apply_damage()` only for confirmed hits.
+- Player damage collision must use the centralized player hurtbox API/config. Do not add per-danger player hitbox constants for projectiles, explosions, hazards, or enemies.
+- Game juice for damage must react after damage is accepted, primarily through `HealthComponent.damaged`. Dangers must not directly control camera shake, HUD flash, audio, or controller rumble.
 - The player system prioritizes reliable movement and readable state. Keep input, movement, death handling, and upgrades separated.
 - Do not put economy, save, meta progression, or shop logic inside `PlayerController`.
 - Arena logic owns playable terrain representation. Use `ArenaController` and `ArenaCell` for cells, valid positions, terrain state, destruction, hazards, and future reconstruction.
 - The arena must remain a roughly circular platform split into irregular non-hexagonal cells, with controlled boundary irregularity and subtle walkable surface variation. Do not add a special central shop or permanent central purchase assumption.
 - Hazards are terrain states such as destroyed, lava, ice, and collapsing. Do not hard-code hazards as player special cases; the player should react to abstract terrain state.
+- Danger runtime is broader than projectiles. `DangerDirector` owns threat budget, credits, cooldowns, and active limits; projectile, enemy, hazard, ballistic, sky-attack, and event systems execute specialized behavior.
+- `DangerDirector` owns pressure rhythm such as buildup, peak, recovery, and reduced exit pressure. Do not duplicate high-level spawn rhythm inside specialized danger executors.
+- New danger families must be added by implementing the danger executor contract, then registering the executor path on `DangerDirector`. Do not add family-specific spawn cases inside `DangerDirector`.
+- Do not add new high-level threat cadence directly inside specialized systems when it belongs in `DangerDirector`.
+- Actor enemies are physical threats with capped pools and simple state machines. Keep their spawn cadence in `DangerDirector`, their movement/telegraph/cleanup in their own enemy system, and their tuning in `Resource` presets.
 - Projectile systems must separate configuration, spawning, and behavior. Add new projectile families through data and focused behavior classes, not a single massive spawner.
+- Projectile and enemy configs should reference `DamageProfile` resources for damage amount/type/death reason.
 - Projectile runtime must scale to hundreds of launchers and thousands of projectiles. Do not create one scene/node per projectile for high-volume projectile families; use bounded data-oriented pools and batched rendering where possible.
 - Projectile launchers are the visible source of threat. Projectiles are the moving/instant danger emitted by launchers. Preserve that separation when adding new projectile families.
+- Projectile launchers with a visible barrel or mouth must define one explicit muzzle origin. Telegraphs, target markers, and spawned projectiles must use that same muzzle; do not derive warning visuals from a different center or height than the fired projectile.
+- Projectile telegraphs should use `TelegraphVisualConfig` or a focused VFX resource. Do not ship raw debug lines as gameplay warnings.
 - Fast, explosive, homing, laser, and cannon-ball-style dangers must remain readable through silhouette, timing, warning, or color before they become unavoidable.
 - `Difficulty` converts survival time into intensity, cadence, and unlocks. It should not know the internal implementation details of projectiles, hazards, or events.
 - Economy must separate run currency from future cross-game currency. Run currency resets every run; cross-game currency is rare, persistent, and deferred until the core loop is stable.

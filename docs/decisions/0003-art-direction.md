@@ -1,5 +1,11 @@
 # 0003 - Direction artistique
 
+## Statut
+
+Remplacee par `0008 - Pipeline Assets Arcade Premium`. Cette decision est
+conservee uniquement comme historique et ne doit plus guider les nouveaux
+assets.
+
 ## Decision
 
 Adopter une direction artistique **stylisee techno-rituelle**, low-poly propre, lumineuse et tres lisible.

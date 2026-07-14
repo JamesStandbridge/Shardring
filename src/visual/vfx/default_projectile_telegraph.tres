@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="TelegraphVisualConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/visual/vfx/telegraph_visual_config.gd" id="1_telegraph_visual_config_script"]
+
+[resource]
+script = ExtResource("1_telegraph_visual_config_script")
+beam_color = Color(1, 0.12, 0.18, 0.62)
+marker_color = Color(1, 0.22, 0.28, 0.82)
+beam_radius_meters = 0.055
+muzzle_marker_radius_meters = 0.12
+target_marker_radius_meters = 0.24
+segment_count = 7
+segment_gap_ratio = 0.32
+pulse_speed_hz = 2.8
+pulse_scale_strength = 0.22
+emission_energy = 2.2
+no_depth_test = false

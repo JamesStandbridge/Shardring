@@ -1,20 +1,24 @@
 ---
-description: Art direction, AI asset workflow, naming, folders, palette, and Godot asset integration rules.
-globs: assets/art/**/*,docs/art/**/*.md
+description: Art direction, professional asset pipeline, licensing, wrappers, VFX, naming, and Godot integration rules.
+globs: assets/art/**/*,docs/art/**/*.md,src/visual/**/*.tscn,src/visual/**/*.gd
 alwaysApply: false
 ---
 
 # Art Assets
 
-- Follow the stylized techno-ritual art direction from `docs/art/art_direction.md`.
-- Prioritize readability from a third-person camera: simple silhouettes, strong contrast, stable gameplay colors, and low-poly premium forms.
+- Follow the arcade premium goofy art direction from `docs/art/art_direction.md`.
+- Prioritize production readability from a third-person camera: strong silhouettes, stable gameplay colors, clean materials, and danger clarity before humor.
+- Do not treat scripted Blender primitives as final visual assets for important enemies, player, interactables, or VFX. They are allowed for graybox, collision helpers, adapters, and temporary placeholders only.
+- Runtime assets must be tracked in `assets/art/asset_manifest.json` with source, status, license, raw path, working file, export, wrapper scene, and preview path when available.
+- Prefer sourced CC0/procured assets plus Blender cleanup. Use AI 3D tools only when the license and commercial rights are documented in the manifest.
+- Use `assets/art/source_external` for procured packs, `assets/art/source_ai` for AI generations and license proof, `assets/art/working_blender` for cleaned sources, `assets/art/exports_godot` for runtime GLB exports, and `src/visual/assets` for Godot wrapper scenes.
+- Gameplay configs and main runtime scenes should reference wrapper scenes, not raw GLB files. Raw GLB references belong inside wrappers.
+- Every wrapper scene must contain `VisualRoot` and `GroundAnchor`. Launcher wrappers must also contain `MuzzleSocket`.
+- VFX warnings must be authored as gameplay visuals, not debug geometry. Avoid raw red lines; use pulsed, segmented, transparent, or reticle-based effects that remain readable without looking like editor debug.
 - Use the functional palette consistently. Dangers are red, orange, or magenta; temporary interactables are cyan; run currency is gold; cross-game currency is white-violet.
 - Do not use decorative colors that conflict with gameplay color meaning.
-- Avoid photorealistic textures, high-detail assets that disappear at distance, and mostly beige, brown, purple, or uniform dark-blue palettes.
-- Use `assets/art/source_blender` for `.blend` sources, `assets/art/exports_godot` for `.glb` runtime exports, `assets/art/generated_concepts` for generated concepts, and `assets/art/reference` for validated references.
-- Start assets from simple Blender primitives, bevels, extrusions, and simple materials.
+- Avoid photorealistic textures, noisy micro-details, mostly beige/brown/purple/dark palettes, and overbright floors that hide player silhouettes.
 - Apply transforms before export. Use `1 Godot unit = 1 approximate meter`.
-- Name objects and files in `snake_case`: `asset_<name>.blend`, `asset_<name>.glb`, `concept_<name>.png`, and `mat_<role>`.
-- Do not import external textures or assets without checking their license.
-- Test important assets in Godot with the game camera before adding detail.
+- Name objects and files in `snake_case`: `asset_<name>.blend`, `asset_<name>.glb`, `concept_<name>.png`, `mat_arcade_<role>`, and `<name>_arcade_wrapper.tscn`.
+- Test important assets in the `art_review_playground` with the game camera before integrating them into gameplay.
 - Keep collision generation explicit in Godot or through a documented suffix convention when that convention exists.

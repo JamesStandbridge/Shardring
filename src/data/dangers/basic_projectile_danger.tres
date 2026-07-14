@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="DangerDefinition" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/data/dangers/danger_definition.gd" id="1_danger_definition_script"]
+[ext_resource type="Resource" path="res://src/data/projectiles/basic_single_shot_launcher.tres" id="2_basic_launcher"]
+
+[resource]
+script = ExtResource("1_danger_definition_script")
+danger_id = &"basic_projectile"
+family = 0
+spawn_cost = 1.0
+selection_weight = 1.0
+cooldown_seconds = 2.15
+minimum_intensity = 1.0
+max_active_instances = 2
+readability_tags = PackedStringArray("telegraphed", "directional")
+specialized_config = ExtResource("2_basic_launcher")

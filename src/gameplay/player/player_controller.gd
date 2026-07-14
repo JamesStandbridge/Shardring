@@ -2,6 +2,7 @@ class_name PlayerController
 extends CharacterBody3D
 
 @export var movement_config: PlayerMovementConfig = PlayerMovementConfig.new()
+@export var hurtbox_config: PlayerHurtboxConfig = PlayerHurtboxConfig.new()
 @export var camera_path: NodePath
 
 var _movement_enabled: bool = true
@@ -82,6 +83,39 @@ func is_movement_enabled() -> bool:
 
 func is_grounded() -> bool:
 	return is_on_floor()
+
+
+func get_hurtbox_radius() -> float:
+	return _get_hurtbox_config().radius_meters
+
+
+func get_hurtbox_height() -> float:
+	return _get_hurtbox_config().height_meters
+
+
+func get_hurtbox_center() -> Vector3:
+	return global_position + (global_basis * _get_hurtbox_config().center_offset)
+
+
+func get_hurtbox_segment_start() -> Vector3:
+	return (
+		get_hurtbox_center() - Vector3.UP * _get_hurtbox_config().get_capsule_segment_half_length()
+	)
+
+
+func get_hurtbox_segment_end() -> Vector3:
+	return (
+		get_hurtbox_center() + Vector3.UP * _get_hurtbox_config().get_capsule_segment_half_length()
+	)
+
+
+func is_sphere_intersecting_hurtbox(sphere_position: Vector3, sphere_radius: float) -> bool:
+	var hurtbox := _get_hurtbox_config()
+	var hit_distance := maxf(sphere_radius, 0.0) + hurtbox.radius_meters
+	var distance := _distance_point_to_hurtbox_segment(
+		sphere_position, get_hurtbox_segment_start(), get_hurtbox_segment_end()
+	)
+	return distance <= hit_distance
 
 
 func _update_jump_input(delta: float) -> void:
@@ -291,3 +325,22 @@ func _rotate_toward_movement(horizontal_velocity: Vector3, delta: float) -> void
 	var target_yaw := atan2(-direction.x, -direction.z)
 	var interpolation_weight := clampf(movement_config.rotation_lerp_speed * delta, 0.0, 1.0)
 	rotation.y = lerp_angle(rotation.y, target_yaw, interpolation_weight)
+
+
+func _get_hurtbox_config() -> PlayerHurtboxConfig:
+	if hurtbox_config != null and hurtbox_config.is_valid_config():
+		return hurtbox_config
+	return PlayerHurtboxConfig.new()
+
+
+func _distance_point_to_hurtbox_segment(
+	point: Vector3, segment_start: Vector3, segment_end: Vector3
+) -> float:
+	var segment := segment_end - segment_start
+	var segment_length_squared := segment.length_squared()
+	if is_zero_approx(segment_length_squared):
+		return point.distance_to(segment_start)
+
+	var ratio := clampf((point - segment_start).dot(segment) / segment_length_squared, 0.0, 1.0)
+	var closest_point := segment_start + segment * ratio
+	return point.distance_to(closest_point)

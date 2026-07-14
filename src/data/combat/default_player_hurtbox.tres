@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="PlayerHurtboxConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/combat/player_hurtbox_config.gd" id="1_player_hurtbox_config_script"]
+
+[resource]
+script = ExtResource("1_player_hurtbox_config_script")
+radius_meters = 0.34
+height_meters = 1.7
+center_offset = Vector3(0, 0, 0)

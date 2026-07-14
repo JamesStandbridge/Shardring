@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=3]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="Script" path="res://src/main/main.gd" id="1_main_script"]
 [ext_resource type="Script" path="res://src/gameplay/run/run_controller.gd" id="2_run_controller_script"]
 [ext_resource type="Script" path="res://src/gameplay/player/player_controller.gd" id="3_player_controller_script"]
 [ext_resource type="Script" path="res://src/gameplay/player/third_person_camera_rig.gd" id="4_camera_rig_script"]
 [ext_resource type="Script" path="res://src/main/runtime_debug_overlay.gd" id="5_debug_overlay_script"]
+[ext_resource type="Resource" path="res://src/data/combat/default_player_hurtbox.tres" id="6_default_player_hurtbox"]
 
 [sub_resource type="Environment" id="Environment_playground"]
 background_mode = 1
@@ -83,7 +84,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
 collision_layer = 1
 collision_mask = 2
 script = ExtResource("3_player_controller_script")
-camera_path = NodePath("../ThirdPersonCameraRig/SpringArm3D/Camera3D")
+hurtbox_config = ExtResource("6_default_player_hurtbox")
+camera_path = NodePath("../ThirdPersonCameraRig/SpringArm3D/CameraShakePivot/Camera3D")
 
 [node name="Body" type="MeshInstance3D" parent="Player"]
 mesh = SubResource("CapsuleMesh_player")
@@ -99,15 +101,18 @@ mesh = SubResource("BoxMesh_marker")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 script = ExtResource("4_camera_rig_script")
 target_path = NodePath("../Player")
+target_offset = Vector3(0, 1.35, 0)
 
 [node name="SpringArm3D" type="SpringArm3D" parent="ThirdPersonCameraRig"]
 collision_mask = 2
-spring_length = 6.8
+spring_length = 9.0
 margin = 0.2
 
-[node name="Camera3D" type="Camera3D" parent="ThirdPersonCameraRig/SpringArm3D"]
+[node name="CameraShakePivot" type="Node3D" parent="ThirdPersonCameraRig/SpringArm3D"]
+
+[node name="Camera3D" type="Camera3D" parent="ThirdPersonCameraRig/SpringArm3D/CameraShakePivot"]
 current = true
-fov = 70.0
+fov = 74.0
 
 [node name="DebugOverlay" type="CanvasLayer" parent="."]
 script = ExtResource("5_debug_overlay_script")

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ArenaConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/arena_config.gd" id="1_arena_config"]
+
+[resource]
+script = ExtResource("1_arena_config")
+radius_meters = 42.0
+thickness_meters = 1.0
+cell_count = 72
+boundary_vertex_count = 128
+boundary_irregularity_meters = 4.4
+boundary_irregularity_control_points = 12
+min_cell_site_distance_meters = 3.0
+surface_height_amplitude_meters = 0.38
+surface_height_frequency = 0.16
+reconstruction_interval_seconds = 30.0
+generation_seed = 2402
+debug_show_cell_labels = false

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="MapDefinition" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://src/data/stages/map_definition.gd" id="1_map_definition"]
+[ext_resource type="Resource" path="res://src/data/arena/candy_arena_config.tres" id="2_arena_config"]
+[ext_resource type="Resource" path="res://src/data/stages/themes/toybox_candy_theme.tres" id="3_theme"]
+[ext_resource type="Resource" path="res://src/data/dangers/default_danger_director_config.tres" id="4_director_config"]
+[ext_resource type="Resource" path="res://src/data/stages/default_stage_difficulty.tres" id="5_difficulty_config"]
+[ext_resource type="Resource" path="res://src/data/dangers/basic_projectile_danger.tres" id="6_projectile_danger"]
+[ext_resource type="Resource" path="res://src/data/dangers/explosive_chaser_danger.tres" id="7_chaser_danger"]
+
+[resource]
+script = ExtResource("1_map_definition")
+map_id = &"toybox_candy"
+display_name = "Toybox Candy"
+arena_config = ExtResource("2_arena_config")
+arena_theme = ExtResource("3_theme")
+director_config = ExtResource("4_director_config")
+difficulty_config = ExtResource("5_difficulty_config")
+default_danger_definition = ExtResource("6_projectile_danger")
+danger_definitions = Array[Resource]([ExtResource("7_chaser_danger")])

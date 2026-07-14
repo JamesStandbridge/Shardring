@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3]
+[gd_scene load_steps=38 format=3]
 
 [ext_resource type="Script" path="res://src/main/main.gd" id="1_main_script"]
 [ext_resource type="Script" path="res://src/gameplay/run/run_controller.gd" id="2_run_controller_script"]
@@ -10,13 +10,32 @@
 [ext_resource type="Script" path="res://src/gameplay/projectiles/projectile_system.gd" id="8_projectile_system_script"]
 [ext_resource type="Resource" path="res://src/data/projectiles/basic_single_shot_launcher.tres" id="9_basic_launcher_config"]
 [ext_resource type="Script" path="res://src/main/run_feedback_overlay.gd" id="10_run_feedback_overlay_script"]
+[ext_resource type="Script" path="res://src/gameplay/dangers/danger_director.gd" id="11_danger_director_script"]
+[ext_resource type="Resource" path="res://src/data/dangers/default_danger_director_config.tres" id="12_danger_director_config"]
+[ext_resource type="Resource" path="res://src/data/dangers/basic_projectile_danger.tres" id="13_basic_projectile_danger"]
+[ext_resource type="Script" path="res://src/gameplay/enemies/chaser_enemy_system.gd" id="14_chaser_enemy_system_script"]
+[ext_resource type="Resource" path="res://src/data/enemies/basic_explosive_chaser.tres" id="15_basic_explosive_chaser"]
+[ext_resource type="Resource" path="res://src/data/dangers/explosive_chaser_danger.tres" id="16_explosive_chaser_danger"]
+[ext_resource type="Script" path="res://src/gameplay/combat/health_component.gd" id="17_health_component_script"]
+[ext_resource type="Resource" path="res://src/data/combat/default_player_health.tres" id="18_default_player_health"]
+[ext_resource type="Script" path="res://src/main/health_hud.gd" id="19_health_hud_script"]
+[ext_resource type="Script" path="res://src/gameplay/feedback/damage_feedback_controller.gd" id="20_damage_feedback_controller_script"]
+[ext_resource type="Resource" path="res://src/data/feedback/default_damage_feedback.tres" id="21_default_damage_feedback"]
+[ext_resource type="Resource" path="res://src/data/combat/default_player_hurtbox.tres" id="22_default_player_hurtbox"]
+[ext_resource type="PackedScene" path="res://src/visual/assets/player_arcade_wrapper.tscn" id="23_player_wrapper"]
+[ext_resource type="Script" path="res://src/gameplay/player/player_visual_animator.gd" id="24_player_visual_animator_script"]
+[ext_resource type="Resource" path="res://src/data/player/default_player_animation.tres" id="25_default_player_animation"]
+[ext_resource type="Script" path="res://src/gameplay/stages/stage_controller.gd" id="26_stage_controller_script"]
+[ext_resource type="Resource" path="res://src/data/stages/default_stage_sequence.tres" id="27_stage_sequence"]
+[ext_resource type="Script" path="res://src/gameplay/stages/exit_gate_controller.gd" id="28_exit_gate_controller_script"]
+[ext_resource type="PackedScene" path="res://src/visual/assets/exit_gate_arcade_wrapper.tscn" id="29_exit_gate_wrapper"]
 
 [sub_resource type="Environment" id="Environment_main"]
 background_mode = 1
-background_color = Color(0.105882, 0.121569, 0.145098, 1)
+background_color = Color(0.68, 0.84, 0.88, 1)
 ambient_light_source = 2
-ambient_light_color = Color(0.82, 0.86, 0.94, 1)
-ambient_light_energy = 0.85
+ambient_light_color = Color(1, 0.96, 0.88, 1)
+ambient_light_energy = 0.72
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_player"]
 albedo_color = Color(0.82, 0.86, 0.92, 1)
@@ -41,6 +60,35 @@ emission_energy_multiplier = 1.2
 material = SubResource("StandardMaterial3D_marker")
 size = Vector3(0.22, 0.14, 0.8)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health_panel"]
+bg_color = Color(0.94, 0.89, 0.76, 0.9)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.25, 0.32, 0.55, 0.95)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0.08, 0.1, 0.14, 0.32)
+shadow_size = 8
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health_bar_bg"]
+bg_color = Color(0.25, 0.31, 0.43, 0.72)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health_bar_fill"]
+bg_color = Color(1, 0.24, 0.32, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
 [node name="Main" type="Node3D"]
 script = ExtResource("1_main_script")
 
@@ -53,12 +101,12 @@ environment = SubResource("Environment_main")
 [node name="KeyLight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, 0, 6, 0)
 light_color = Color(1, 0.96, 0.88, 1)
-light_energy = 2.4
+light_energy = 1.35
 
 [node name="FillLight" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
 light_color = Color(0.64, 0.76, 1, 1)
-light_energy = 1.15
+light_energy = 0.45
 omni_range = 42.0
 
 [node name="Arena" type="Node3D" parent="."]
@@ -71,37 +119,92 @@ launcher_config = ExtResource("9_basic_launcher_config")
 run_controller_path = NodePath("../RunController")
 arena_path = NodePath("../Arena")
 player_path = NodePath("../Player")
+health_component_path = NodePath("../Player/HealthComponent")
+automatic_spawning_enabled = false
+
+[node name="ChaserEnemySystem" type="Node3D" parent="."]
+script = ExtResource("14_chaser_enemy_system_script")
+chaser_config = ExtResource("15_basic_explosive_chaser")
+run_controller_path = NodePath("../RunController")
+arena_path = NodePath("../Arena")
+player_path = NodePath("../Player")
+health_component_path = NodePath("../Player/HealthComponent")
+
+[node name="DangerDirector" type="Node" parent="."]
+script = ExtResource("11_danger_director_script")
+director_config = ExtResource("12_danger_director_config")
+default_danger_definition = ExtResource("13_basic_projectile_danger")
+danger_definitions = Array[Resource]([ExtResource("16_explosive_chaser_danger")])
+run_controller_path = NodePath("../RunController")
+danger_executor_paths = Array[NodePath]([NodePath("../ProjectileSystem"), NodePath("../ChaserEnemySystem")])
+
+[node name="StageController" type="Node" parent="."]
+script = ExtResource("26_stage_controller_script")
+stage_sequence_config = ExtResource("27_stage_sequence")
+run_controller_path = NodePath("../RunController")
+arena_path = NodePath("../Arena")
+player_path = NodePath("../Player")
+danger_director_path = NodePath("../DangerDirector")
+exit_gate_path = NodePath("../ExitGate")
+world_environment_path = NodePath("../WorldEnvironment")
+key_light_path = NodePath("../KeyLight")
+fill_light_path = NodePath("../FillLight")
+
+[node name="ExitGate" type="Node3D" parent="."]
+script = ExtResource("28_exit_gate_controller_script")
+gate_scene = ExtResource("29_exit_gate_wrapper")
+player_path = NodePath("../Player")
+stage_controller_path = NodePath("../StageController")
 
 [node name="Player" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
 collision_layer = 1
 collision_mask = 2
 script = ExtResource("3_player_controller_script")
-camera_path = NodePath("../ThirdPersonCameraRig/SpringArm3D/Camera3D")
+hurtbox_config = ExtResource("22_default_player_hurtbox")
+camera_path = NodePath("../ThirdPersonCameraRig/SpringArm3D/CameraShakePivot/Camera3D")
 
 [node name="Body" type="MeshInstance3D" parent="Player"]
+visible = false
 mesh = SubResource("CapsuleMesh_player")
+
+[node name="PlayerVisualAnimator" type="Node3D" parent="Player"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0)
+script = ExtResource("24_player_visual_animator_script")
+player_path = NodePath("..")
+animation_config = ExtResource("25_default_player_animation")
+
+[node name="PlayerArcadeVisual" parent="Player/PlayerVisualAnimator" instance=ExtResource("23_player_wrapper")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 shape = SubResource("CapsuleShape3D_player")
 
 [node name="DirectionMarker" type="MeshInstance3D" parent="Player"]
+visible = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, -0.42)
 mesh = SubResource("BoxMesh_marker")
+
+[node name="HealthComponent" type="Node" parent="Player"]
+script = ExtResource("17_health_component_script")
+health_config = ExtResource("18_default_player_health")
 
 [node name="ThirdPersonCameraRig" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 script = ExtResource("4_camera_rig_script")
 target_path = NodePath("../Player")
+follow_lerp_speed = 1000.0
+target_offset = Vector3(0, 1.35, 0)
 
 [node name="SpringArm3D" type="SpringArm3D" parent="ThirdPersonCameraRig"]
 collision_mask = 2
-spring_length = 6.8
+spring_length = 9.0
 margin = 0.2
 
-[node name="Camera3D" type="Camera3D" parent="ThirdPersonCameraRig/SpringArm3D"]
+[node name="CameraShakePivot" type="Node3D" parent="ThirdPersonCameraRig/SpringArm3D"]
+
+[node name="Camera3D" type="Camera3D" parent="ThirdPersonCameraRig/SpringArm3D/CameraShakePivot"]
 current = true
-fov = 70.0
+fov = 74.0
 
 [node name="RunFeedbackOverlay" type="CanvasLayer" parent="."]
 visible = false
@@ -136,25 +239,149 @@ Press R to restart"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="HealthHud" type="CanvasLayer" parent="."]
+layer = 3
+script = ExtResource("19_health_hud_script")
+health_component_path = NodePath("../Player/HealthComponent")
+player_path = NodePath("../Player")
+stage_controller_path = NodePath("../StageController")
+
+[node name="Panel" type="Panel" parent="HealthHud"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = -178.0
+offset_right = 392.0
+offset_bottom = -24.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_health_panel")
+
+[node name="StageLabel" type="Label" parent="HealthHud/Panel"]
+offset_left = 20.0
+offset_top = 10.0
+offset_right = 348.0
+offset_bottom = 36.0
+theme_override_colors/font_color = Color(0.2, 0.25, 0.42, 1)
+theme_override_font_sizes/font_size = 18
+text = "LEVEL 1  Toybox Mint"
+vertical_alignment = 1
+
+[node name="ObjectiveLabel" type="Label" parent="HealthHud/Panel"]
+offset_left = 20.0
+offset_top = 36.0
+offset_right = 348.0
+offset_bottom = 62.0
+theme_override_colors/font_color = Color(0.2, 0.25, 0.42, 1)
+theme_override_font_sizes/font_size = 18
+text = "THREAT 0 / 22"
+vertical_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="HealthHud/Panel"]
+custom_minimum_size = Vector2(328, 34)
+offset_left = 20.0
+offset_top = 74.0
+offset_right = 348.0
+offset_bottom = 108.0
+theme_override_styles/background = SubResource("StyleBoxFlat_health_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_health_bar_fill")
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="FlashOverlay" type="ColorRect" parent="HealthHud/Panel"]
+visible = false
+offset_left = 20.0
+offset_top = 74.0
+offset_right = 348.0
+offset_bottom = 108.0
+mouse_filter = 2
+color = Color(1, 0.12, 0.06, 0)
+
+[node name="HealthLabel" type="Label" parent="HealthHud/Panel"]
+offset_left = 24.0
+offset_top = 74.0
+offset_right = 344.0
+offset_bottom = 108.0
+theme_override_colors/font_color = Color(1, 0.96, 0.88, 1)
+theme_override_colors/font_shadow_color = Color(0.12, 0.13, 0.18, 0.75)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 24
+text = "100 / 100 HP"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SpeedLabel" type="Label" parent="HealthHud/Panel"]
+offset_left = 24.0
+offset_top = 118.0
+offset_right = 184.0
+offset_bottom = 146.0
+theme_override_colors/font_color = Color(0.2, 0.25, 0.42, 1)
+theme_override_font_sizes/font_size = 18
+text = "SPEED 0.0"
+vertical_alignment = 1
+
+[node name="JumpLabel" type="Label" parent="HealthHud/Panel"]
+offset_left = 190.0
+offset_top = 118.0
+offset_right = 344.0
+offset_bottom = 146.0
+theme_override_colors/font_color = Color(0.2, 0.25, 0.42, 1)
+theme_override_font_sizes/font_size = 18
+text = "JUMPS 1"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="DamageFeedbackController" type="Node" parent="."]
+script = ExtResource("20_damage_feedback_controller_script")
+feedback_config = ExtResource("21_default_damage_feedback")
+health_component_path = NodePath("../Player/HealthComponent")
+camera_rig_path = NodePath("../ThirdPersonCameraRig")
+health_hud_path = NodePath("../HealthHud")
+
 [node name="DebugOverlay" type="CanvasLayer" parent="."]
 script = ExtResource("5_debug_overlay_script")
 run_controller_path = NodePath("../RunController")
 player_path = NodePath("../Player")
 arena_path = NodePath("../Arena")
 projectile_system_path = NodePath("../ProjectileSystem")
+danger_director_path = NodePath("../DangerDirector")
+chaser_enemy_system_path = NodePath("../ChaserEnemySystem")
+stage_controller_path = NodePath("../StageController")
+exit_gate_path = NodePath("../ExitGate")
+health_component_path = NodePath("../Player/HealthComponent")
+camera_rig_path = NodePath("../ThirdPersonCameraRig")
+damage_feedback_controller_path = NodePath("../DamageFeedbackController")
 
 [node name="DebugLabel" type="Label" parent="DebugOverlay"]
-offset_left = 12.0
-offset_top = 12.0
-offset_right = 460.0
-offset_bottom = 320.0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -430.0
+offset_top = 18.0
+offset_right = -18.0
+offset_bottom = 610.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0.15, 0.18, 0.24, 0.82)
+theme_override_colors/font_shadow_color = Color(1, 0.97, 0.86, 0.45)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 13
 text = "Run: READY
 Time: 0.00s
 Speed: 0.00
 Y Speed: 0.00
 Grounded: false
+HP: 100 / 100
+Invuln: 0.00s
+Last damage: GENERIC 0.00
+Shake: 0.000
+Feedback:  0.00
 Jumps: 1
 Arena cells: 0
+Danger credits: 0.00
+Danger active: 0
+Danger skipped: 0
+Danger last: 
+Danger next: 0.00s
 Launchers: 0
 Telegraphs: 0
 Projectiles: 0
@@ -162,4 +389,13 @@ Skipped spawns: 0
 Charge: 0.00
 Telegraph: 0.00m
 Aim: 0.00, 0.00, 0.00
+Enemies: 0
+Chasers priming: 0
+Chasers exploding: 0
+Chaser explosions: 0
+Skipped chasers: 0
+Stage: SURVIVING L1 toybox_mint
+Stage threat: 0 / 22
+Exit gate: false open=0.00 dist=0.00
 Death: "
+horizontal_alignment = 2

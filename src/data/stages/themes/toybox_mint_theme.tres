@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ArenaThemeConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/stages/arena_theme_config.gd" id="1_arena_theme_config"]
+
+[resource]
+script = ExtResource("1_arena_theme_config")
+theme_id = &"toybox_mint"
+display_name = "Toybox Mint"
+floor_colors = PackedColorArray(0.42, 0.66, 0.59, 1, 0.45, 0.61, 0.75, 1, 0.55, 0.68, 0.47, 1, 0.66, 0.52, 0.62, 1, 0.48, 0.63, 0.52, 1)
+background_color = Color(0.68, 0.84, 0.88, 1)
+ambient_light_color = Color(1, 0.96, 0.88, 1)
+ambient_light_energy = 0.72
+key_light_color = Color(1, 0.96, 0.88, 1)
+key_light_energy = 1.35
+fill_light_color = Color(0.64, 0.76, 1, 1)
+fill_light_energy = 0.45

@@ -14,8 +14,10 @@ enum MotionType {
 @export var explosion_radius_meters: float = 0.0
 @export var collision_radius_meters: float = 0.34
 @export var visual_radius_meters: float = 0.42
+@export var visual_scene: PackedScene
 @export var danger_color: Color = Color(1.0, 0.12, 0.08, 1.0)
 @export var emission_energy: float = 2.2
+@export var damage_profile: DamageProfile = DamageProfile.new()
 @export var death_reason: StringName = &"projectile"
 @export var damage_on_contact: bool = true
 @export var trail_enabled: bool = true

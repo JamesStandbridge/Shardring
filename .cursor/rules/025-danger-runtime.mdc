@@ -1,0 +1,27 @@
+---
+description: Danger runtime, Director budget, enemy/projectile execution boundaries, and scaling rules.
+globs: src/gameplay/dangers/**/*.gd,src/data/dangers/**/*.gd,src/gameplay/projectiles/**/*.gd,src/gameplay/events/**/*.gd,src/gameplay/hazards/**/*.gd,tests/**/*.gd
+alwaysApply: false
+---
+
+# Danger Runtime
+
+- `DangerDirector` chooses and budgets threats. Specialized systems execute threats.
+- Successful Director spawns must emit a compact event with danger id, family, and spent cost. Stage progression consumes that event as survived threat budget.
+- Pressure rhythm belongs in `DangerDirector`: buildup, peak, recovery, and reduced exit pressure. Specialized executors should not implement their own global spawn cadence.
+- `DangerDirector` must route through `danger_executor_paths`; do not add a growing `match` inside the Director for every new danger family.
+- Each danger executor must expose:
+  - `supports_danger_family(family) -> bool`
+  - `request_spawn_danger(definition) -> bool`
+  - `get_active_danger_count(definition) -> int`
+  - `get_total_active_danger_count() -> int`
+- Do not force enemies, projectiles, explosions, sky attacks, terrain hazards, and special events into one massive spawner.
+- High-volume dangers such as bullets, simple beams, trails, and repeated warning visuals should use bounded data-oriented pools and batched rendering.
+- Complex actors such as chasing enemies, throwers, and special enemies may use nodes, but they must be capped, poolable when repeated often, and driven by simple state machines.
+- Every danger must define a cost, active limit, cooldown, readability tags, lifetime or cleanup condition, and specialized config.
+- Every damaging danger must apply a `DamageProfile` to `HealthComponent` after confirming a hit. Do not bypass the health pipeline for normal damage.
+- Actor enemies must live behind a capped actor system such as `ChaserEnemySystem`, not as one-off ad hoc spawns from `DangerDirector`.
+- Active limits are counted by the executor responsible for that danger definition. Do not approximate all families as projectile counts.
+- `Difficulty` and future spawn balancing must talk to `DangerDirector` or data definitions, not directly to projectile, enemy, hazard, or event internals.
+- Do not make stage progress depend on a specific enemy family resolving, exploding, or being cleaned up unless a future objective type explicitly says so.
+- A danger is not acceptable unless its warning, silhouette, timing, or color makes it survivable in combination with current active dangers.

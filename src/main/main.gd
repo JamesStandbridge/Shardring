@@ -4,6 +4,9 @@ extends Node3D
 @onready var _run_controller: RunController = $RunController
 @onready var _player: PlayerController = $Player
 @onready var _arena: ArenaController = get_node_or_null("Arena") as ArenaController
+@onready var _health_component: HealthComponent = (
+	get_node_or_null("Player/HealthComponent") as HealthComponent
+)
 
 
 func _ready() -> void:
@@ -12,6 +15,8 @@ func _ready() -> void:
 	_run_controller.run_started.connect(_on_run_started)
 	_run_controller.run_died.connect(_on_run_died)
 	_run_controller.run_restarted.connect(_on_run_restarted)
+	if _health_component != null:
+		_health_component.depleted.connect(_on_health_depleted)
 	_run_controller.start_run()
 
 
@@ -23,6 +28,8 @@ func _unhandled_input(event: InputEvent) -> void:
 func _on_run_started() -> void:
 	_place_player_at_spawn()
 	_player.reset_to_spawn()
+	if _health_component != null:
+		_health_component.reset_to_full()
 	_player.set_movement_enabled(true)
 
 
@@ -33,6 +40,10 @@ func _on_run_died(_reason: StringName) -> void:
 func _on_run_restarted() -> void:
 	_place_player_at_spawn()
 	_player.reset_to_spawn()
+
+
+func _on_health_depleted(reason: StringName) -> void:
+	_run_controller.register_death(reason)
 
 
 func _place_player_at_spawn() -> void:

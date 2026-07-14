@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="ExplosiveChaserConfig" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/data/enemies/explosive_chaser_config.gd" id="1_explosive_chaser_config_script"]
+[ext_resource type="Resource" path="res://src/data/combat/basic_chaser_explosion_damage.tres" id="2_chaser_explosion_damage"]
+[ext_resource type="PackedScene" path="res://src/visual/assets/chaser_arcade_wrapper.tscn" id="3_chaser_wrapper"]
+
+[resource]
+script = ExtResource("1_explosive_chaser_config_script")
+max_active_enemies = 24
+spawn_search_attempts = 18
+min_spawn_distance_from_player_meters = 9.0
+spawn_height_offset_meters = 0.95
+visual_radius_meters = 0.42
+body_scene = ExtResource("3_chaser_wrapper")
+collision_radius_meters = 0.36
+collision_height_meters = 1.05
+walk_speed_meters_per_second = 2.8
+chase_speed_meters_per_second = 6.2
+chase_acceleration_meters_per_second_squared = 30.0
+run_trigger_radius_meters = 10.0
+excitement_ramp_exponent = 0.55
+weave_strength_meters_per_second = 0.95
+weave_frequency_hz = 1.45
+face_player_lerp_speed = 22.0
+visual_yaw_offset_degrees = 180.0
+gravity_multiplier = 2.2
+max_fall_speed_meters_per_second = 24.0
+prime_trigger_radius_meters = 2.25
+prime_duration_seconds = 0.68
+priming_scale_multiplier = 1.45
+explosion_radius_meters = 3.2
+explosion_linger_seconds = 0.18
+lifetime_seconds = 14.0
+spawn_pop_duration_seconds = 0.22
+spawn_pop_height_meters = 0.26
+movement_bob_height_meters = 0.13
+movement_bob_frequency_walk_hz = 2.8
+movement_bob_frequency_run_hz = 7.0
+movement_roll_degrees = 11.0
+run_excitement_scale_multiplier = 1.22
+damage_on_explosion = true
+damage_profile = ExtResource("2_chaser_explosion_damage")
+death_reason = &"chaser_explosion"
+body_color = Color(0.95, 0.27, 0.11, 1)
+priming_color = Color(1, 0.62, 0.08, 1)
+explosion_color = Color(1, 0.12, 0.04, 0.78)
+emission_energy = 1.35

@@ -2,72 +2,86 @@
 
 ## Intention
 
-Le jeu doit etre agreable visuellement sans demander une production artistique complexe. La DA est concue pour etre appliquee par IA : formes simples, palette courte, materiaux peu nombreux, regles de lisibilite strictes.
+Shardring vise une DA **arcade premium goofy** : lisible, expressive, propre,
+avec une pointe d'humour, mais sans rendu enfantin ou bricolé.
 
-Style retenu : **techno-rituel stylise**.
+Le jeu doit ressembler a un roguelite d'arene professionnel : silhouettes
+fortes, dangers identifiables instantanement, materiaux stylises coherents,
+eclairage clair et VFX gameplay soignes. L'humour vient des formes et des
+animations, pas de details cheap.
 
-L'arene est une structure sombre et ancienne, reactive a une energie instable. Le joueur survit dans un espace lisible, presque abstrait, ou chaque couleur a une fonction de gameplay.
+## Principes
 
-## Regles Simples
-
-- Silhouettes simples avant details.
-- Contraste fort entre terrain sombre et dangers lumineux.
-- Chaque type de danger a une couleur dominante stable.
-- Peu de textures detaillees ; preferer materiaux plats, emission et bords nets.
-- Pas de realisme, pas de salissure complexe, pas de micro-details.
-- Tous les assets doivent rester lisibles avec une camera third-person eloignee.
-- Les formes doivent pouvoir etre generees en Blender par primitives, bevels, extrusions et materiaux simples.
+- Lisibilite gameplay avant decoration.
+- Silhouettes fortes, reconnaissables depuis une camera third-person.
+- Materiaux stylises propres : roughness, emission controlee, contrastes
+  lisibles.
+- Goofy leger : personnalite simple, pas mascottes enfantines partout.
+- Les dangers doivent paraitre dangereux avant d'etre droles.
+- Les VFX de warning sont des elements de production, jamais des traits debug.
+- Les assets finaux doivent venir d'un pipeline trace : source, licence,
+  cleanup, wrapper, test camera.
 
 ## Palette Fonctionnelle
 
 | Usage | Couleur | Hex |
 | --- | --- | --- |
-| Sol principal | Pierre noire froide | `#16181D` |
-| Metal sombre | Graphite bleute | `#252A33` |
-| Lignes neutres | Gris clair froid | `#A8B0BD` |
-| Interactable temporaire | Cyan calme | `#36D7D9` |
-| Monnaie de run | Or chaud | `#F5B642` |
-| Monnaie cross-game | Blanc violet rare | `#D9C7FF` |
-| Danger general | Rouge alerte | `#FF3B30` |
-| Explosion / missile | Orange chaud | `#FF8A1F` |
-| Laser | Magenta violent | `#FF2BD6` |
-| Glace | Bleu cyan pale | `#9EEBFF` |
-| Lave | Rouge orange emissif | `#FF4A1C` |
-| Terrain reconstruit | Vert energie faible | `#6CFF9E` |
+| Sol principal | Vert mineral moyen | `#5F9B86` |
+| Variation sol | Bleu ardoise clair | `#668EAD` |
+| Variation sol | Vert mousse stylise | `#7D9C68` |
+| Neutre UI/ombres | Graphite doux | `#333A46` |
+| Joueur | Bleu pervenche sature | `#536DDE` |
+| Direction joueur | Cyan vert lisible | `#39D4C2` |
+| Interactable temporaire | Cyan propre | `#26C8D8` |
+| Monnaie de run | Or arcade | `#F4B63D` |
+| Monnaie cross-game | Blanc violet | `#D8C9FF` |
+| Danger general | Rouge danger | `#FF2638` |
+| Explosion / chaser | Orange chaud | `#FF6A28` |
+| Laser | Magenta laser | `#F72FD3` |
+| Glace | Cyan glace | `#9EE8FF` |
+| Lave | Rouge orange emissif | `#FF461C` |
 
-## Formes
+## Quality Bar
 
-- Terrain : cellules polygonales irregulieres dans un disque, bords nets, epaisseur visible.
-- Achats futurs : interactables temporaires calmes, cyan, distincts des dangers.
-- Pieces : petites formes rondes ou cristallines, emission or, rotation lente.
-- Projectiles simples : spheres, cones, capsules, prismes.
-- Missiles : capsule allongee avec noyau orange et train lumineux.
-- Lasers : faisceau tres fin, magenta, avec zone d'avertissement avant tir.
-- Canon balls : grosses spheres sombres avec noyau rouge/orange.
-- Baril explosif : cylindre trapu, bandes orange, silhouette lisible.
+Un asset est acceptable seulement si :
 
-## Materiaux
+- sa silhouette est reconnaissable en moins de 2 secondes dans la camera de jeu ;
+- son role gameplay est lisible sans debug overlay ;
+- son echelle correspond a la collision/hurtbox ;
+- son orientation et ses sockets sont explicites ;
+- son origine, son pivot et ses points VFX sont documentes ;
+- sa licence est tracee dans `assets/art/asset_manifest.json` ;
+- il passe par une scene wrapper Godot stable.
 
-- `mat_stone_dark` : albedo sombre, roughness haute.
-- `mat_metal_dark` : graphite, roughness moyenne, leger metallic.
-- `mat_interactable_energy` : cyan emissif doux.
-- `mat_coin_run` : or emissif leger.
-- `mat_coin_meta` : violet blanc emissif.
-- `mat_danger_red` : rouge emissif.
-- `mat_explosion_orange` : orange emissif fort.
-- `mat_laser_magenta` : magenta emissif tres fort.
-- `mat_ice` : bleu pale, transparent leger si possible.
-- `mat_lava` : rouge orange emissif, animation shader plus tard.
+## Pipeline Officiel
+
+Le pipeline officiel est **hybride professionnel** :
+
+1. Sourcer une base CC0/procuree ou generer une variante IA licenciee.
+2. Enregistrer la source dans `assets/art/source_external/` ou
+   `assets/art/source_ai/`.
+3. Nettoyer dans Blender : echelle, orientation, materiaux, sockets, pivot.
+4. Sauvegarder le travail dans `assets/art/working_blender/`.
+5. Exporter le GLB propre vers `assets/art/exports_godot/`.
+6. Creer une scene wrapper dans `src/visual/assets/`.
+7. Renseigner `assets/art/asset_manifest.json`.
+8. Valider dans `src/dev/playgrounds/art_review_playground.tscn`.
+
+Les scripts Blender internes restent autorises pour graybox, collision helpers,
+adapters et placeholders. Ils ne sont plus consideres comme methode de
+production des assets finaux.
 
 ## Interdits
 
-- Pas de palette majoritairement beige, marron, violette ou bleu nuit uniforme.
-- Pas de textures photo realistes au demarrage.
-- Pas d'assets tres detailles qui deviennent illisibles de loin.
-- Pas de couleur decorative qui entre en conflit avec les couleurs gameplay.
-- Pas de formes trop organiques pour les dangers principaux.
-- Pas d'interactable d'achat qui ressemble a un danger.
+- Pas d'asset final uniquement constitue de primitives scriptees non nettoyees.
+- Pas de GLB brut reference directement par une config gameplay principale.
+- Pas de ligne rouge ou forme debug comme warning final.
+- Pas de micro-details invisibles en vue third-person.
+- Pas de couleurs danger sur un objet non dangereux sans raison gameplay.
+- Pas d'asset IA ou externe sans licence documentee.
 
-## Reference Verbale Courte
+## Reference Courte
 
-Une arene circulaire sombre, stylisee, techno-rituelle, composee de cellules polygonales de pierre noire et metal graphite. Les dangers sont des formes geometriques lumineuses tres codees par couleur. Les pieces sont or. Le rendu est propre, lisible, low-poly premium, sans realisme.
+Arcade premium goofy : un jeu d'esquive roguelite 3D propre, nerveux,
+professionnel, avec des ennemis expressifs mais lisibles, des VFX de danger
+soignes, et une production d'assets tracee.

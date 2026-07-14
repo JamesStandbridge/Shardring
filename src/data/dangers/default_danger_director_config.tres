@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="DangerDirectorConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/dangers/danger_director_config.gd" id="1_director_config_script"]
+
+[resource]
+script = ExtResource("1_director_config_script")
+credits_per_second = 1.25
+max_stored_credits = 8.0
+initial_decision_delay_seconds = 1.0
+decision_interval_seconds = 0.35
+max_total_active_dangers = 64
+skip_log_interval = 20
+first_peak_delay_seconds = 4.0
+peak_duration_seconds = 12.0
+recovery_duration_seconds = 5.0
+peak_credit_multiplier = 1.75
+peak_decision_interval_multiplier = 0.65
+recovery_credit_multiplier = 0.45
+exit_credit_multiplier = 0.55
+exit_decision_interval_multiplier = 1.45

@@ -9,9 +9,11 @@ La difficulte transforme le temps de survie en pression de jeu. Elle controle l'
 - Produire une valeur d'intensite a partir du temps de run.
 - Debloquer progressivement projectiles, lasers, missiles, hazards et evenements speciaux.
 - Eviter les combinaisons illisibles en limitant les pics de danger simultanes.
-- Fournir des parametres aux spawners sans connaitre leurs implementations internes.
+- Fournir des parametres a `DangerDirector` sans connaitre les implementations internes
+  des projectiles, ennemis, hazards ou events.
 
 ## Limites actuelles
 
-La premiere version doit rester simple : une courbe temporelle explicite et testable avant toute logique adaptative.
-
+La premiere version reste simple : `DangerDirector` utilise une intensite temporelle
+basique pour accumuler des credits. Un `DifficultyController` dedie pourra ensuite
+remplacer cette logique sans changer les systemes specialises.

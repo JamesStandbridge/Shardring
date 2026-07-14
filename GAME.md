@@ -2,7 +2,7 @@
 
 ## Pitch
 
-Le jeu est une survie roguelite 3D en arene, en vue a la troisieme personne. Le joueur survit sur une plateforme circulaire procedurale qui se degrade, change d'etat et se reconstruit pendant que des vagues de dangers de plus en plus complexes cherchent a le forcer a bouger.
+Le jeu est une survie roguelite 3D en arene, en vue a la troisieme personne. Une run traverse une suite infinie de levels qui piochent dans un catalogue fini de maps thematiques reutilisables. Sur chaque map, le joueur survit sur une plateforme procedurale qui se degrade, change d'etat et se reconstruit pendant que des vagues de dangers de plus en plus complexes cherchent a le forcer a bouger.
 
 Le coeur du jeu n'est pas de combattre directement, mais de lire l'arene, anticiper les signaux de danger, exploiter le mouvement et choisir les bonnes ameliorations au bon moment.
 
@@ -17,9 +17,9 @@ Le coeur du jeu n'est pas de combattre directement, mais de lire l'arene, antici
 
 ## Direction Visuelle
 
-La direction artistique est techno-rituelle stylisee : pierre noire, metal graphite, lignes lumineuses et dangers geometriques colores. Elle doit rester simple pour etre produite par IA et lisible depuis une camera third-person.
+La direction artistique est arcade premium goofy : silhouettes fortes, rendu propre, humour leger, materiaux stylises et VFX gameplay soignes. Elle doit rester produisible sans design manuel, mais les assets finaux doivent passer par un pipeline trace : source, licence, cleanup Blender, wrapper Godot et revue camera.
 
-Chaque couleur importante a une fonction gameplay. Les dangers sont rouges, orange ou magenta. Les interactables temporaires peuvent utiliser le cyan. La monnaie de run est or. La monnaie cross-game est blanc violet.
+Chaque couleur importante a une fonction gameplay. Les dangers sont rouges, orange ou magenta. Les interactables temporaires peuvent utiliser le cyan. La monnaie de run est or. La monnaie cross-game est blanc violet. Les warnings ne doivent pas ressembler a des traits debug : ils doivent etre traites comme des VFX de production.
 
 ## Boucle De Jeu
 
@@ -28,8 +28,10 @@ Chaque couleur importante a une fonction gameplay. Les dangers sont rouges, oran
 3. Des pieces de run apparaissent rarement sur la carte.
 4. Le joueur prend un risque pour collecter, puis choisit plus tard comment depenser selon une mecanique d'achat a definir.
 5. La difficulte augmente, le terrain change ou se detruit, puis se reconstruit par cycles.
-6. La run se termine a la mort du joueur.
-7. Les resultats de run pourront plus tard attribuer une monnaie cross-game rare.
+6. Quand l'objectif de map est atteint, une porte de sortie apparait au centre.
+7. Le joueur choisit quand traverser la porte ; les dangers continuent tant qu'il reste.
+8. La run se termine a la mort du joueur.
+9. Les resultats de run pourront plus tard attribuer une monnaie cross-game rare.
 
 ## Progression
 
@@ -61,6 +63,9 @@ code comme un raccourci temporaire difficile a remplacer.
 ## Vocabulaire Officiel
 
 - Run : une tentative complete, du lancement a la mort/recompense.
+- Level : etape courante d'une run ; les levels sont infinis et reutilisent un catalogue fini de maps.
+- Map : definition thematique reutilisable avec arene, ambiance, dangers et configs.
+- Exit gate : porte de sortie qui apparait quand l'objectif du level est atteint.
 - Danger : tout element qui peut tuer ou contraindre le joueur.
 - Hazard : etat temporaire de terrain, comme lave, glace ou effondrement.
 - Projectile : danger mobile ou instantane provenant de l'exterieur ou d'un ennemi.

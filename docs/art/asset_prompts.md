@@ -1,59 +1,52 @@
 # Prompts Assets IA
 
-Ces prompts sont courts et volontairement directifs. Ils servent a une IA qui cree des assets Blender ou text-to-3D.
+Ces prompts servent a generer des concepts ou des bases de modeles, pas a
+integrer automatiquement un asset final sans revue.
 
 ## Prompt Global
 
-Style commun : low-poly stylise premium, techno-rituel, pierre noire, metal graphite, bords nets, emission coloree, silhouette simple, lisible de loin, pas realiste, pas de texture photo, compatible jeu temps reel, export glTF.
+Create a professional stylized arcade 3D game asset, clean strong silhouette,
+slightly goofy personality, premium material finish, readable from a third
+person camera, game-ready proportions, no noisy micro detail, clear gameplay
+role, exported as GLB or BLEND for cleanup.
 
-## Arena Cell
+## Player
 
-Create a single irregular polygonal arena floor cell, dark stone and graphite metal, beveled edges, 1 meter thick, clean low-poly stylized techno-ritual style, no decoration except subtle neutral engraved lines, readable from third-person camera.
+Create a compact agile arcade survivor character, stylized premium proportions,
+clear forward direction, readable body color, simple confident face, not
+childish, third-person readable silhouette, suitable for fast dodging gameplay.
 
-## Temporary Upgrade Interactable
+## Chaser Enemy
 
-Create a calm temporary upgrade interactable for a roguelite arena, cyan energy, compact vertical silhouette, dark stone base, graphite metal ring, no aggressive spikes, readable as non-danger interactable object, low-poly stylized.
+Create a small explosive chasing enemy for a stylized arcade roguelite, compact
+danger silhouette, orange warning color, expressive but threatening, short legs
+or hovering motion, visible charge state, not cute-first.
 
-## Run Coin
+## Projectile Launcher
 
-Create a small collectible run coin, warm gold emission, simple round crystal coin shape, beveled edge, rotating-friendly silhouette, readable from far camera, low-poly stylized, no text.
-
-## Meta Coin
-
-Create a rare persistent currency shard, white violet emission, small floating crystal, more precious than gold coin, clean silhouette, low-poly stylized, no text.
+Create a stylized arcade turret enemy, compact readable base, obvious barrel and
+muzzle, red danger accents, slight goofy personality but production-quality
+shape, designed to telegraph a shot toward the player.
 
 ## Basic Projectile
 
-Create a fast arena projectile, simple red emissive geometric shape, dark core, strong silhouette, no small details, readable as danger, low-poly stylized.
+Create a red stylized danger projectile, clean emissive core, readable motion
+direction, fair visual size compared to collision, premium arcade material,
+visible from a third-person camera.
 
-## Explosive Projectile
+## Exit Gate
 
-Create an explosive projectile with orange emissive core, segmented shell, clear warning glow area, low-poly stylized, readable before impact.
+Create a stylized arcade exit gate, clear doorway silhouette, strong frame,
+readable open/closed state, cyan interactable accents, playful but professional.
 
-## Homing Missile
+## Arena Material
 
-Create a slow homing missile, capsule body, graphite shell, orange engine glow, clear nose direction, simple fins, low-poly stylized, readable from third-person camera.
+Create stylized arena floor material, medium value color, clean bevel-friendly
+surface, subtle variation, not white, not noisy, supports readable red/orange
+danger VFX on top.
 
-## Laser Warning Marker
+## Warning Telegraph VFX
 
-Create a thin magenta laser warning strip projected on arena floor, emissive, clean rectangular beam preview, no complex texture, readable as imminent danger.
-
-## Canon Ball
-
-Create a large heavy cannon ball projectile, dark graphite sphere, cracked red orange emissive seams, massive readable silhouette, low-poly stylized.
-
-## Lava Cell
-
-Create a floor material/mesh variant for lava hazard, red orange emissive cracks, dark stone border, clearly deadly, readable from far camera, low-poly stylized.
-
-## Ice Cell
-
-Create a floor material/mesh variant for ice hazard, pale cyan surface, subtle shine, dark stone border, readable as slippery, low-poly stylized.
-
-## Destroyed Cell
-
-Create a destroyed arena segment state, missing center, broken dark stone edges, faint red danger glow below, readable as deadly hole, low-poly stylized.
-
-## Explosive Barrel Enemy Prop
-
-Create a small enemy-carried explosive barrel, squat cylinder, orange hazard bands, dark metal caps, readable explosive silhouette, low-poly stylized, no text.
+Create a stylized arcade warning beam, segmented or pulsed, red danger color,
+transparent edges, target reticle, readable but not overwhelming, not a debug
+line.

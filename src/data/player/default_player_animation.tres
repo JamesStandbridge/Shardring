@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="PlayerAnimationConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/player/player_animation_config.gd" id="1_player_animation_config_script"]
+
+[resource]
+script = ExtResource("1_player_animation_config_script")
+movement_speed_threshold_meters_per_second = 0.25
+run_speed_reference_meters_per_second = 10.4
+walk_bob_frequency_hz = 2.4
+run_bob_frequency_hz = 4.6
+idle_bob_frequency_hz = 0.75
+idle_bob_height_meters = 0.012
+run_bob_height_meters = 0.085
+side_sway_meters = 0.035
+forward_lean_degrees = 5.0
+run_roll_degrees = 5.5
+run_pitch_bounce_degrees = 2.2
+airborne_float_offset_meters = 0.04
+airborne_pitch_degrees = 8.0
+airborne_reference_speed_meters_per_second = 8.0
+jump_stretch_scale = 0.12
+fall_squash_scale = 0.08
+takeoff_stretch_scale = 0.18
+takeoff_stretch_duration_seconds = 0.12
+landing_squash_scale = 0.2
+landing_squash_duration_seconds = 0.16
+animation_lerp_speed = 18.0

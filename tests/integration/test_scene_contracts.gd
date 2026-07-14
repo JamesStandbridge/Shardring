@@ -3,40 +3,191 @@ extends GutTest
 const MAIN_SCENE_PATH := "res://src/main/main.tscn"
 const ARENA_PLAYGROUND_SCENE_PATH := "res://src/dev/playgrounds/arena_playground.tscn"
 const PROJECTILE_PLAYGROUND_SCENE_PATH := "res://src/dev/playgrounds/projectile_playground.tscn"
+const CHASER_PLAYGROUND_SCENE_PATH := "res://src/dev/playgrounds/chaser_enemy_playground.tscn"
+const ART_REVIEW_PLAYGROUND_SCENE_PATH := "res://src/dev/playgrounds/art_review_playground.tscn"
+const EXTERNAL_ASSET_REVIEW_PLAYGROUND_SCENE_PATH := (
+	"res://src/dev/playgrounds/" + "external_asset_review_playground.tscn"
+)
 
 
 func test_main_scene_contains_arena_and_player_collision_contract() -> void:
 	var packed_scene := load(MAIN_SCENE_PATH) as PackedScene
 	var instance := packed_scene.instantiate()
+	add_child(instance)
+	await get_tree().process_frame
 
 	var arena := instance.get_node_or_null("Arena") as ArenaController
 	var player := instance.get_node_or_null("Player") as PlayerController
+	var player_visual_animator := (
+		instance.get_node_or_null("Player/PlayerVisualAnimator") as PlayerVisualAnimator
+	)
+	var player_arcade_visual := (
+		instance.get_node_or_null("Player/PlayerVisualAnimator/PlayerArcadeVisual") as Node3D
+	)
+	var graybox_player_body := instance.get_node_or_null("Player/Body") as MeshInstance3D
 	var projectile_system := instance.get_node_or_null("ProjectileSystem") as ProjectileSystem
+	var chaser_enemy_system := instance.get_node_or_null("ChaserEnemySystem") as ChaserEnemySystem
+	var danger_director := instance.get_node_or_null("DangerDirector") as DangerDirector
+	var stage_controller := instance.get_node_or_null("StageController") as StageController
+	var exit_gate := instance.get_node_or_null("ExitGate") as ExitGateController
+	var health_component := instance.get_node_or_null("Player/HealthComponent") as HealthComponent
+	var health_hud := instance.get_node_or_null("HealthHud") as HealthHud
+	var health_panel := instance.get_node_or_null("HealthHud/Panel") as Panel
+	var health_label := instance.get_node_or_null("HealthHud/Panel/HealthLabel") as Label
+	var stage_label := instance.get_node_or_null("HealthHud/Panel/StageLabel") as Label
+	var objective_label := instance.get_node_or_null("HealthHud/Panel/ObjectiveLabel") as Label
+	var speed_label := instance.get_node_or_null("HealthHud/Panel/SpeedLabel") as Label
+	var jump_label := instance.get_node_or_null("HealthHud/Panel/JumpLabel") as Label
+	var damage_feedback := (
+		instance.get_node_or_null("DamageFeedbackController") as DamageFeedbackController
+	)
+	var debug_label := instance.get_node_or_null("DebugOverlay/DebugLabel") as Label
+	var camera_rig := instance.get_node_or_null("ThirdPersonCameraRig") as ThirdPersonCameraRig
 	var camera_arm := instance.get_node_or_null("ThirdPersonCameraRig/SpringArm3D") as SpringArm3D
+	var camera_shake_pivot := (
+		instance.get_node_or_null("ThirdPersonCameraRig/SpringArm3D/CameraShakePivot") as Node3D
+	)
+	var camera := (
+		instance.get_node_or_null("ThirdPersonCameraRig/SpringArm3D/CameraShakePivot/Camera3D")
+		as Camera3D
+	)
 	var run_feedback_overlay := (
 		instance.get_node_or_null("RunFeedbackOverlay") as RunFeedbackOverlay
 	)
 
 	assert_not_null(arena)
 	assert_not_null(player)
+	assert_not_null(player_visual_animator)
+	assert_not_null(player_arcade_visual)
+	assert_not_null(graybox_player_body)
+	assert_false(graybox_player_body.visible)
+	assert_almost_eq(player_visual_animator.rotation.y, PI, 0.001)
+	assert_eq(player_visual_animator.player_path, NodePath(".."))
+	assert_not_null(player_visual_animator.animation_config)
+	assert_eq(
+		player_visual_animator.animation_config.resource_path,
+		"res://src/data/player/default_player_animation.tres"
+	)
 	assert_not_null(projectile_system)
+	assert_not_null(chaser_enemy_system)
+	assert_not_null(danger_director)
+	assert_not_null(stage_controller)
+	assert_not_null(exit_gate)
+	assert_not_null(health_component)
+	assert_not_null(health_hud)
+	assert_not_null(health_panel)
+	assert_not_null(health_label)
+	assert_not_null(stage_label)
+	assert_not_null(objective_label)
+	assert_not_null(speed_label)
+	assert_not_null(jump_label)
+	assert_not_null(damage_feedback)
+	assert_not_null(debug_label)
+	assert_not_null(camera_rig)
+	assert_not_null(camera_shake_pivot)
+	assert_not_null(camera)
+	assert_not_null(player.hurtbox_config)
+	assert_true(player.hurtbox_config.is_valid_config())
 	assert_not_null(run_feedback_overlay)
 	assert_not_null(projectile_system.launcher_config)
 	assert_not_null(projectile_system.launcher_config.projectile_config)
+	assert_not_null(chaser_enemy_system.chaser_config)
+	assert_not_null(damage_feedback.feedback_config)
+	assert_false(projectile_system.automatic_spawning_enabled)
+	assert_not_null(danger_director.default_danger_definition)
+	assert_eq(danger_director.danger_executor_paths.size(), 2)
+	assert_eq(danger_director.danger_definitions.size(), 1)
+	assert_not_null(stage_controller.stage_sequence_config)
+	assert_eq(
+		stage_controller.stage_sequence_config.resource_path,
+		"res://src/data/stages/default_stage_sequence.tres"
+	)
+	assert_not_null(exit_gate.gate_scene)
+	assert_eq(
+		exit_gate.gate_scene.resource_path, "res://src/visual/assets/exit_gate_arcade_wrapper.tscn"
+	)
+	assert_true(exit_gate.is_using_gate_scene_visual())
+	assert_eq(
+		danger_director.default_danger_definition.resource_path,
+		"res://src/data/dangers/basic_projectile_danger.tres"
+	)
+	assert_eq(
+		danger_director.danger_definitions[0].resource_path,
+		"res://src/data/dangers/explosive_chaser_danger.tres"
+	)
 	assert_eq(
 		projectile_system.launcher_config.resource_path,
 		"res://src/data/projectiles/basic_single_shot_launcher.tres"
 	)
 	assert_eq(
+		projectile_system.launcher_config.launcher_scene.resource_path,
+		"res://src/visual/assets/launcher_arcade_wrapper.tscn"
+	)
+	assert_not_null(projectile_system.launcher_config.telegraph_visual_config)
+	assert_eq(
+		projectile_system.launcher_config.telegraph_visual_config.resource_path,
+		"res://src/visual/vfx/default_projectile_telegraph.tres"
+	)
+	assert_eq(
 		projectile_system.launcher_config.projectile_config.resource_path,
 		"res://src/data/projectiles/basic_linear_projectile.tres"
 	)
+	assert_eq(
+		projectile_system.launcher_config.projectile_config.visual_scene.resource_path,
+		"res://src/visual/assets/projectile_arcade_wrapper.tscn"
+	)
+	assert_eq(
+		projectile_system.launcher_config.projectile_config.damage_profile.resource_path,
+		"res://src/data/combat/basic_projectile_damage.tres"
+	)
+	assert_eq(
+		chaser_enemy_system.chaser_config.resource_path,
+		"res://src/data/enemies/basic_explosive_chaser.tres"
+	)
+	assert_eq(
+		chaser_enemy_system.chaser_config.body_scene.resource_path,
+		"res://src/visual/assets/chaser_arcade_wrapper.tscn"
+	)
+	assert_eq(
+		chaser_enemy_system.chaser_config.damage_profile.resource_path,
+		"res://src/data/combat/basic_chaser_explosion_damage.tres"
+	)
+	assert_eq(
+		health_component.health_config.resource_path,
+		"res://src/data/combat/default_player_health.tres"
+	)
+	assert_eq(health_hud.player_path, NodePath("../Player"))
+	assert_eq(health_hud.stage_controller_path, NodePath("../StageController"))
+	assert_eq(health_panel.anchor_top, 1.0)
+	assert_eq(health_panel.anchor_bottom, 1.0)
+	assert_lt(health_panel.offset_top, 0.0)
+	assert_gte(health_label.get_theme_font_size("font_size"), 24)
+	assert_true(stage_label.text.begins_with("LEVEL"))
+	assert_true(objective_label.text.begins_with("THREAT"))
+	assert_true(speed_label.text.begins_with("SPEED"))
+	assert_true(jump_label.text.begins_with("JUMPS"))
+	assert_eq(debug_label.anchor_left, 1.0)
+	assert_eq(debug_label.anchor_right, 1.0)
+	assert_lt(debug_label.offset_left, 0.0)
+	assert_lt(debug_label.offset_right, 0.0)
+	assert_eq(debug_label.horizontal_alignment, HORIZONTAL_ALIGNMENT_RIGHT)
+	assert_eq(
+		player.hurtbox_config.resource_path, "res://src/data/combat/default_player_hurtbox.tres"
+	)
+	assert_eq(
+		damage_feedback.feedback_config.resource_path,
+		"res://src/data/feedback/default_damage_feedback.tres"
+	)
 	assert_not_null(camera_arm)
+	assert_gte(camera_rig.target_offset.y, 1.0)
+	assert_gte(camera_rig.follow_lerp_speed, 250.0)
+	assert_gte(camera_arm.spring_length, 8.0)
 	assert_eq(player.collision_layer, 1)
 	assert_true((player.collision_mask & 2) != 0)
 	assert_false((camera_arm.collision_mask & 1) != 0)
 	assert_true((camera_arm.collision_mask & 2) != 0)
 
+	remove_child(instance)
 	instance.free()
 
 
@@ -62,6 +213,104 @@ func test_projectile_playground_scene_loads() -> void:
 	instance.free()
 
 
+func test_chaser_enemy_playground_scene_loads() -> void:
+	var packed_scene := load(CHASER_PLAYGROUND_SCENE_PATH) as PackedScene
+	var instance := packed_scene.instantiate()
+
+	assert_not_null(instance.get_node_or_null("ChaserEnemySystem") as ChaserEnemySystem)
+	assert_not_null(instance.get_node_or_null("Arena") as ArenaController)
+	assert_not_null(instance.get_node_or_null("Player") as PlayerController)
+
+	instance.free()
+
+
+func test_art_review_playground_scene_loads() -> void:
+	var packed_scene := load(ART_REVIEW_PLAYGROUND_SCENE_PATH) as PackedScene
+	var instance := packed_scene.instantiate()
+
+	assert_not_null(instance.get_node_or_null("PlayerPreview") as Node3D)
+	assert_not_null(instance.get_node_or_null("ChaserPreview") as Node3D)
+	assert_not_null(instance.get_node_or_null("LauncherPreview") as Node3D)
+	assert_not_null(instance.get_node_or_null("ProjectilePreview") as Node3D)
+	assert_not_null(instance.get_node_or_null("ExitGatePreview") as Node3D)
+	assert_not_null(instance.get_node_or_null("TelegraphPreview") as Node3D)
+
+	instance.free()
+
+
+func test_external_asset_review_playground_scene_loads() -> void:
+	var packed_scene := load(EXTERNAL_ASSET_REVIEW_PLAYGROUND_SCENE_PATH) as PackedScene
+	var instance := packed_scene.instantiate()
+
+	assert_not_null(instance.get_node_or_null("PlayerCandidate") as Node3D)
+	assert_not_null(instance.get_node_or_null("ChaserCandidate") as Node3D)
+	assert_not_null(instance.get_node_or_null("LauncherCandidate") as Node3D)
+	assert_not_null(instance.get_node_or_null("ProjectileCandidate") as Node3D)
+	assert_not_null(instance.get_node_or_null("ExitGateCandidate") as Node3D)
+
+	instance.free()
+
+
+func test_main_scene_spawns_projectile_danger_through_director() -> void:
+	var packed_scene := load(MAIN_SCENE_PATH) as PackedScene
+	var instance := packed_scene.instantiate()
+	add_child(instance)
+	await get_tree().physics_frame
+
+	var danger_director := instance.get_node("DangerDirector") as DangerDirector
+	var projectile_system := instance.get_node("ProjectileSystem") as ProjectileSystem
+	var stage := instance.get_node("StageController") as StageController
+
+	danger_director.step_director_for_tests(1.1)
+
+	assert_eq(danger_director.get_last_spawned_danger_id(), &"basic_projectile")
+	assert_eq(projectile_system.get_active_launcher_count(), 1)
+	assert_almost_eq(stage.get_survived_threat_budget(), 1.0, 0.001)
+	assert_false(stage.is_exit_available())
+
+	remove_child(instance)
+	instance.free()
+
+
+func test_stage_completion_reveals_exit_gate_and_transition_preserves_health() -> void:
+	var packed_scene := load(MAIN_SCENE_PATH) as PackedScene
+	var instance := packed_scene.instantiate()
+	add_child(instance)
+	await get_tree().physics_frame
+
+	var player := instance.get_node("Player") as PlayerController
+	var health := instance.get_node("Player/HealthComponent") as HealthComponent
+	var danger_director := instance.get_node("DangerDirector") as DangerDirector
+	var stage := instance.get_node("StageController") as StageController
+	var exit_gate := instance.get_node("ExitGate") as ExitGateController
+	var damage := DamageProfile.new()
+	damage.amount = 25.0
+
+	health.apply_damage(damage, player.global_position)
+	stage.force_complete_stage_for_tests()
+
+	assert_eq(stage.get_stage_state(), StageController.StageState.EXIT_AVAILABLE)
+	assert_true(exit_gate.is_gate_available())
+	assert_true(danger_director.is_exit_pressure_enabled())
+	assert_almost_eq(health.get_current_health(), 75.0, 0.001)
+
+	player.global_position = exit_gate.global_position + Vector3.UP * 0.25
+	for frame in range(20):
+		exit_gate.step_gate_for_tests(0.05)
+		if stage.get_level_index() == 2:
+			break
+
+	assert_eq(stage.get_level_index(), 2)
+	assert_eq(stage.get_current_map_id(), &"toybox_candy")
+	assert_eq(stage.get_stage_state(), StageController.StageState.SURVIVING)
+	assert_false(exit_gate.is_gate_available())
+	assert_false(danger_director.is_exit_pressure_enabled())
+	assert_almost_eq(health.get_current_health(), 75.0, 0.001)
+
+	remove_child(instance)
+	instance.free()
+
+
 func test_player_applies_movement_config_to_character_body_settings() -> void:
 	var packed_scene := load(MAIN_SCENE_PATH) as PackedScene
 	var instance := packed_scene.instantiate()
@@ -81,7 +330,7 @@ func test_player_applies_movement_config_to_character_body_settings() -> void:
 	instance.free()
 
 
-func test_forced_projectile_hit_kills_player_and_restart_cleans_projectiles() -> void:
+func test_forced_projectile_hit_updates_health_without_immediate_death() -> void:
 	var packed_scene := load(MAIN_SCENE_PATH) as PackedScene
 	var instance := packed_scene.instantiate()
 	add_child(instance)
@@ -89,9 +338,53 @@ func test_forced_projectile_hit_kills_player_and_restart_cleans_projectiles() ->
 
 	var run_controller := instance.get_node("RunController") as RunController
 	var player := instance.get_node("Player") as PlayerController
+	var health := instance.get_node("Player/HealthComponent") as HealthComponent
+	var health_hud := instance.get_node("HealthHud") as HealthHud
+	var camera_rig := instance.get_node("ThirdPersonCameraRig") as ThirdPersonCameraRig
+	var damage_feedback := instance.get_node("DamageFeedbackController") as DamageFeedbackController
 	var projectile_system := instance.get_node("ProjectileSystem") as ProjectileSystem
 	var run_feedback_overlay := instance.get_node("RunFeedbackOverlay") as RunFeedbackOverlay
 
+	var projectile_position := player.global_position + Vector3.UP * 0.7
+	assert_true(projectile_system.force_spawn_projectile(projectile_position, Vector3.RIGHT))
+
+	projectile_system.step_system_for_tests(0.0)
+	camera_rig.step_camera_shake_for_tests(0.016)
+
+	assert_eq(run_controller.get_state(), RunController.RunState.PLAYING)
+	assert_eq(run_controller.get_last_death_reason(), &"")
+	assert_almost_eq(health.get_current_health(), 75.0, 0.001)
+	assert_true(health_hud.get_health_text().contains("75"))
+	assert_true(health_hud.is_flashing())
+	assert_true(camera_rig.is_shaking())
+	assert_eq(damage_feedback.get_last_feedback_damage_type_name(), "PROJECTILE")
+	assert_gt(damage_feedback.get_last_feedback_strength(), 0.0)
+	assert_eq(projectile_system.get_active_projectile_count(), 0)
+	assert_eq(projectile_system.get_active_launcher_count(), 0)
+	assert_false(run_feedback_overlay.visible)
+
+	remove_child(instance)
+	instance.free()
+
+
+func test_health_depletion_triggers_run_death_and_restart_resets_health() -> void:
+	var packed_scene := load(MAIN_SCENE_PATH) as PackedScene
+	var instance := packed_scene.instantiate()
+	add_child(instance)
+	await get_tree().physics_frame
+
+	var run_controller := instance.get_node("RunController") as RunController
+	var player := instance.get_node("Player") as PlayerController
+	var health := instance.get_node("Player/HealthComponent") as HealthComponent
+	var projectile_system := instance.get_node("ProjectileSystem") as ProjectileSystem
+	var run_feedback_overlay := instance.get_node("RunFeedbackOverlay") as RunFeedbackOverlay
+
+	var lethal_profile := (
+		projectile_system.launcher_config.projectile_config.damage_profile.duplicate()
+		as DamageProfile
+	)
+	lethal_profile.amount = 100.0
+	projectile_system.launcher_config.projectile_config.damage_profile = lethal_profile
 	var projectile_position := player.global_position + Vector3.UP * 0.7
 	assert_true(projectile_system.force_spawn_projectile(projectile_position, Vector3.RIGHT))
 
@@ -107,6 +400,7 @@ func test_forced_projectile_hit_kills_player_and_restart_cleans_projectiles() ->
 	run_controller.restart_run()
 
 	assert_eq(run_controller.get_state(), RunController.RunState.PLAYING)
+	assert_almost_eq(health.get_current_health(), health.get_max_health(), 0.001)
 	assert_eq(projectile_system.get_active_projectile_count(), 0)
 	assert_eq(projectile_system.get_active_launcher_count(), 0)
 	assert_false(run_feedback_overlay.visible)

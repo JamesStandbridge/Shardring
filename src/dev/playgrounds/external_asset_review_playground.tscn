@@ -1,0 +1,119 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="PackedScene" path="res://src/visual/assets/player_quaternius_candidate_wrapper.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://src/visual/assets/chaser_quaternius_candidate_wrapper.tscn" id="2_chaser"]
+[ext_resource type="PackedScene" path="res://src/visual/assets/launcher_quaternius_candidate_wrapper.tscn" id="3_launcher"]
+[ext_resource type="PackedScene" path="res://src/visual/assets/projectile_quaternius_candidate_wrapper.tscn" id="4_projectile"]
+[ext_resource type="PackedScene" path="res://src/visual/assets/exit_gate_quaternius_candidate_wrapper.tscn" id="5_gate"]
+
+[sub_resource type="Environment" id="Environment_external_review"]
+background_mode = 1
+background_color = Color(0.62, 0.72, 0.76, 1)
+ambient_light_source = 2
+ambient_light_color = Color(1, 0.97, 0.9, 1)
+ambient_light_energy = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Material_floor"]
+albedo_color = Color(0.35, 0.48, 0.44, 1)
+roughness = 0.78
+
+[sub_resource type="PlaneMesh" id="Plane_floor"]
+material = SubResource("Material_floor")
+size = Vector2(18, 10)
+
+[sub_resource type="StandardMaterial3D" id="Material_plinth"]
+albedo_color = Color(0.16, 0.19, 0.24, 1)
+roughness = 0.72
+
+[sub_resource type="BoxMesh" id="Mesh_plinth"]
+material = SubResource("Material_plinth")
+size = Vector3(1.8, 0.08, 0.9)
+
+[node name="ExternalAssetReviewPlayground" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_external_review")
+
+[node name="KeyLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, 0, 7, 0)
+light_color = Color(1, 0.94, 0.84, 1)
+light_energy = 1.65
+
+[node name="FillLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 3)
+light_color = Color(0.58, 0.72, 1, 1)
+light_energy = 0.7
+omni_range = 18.0
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 0, 3.8, 8.2)
+current = true
+fov = 58.0
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = SubResource("Plane_floor")
+
+[node name="PlayerCandidate" parent="." instance=ExtResource("1_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2, 0, 0)
+
+[node name="ChaserCandidate" parent="." instance=ExtResource("2_chaser")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6, 0, 0)
+
+[node name="LauncherCandidate" parent="." instance=ExtResource("3_launcher")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="ProjectileCandidate" parent="." instance=ExtResource("4_projectile")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 2.45, 0.25, 0)
+
+[node name="ExitGateCandidate" parent="." instance=ExtResource("5_gate")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 5.1, 0, 0)
+
+[node name="PlayerPlinth" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2, 0.02, 1.05)
+mesh = SubResource("Mesh_plinth")
+
+[node name="PlayerLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, -5.2, 0.18, 1.08)
+text = "PLAYER / Enemy_2Legs"
+font_size = 28
+outline_size = 7
+
+[node name="ChaserPlinth" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6, 0.02, 1.05)
+mesh = SubResource("Mesh_plinth")
+
+[node name="ChaserLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, -2.6, 0.18, 1.08)
+text = "CHASER / Cyclops"
+font_size = 28
+outline_size = 7
+
+[node name="LauncherPlinth" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 1.05)
+mesh = SubResource("Mesh_plinth")
+
+[node name="LauncherLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 0.18, 1.08)
+text = "LAUNCHER / Turret_Cannon"
+font_size = 28
+outline_size = 7
+
+[node name="ProjectilePlinth" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.45, 0.02, 1.05)
+mesh = SubResource("Mesh_plinth")
+
+[node name="ProjectileLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 2.45, 0.18, 1.08)
+text = "PROJECTILE / Grenade"
+font_size = 28
+outline_size = 7
+
+[node name="ExitGatePlinth" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.1, 0.02, 1.05)
+mesh = SubResource("Mesh_plinth")
+
+[node name="ExitGateLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 5.1, 0.18, 1.08)
+text = "EXIT / Door"
+font_size = 28
+outline_size = 7

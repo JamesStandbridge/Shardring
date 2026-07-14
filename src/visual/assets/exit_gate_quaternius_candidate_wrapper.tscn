@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://assets/art/exports_godot/asset_quaternius_exit_gate_door.glb" id="1_gate_glb"]
+
+[node name="ExitGateQuaterniusCandidateWrapper" type="Node3D"]
+
+[node name="GroundAnchor" type="Node3D" parent="."]
+
+[node name="VisualRoot" type="Node3D" parent="."]
+
+[node name="Asset" parent="VisualRoot" instance=ExtResource("1_gate_glb")]
