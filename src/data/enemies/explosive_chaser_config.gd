@@ -12,6 +12,13 @@ extends Resource
 @export var walk_speed_meters_per_second: float = 2.35
 @export var chase_speed_meters_per_second: float = 4.6
 @export var chase_acceleration_meters_per_second_squared: float = 18.0
+@export var agitated_radius_meters: float = 13.0
+@export var dash_trigger_radius_meters: float = 8.5
+@export var dash_windup_seconds: float = 0.22
+@export var dash_duration_seconds: float = 0.34
+@export var dash_speed_meters_per_second: float = 15.0
+@export var dash_cooldown_seconds: float = 1.35
+@export var dash_recovery_seconds: float = 0.18
 @export var run_trigger_radius_meters: float = 7.0
 @export var excitement_ramp_exponent: float = 0.65
 @export var weave_strength_meters_per_second: float = 0.75
@@ -25,6 +32,8 @@ extends Resource
 @export var priming_scale_multiplier: float = 1.35
 @export var explosion_radius_meters: float = 3.2
 @export var explosion_linger_seconds: float = 0.18
+@export var near_miss_radius_meters: float = 4.6
+@export var near_miss_min_distance_from_damage_radius: float = 0.35
 @export var lifetime_seconds: float = 18.0
 @export var spawn_pop_duration_seconds: float = 0.22
 @export var spawn_pop_height_meters: float = 0.22
@@ -56,6 +65,13 @@ func is_valid_config() -> bool:
 		and chase_speed_meters_per_second > 0.0
 		and chase_speed_meters_per_second >= walk_speed_meters_per_second
 		and chase_acceleration_meters_per_second_squared > 0.0
+		and agitated_radius_meters >= dash_trigger_radius_meters
+		and dash_trigger_radius_meters >= 0.0
+		and dash_windup_seconds > 0.0
+		and dash_duration_seconds > 0.0
+		and dash_speed_meters_per_second >= chase_speed_meters_per_second
+		and dash_cooldown_seconds >= 0.0
+		and dash_recovery_seconds >= 0.0
 		and run_trigger_radius_meters >= prime_trigger_radius_meters
 		and excitement_ramp_exponent > 0.0
 		and weave_strength_meters_per_second >= 0.0
@@ -68,6 +84,9 @@ func is_valid_config() -> bool:
 		and priming_scale_multiplier >= 1.0
 		and explosion_radius_meters > 0.0
 		and explosion_linger_seconds > 0.0
+		and near_miss_radius_meters >= 0.0
+		and near_miss_min_distance_from_damage_radius >= 0.0
+		and near_miss_min_distance_from_damage_radius <= near_miss_radius_meters
 		and lifetime_seconds > 0.0
 		and spawn_pop_duration_seconds >= 0.0
 		and spawn_pop_height_meters >= 0.0

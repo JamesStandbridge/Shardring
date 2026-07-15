@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3]
+[gd_scene load_steps=48 format=3]
 
 [ext_resource type="Script" path="res://src/main/main.gd" id="1_main_script"]
 [ext_resource type="Script" path="res://src/gameplay/run/run_controller.gd" id="2_run_controller_script"]
@@ -29,6 +29,16 @@
 [ext_resource type="Resource" path="res://src/data/stages/default_stage_sequence.tres" id="27_stage_sequence"]
 [ext_resource type="Script" path="res://src/gameplay/stages/exit_gate_controller.gd" id="28_exit_gate_controller_script"]
 [ext_resource type="PackedScene" path="res://src/visual/assets/exit_gate_arcade_wrapper.tscn" id="29_exit_gate_wrapper"]
+[ext_resource type="Script" path="res://src/gameplay/hazards/arena_hazard_system.gd" id="30_arena_hazard_system_script"]
+[ext_resource type="Resource" path="res://src/data/dangers/basic_lava_hazard_danger.tres" id="31_lava_hazard_danger"]
+[ext_resource type="Resource" path="res://src/data/dangers/basic_ice_hazard_danger.tres" id="32_ice_hazard_danger"]
+[ext_resource type="Resource" path="res://src/data/dangers/basic_collapse_hazard_danger.tres" id="33_collapse_hazard_danger"]
+[ext_resource type="Resource" path="res://src/data/combat/fall_out_of_arena_damage.tres" id="34_fall_damage"]
+[ext_resource type="Script" path="res://src/gameplay/dangers/danger_placement_service.gd" id="35_danger_placement_service_script"]
+[ext_resource type="Script" path="res://src/gameplay/objectives/shard_objective_controller.gd" id="36_shard_objective_controller_script"]
+[ext_resource type="Resource" path="res://src/data/objectives/default_shard_objective_config.tres" id="37_shard_objective_config"]
+[ext_resource type="PackedScene" path="res://src/visual/assets/shard_arcade_wrapper.tscn" id="38_shard_wrapper"]
+[ext_resource type="Script" path="res://src/gameplay/feedback/gameplay_juice_controller.gd" id="39_gameplay_juice_controller_script"]
 
 [sub_resource type="Environment" id="Environment_main"]
 background_mode = 1
@@ -120,6 +130,7 @@ run_controller_path = NodePath("../RunController")
 arena_path = NodePath("../Arena")
 player_path = NodePath("../Player")
 health_component_path = NodePath("../Player/HealthComponent")
+placement_service_path = NodePath("../DangerPlacementService")
 automatic_spawning_enabled = false
 
 [node name="ChaserEnemySystem" type="Node3D" parent="."]
@@ -129,14 +140,24 @@ run_controller_path = NodePath("../RunController")
 arena_path = NodePath("../Arena")
 player_path = NodePath("../Player")
 health_component_path = NodePath("../Player/HealthComponent")
+placement_service_path = NodePath("../DangerPlacementService")
+
+[node name="ArenaHazardSystem" type="Node" parent="."]
+script = ExtResource("30_arena_hazard_system_script")
+run_controller_path = NodePath("../RunController")
+arena_path = NodePath("../Arena")
+player_path = NodePath("../Player")
+health_component_path = NodePath("../Player/HealthComponent")
+placement_service_path = NodePath("../DangerPlacementService")
+fall_damage_profile = ExtResource("34_fall_damage")
 
 [node name="DangerDirector" type="Node" parent="."]
 script = ExtResource("11_danger_director_script")
 director_config = ExtResource("12_danger_director_config")
 default_danger_definition = ExtResource("13_basic_projectile_danger")
-danger_definitions = Array[Resource]([ExtResource("16_explosive_chaser_danger")])
+danger_definitions = Array[Resource]([ExtResource("16_explosive_chaser_danger"), ExtResource("31_lava_hazard_danger"), ExtResource("32_ice_hazard_danger"), ExtResource("33_collapse_hazard_danger")])
 run_controller_path = NodePath("../RunController")
-danger_executor_paths = Array[NodePath]([NodePath("../ProjectileSystem"), NodePath("../ChaserEnemySystem")])
+danger_executor_paths = Array[NodePath]([NodePath("../ProjectileSystem"), NodePath("../ChaserEnemySystem"), NodePath("../ArenaHazardSystem")])
 
 [node name="StageController" type="Node" parent="."]
 script = ExtResource("26_stage_controller_script")
@@ -145,16 +166,31 @@ run_controller_path = NodePath("../RunController")
 arena_path = NodePath("../Arena")
 player_path = NodePath("../Player")
 danger_director_path = NodePath("../DangerDirector")
+shard_objective_path = NodePath("../ShardObjective")
 exit_gate_path = NodePath("../ExitGate")
 world_environment_path = NodePath("../WorldEnvironment")
 key_light_path = NodePath("../KeyLight")
 fill_light_path = NodePath("../FillLight")
+
+[node name="ShardObjective" type="Node3D" parent="."]
+script = ExtResource("36_shard_objective_controller_script")
+objective_config = ExtResource("37_shard_objective_config")
+shard_scene = ExtResource("38_shard_wrapper")
+run_controller_path = NodePath("../RunController")
+arena_path = NodePath("../Arena")
+player_path = NodePath("../Player")
 
 [node name="ExitGate" type="Node3D" parent="."]
 script = ExtResource("28_exit_gate_controller_script")
 gate_scene = ExtResource("29_exit_gate_wrapper")
 player_path = NodePath("../Player")
 stage_controller_path = NodePath("../StageController")
+
+[node name="DangerPlacementService" type="Node" parent="."]
+script = ExtResource("35_danger_placement_service_script")
+arena_path = NodePath("../Arena")
+player_path = NodePath("../Player")
+exit_gate_path = NodePath("../ExitGate")
 
 [node name="Player" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
@@ -245,6 +281,46 @@ script = ExtResource("19_health_hud_script")
 health_component_path = NodePath("../Player/HealthComponent")
 player_path = NodePath("../Player")
 stage_controller_path = NodePath("../StageController")
+danger_director_path = NodePath("../DangerDirector")
+
+[node name="PeakLabel" type="Label" parent="HealthHud"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -110.0
+offset_top = 22.0
+offset_right = 110.0
+offset_bottom = 62.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.42, 0.08, 0.92)
+theme_override_colors/font_shadow_color = Color(0.12, 0.04, 0.02, 0.65)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 28
+text = "PEAK"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CalloutLabel" type="Label" parent="HealthHud"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.18
+anchor_right = 0.5
+anchor_bottom = 0.18
+offset_left = -170.0
+offset_top = -28.0
+offset_right = 170.0
+offset_bottom = 28.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.58, 0.08, 1)
+theme_override_colors/font_shadow_color = Color(0.12, 0.04, 0.02, 0.7)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 34
+text = "DODGE"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Panel" type="Panel" parent="HealthHud"]
 anchor_top = 1.0
@@ -272,7 +348,7 @@ offset_right = 348.0
 offset_bottom = 62.0
 theme_override_colors/font_color = Color(0.2, 0.25, 0.42, 1)
 theme_override_font_sizes/font_size = 18
-text = "THREAT 0 / 22"
+text = "SHARDS 0 / 3"
 vertical_alignment = 1
 
 [node name="HealthBar" type="ProgressBar" parent="HealthHud/Panel"]
@@ -338,6 +414,14 @@ health_component_path = NodePath("../Player/HealthComponent")
 camera_rig_path = NodePath("../ThirdPersonCameraRig")
 health_hud_path = NodePath("../HealthHud")
 
+[node name="GameplayJuiceController" type="Node" parent="."]
+script = ExtResource("39_gameplay_juice_controller_script")
+chaser_enemy_system_path = NodePath("../ChaserEnemySystem")
+projectile_system_path = NodePath("../ProjectileSystem")
+shard_objective_path = NodePath("../ShardObjective")
+camera_rig_path = NodePath("../ThirdPersonCameraRig")
+health_hud_path = NodePath("../HealthHud")
+
 [node name="DebugOverlay" type="CanvasLayer" parent="."]
 script = ExtResource("5_debug_overlay_script")
 run_controller_path = NodePath("../RunController")
@@ -346,11 +430,13 @@ arena_path = NodePath("../Arena")
 projectile_system_path = NodePath("../ProjectileSystem")
 danger_director_path = NodePath("../DangerDirector")
 chaser_enemy_system_path = NodePath("../ChaserEnemySystem")
+arena_hazard_system_path = NodePath("../ArenaHazardSystem")
 stage_controller_path = NodePath("../StageController")
 exit_gate_path = NodePath("../ExitGate")
 health_component_path = NodePath("../Player/HealthComponent")
 camera_rig_path = NodePath("../ThirdPersonCameraRig")
 damage_feedback_controller_path = NodePath("../DamageFeedbackController")
+shard_objective_path = NodePath("../ShardObjective")
 
 [node name="DebugLabel" type="Label" parent="DebugOverlay"]
 anchor_left = 1.0
@@ -395,6 +481,7 @@ Chasers exploding: 0
 Chaser explosions: 0
 Skipped chasers: 0
 Stage: SURVIVING L1 toybox_mint
+Stage shards: 0 / 3
 Stage threat: 0 / 22
 Exit gate: false open=0.00 dist=0.00
 Death: "

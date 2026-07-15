@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="DamageProfile" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/combat/damage_profile.gd" id="1_damage_profile_script"]
+
+[resource]
+script = ExtResource("1_damage_profile_script")
+amount = 999.0
+damage_type = 5
+death_reason = &"fell_out_of_arena"
+hit_label = &"Fall"
+ignores_invulnerability = true

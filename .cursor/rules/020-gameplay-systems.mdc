@@ -10,10 +10,13 @@ alwaysApply: false
 - Current official run states are `READY`, `PLAYING`, and `DEAD`.
 - Survival time advances only while `PLAYING`; deaths go through `register_death(reason)`; restarts go through `restart_run()`.
 - `StageController` owns level/map progression inside a run. Do not put map transitions, stage quotas, exit-gate behavior, or theme cycling inside `RunController` or `DangerDirector`.
-- Stage objectives are based on survived threat budget from successful `DangerDirector` spawns, not on forcing chasers or other enemies to resolve in a specific way.
+- Stage completion is based on voluntary Shard collection, not kills, enemy resolution, or passive survived threat budget.
+- Shards are the player-facing level objective. Danger spawns may remain useful for debug/score pressure tracking, but they must not directly open the exit gate.
+- Shard collection may increase objective intensity and force short pressure peaks through `DangerDirector`; Shard systems must not spawn dangers themselves.
 - Runs are persistent across stage transitions. Stage transitions may reposition the player and clear active dangers, but must not reset health, future run currency, or future upgrades.
 - Maps are finite data definitions reused by infinite level indexes. Add new maps through `MapDefinition`, `ArenaConfig`, and `ArenaThemeConfig`, not one-off scene logic.
 - The exit gate appears after the stage objective, while dangers may continue. Transition happens only when the player traverses the open gate.
+- After the exit gate appears, no new Shards spawn. Overstay should be represented as rising risk/reward, not as a second objective.
 - Normal damage must go through `DamageProfile -> HealthComponent`. Dangers should not call `RunController.register_death()` directly unless a future mechanic is explicitly instant-death.
 - Damage types are enum-backed and shared across sources. Do not route damage type behavior through strings or dictionaries in per-hit code.
 - High-volume dangers must perform their own batched collision first, then call `HealthComponent.apply_damage()` only for confirmed hits.
@@ -24,6 +27,9 @@ alwaysApply: false
 - Arena logic owns playable terrain representation. Use `ArenaController` and `ArenaCell` for cells, valid positions, terrain state, destruction, hazards, and future reconstruction.
 - The arena must remain a roughly circular platform split into irregular non-hexagonal cells, with controlled boundary irregularity and subtle walkable surface variation. Do not add a special central shop or permanent central purchase assumption.
 - Hazards are terrain states such as destroyed, lava, ice, and collapsing. Do not hard-code hazards as player special cases; the player should react to abstract terrain state.
+- Terrain hazards must execute through `ArenaHazardSystem` as `DangerDefinition.DangerFamily.TERRAIN_HAZARD`; do not spawn terrain states directly from `DangerDirector`, `StageController`, or the player.
+- Surface movement effects such as ice must use the player surface movement modifier API and must be cleared by hazard cleanup, restart, death, and leaving the affected cell.
+- Terrain damage must use `DamageProfile -> HealthComponent`, including lava ticks and destroyed-terrain punishment.
 - Danger runtime is broader than projectiles. `DangerDirector` owns threat budget, credits, cooldowns, and active limits; projectile, enemy, hazard, ballistic, sky-attack, and event systems execute specialized behavior.
 - `DangerDirector` owns pressure rhythm such as buildup, peak, recovery, and reduced exit pressure. Do not duplicate high-level spawn rhythm inside specialized danger executors.
 - New danger families must be added by implementing the danger executor contract, then registering the executor path on `DangerDirector`. Do not add family-specific spawn cases inside `DangerDirector`.

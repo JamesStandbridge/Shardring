@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
-[ext_resource type="PackedScene" path="res://assets/art/exports_godot/asset_toybox_exit_gate.glb" id="1_exit_gate_glb"]
+[ext_resource type="PackedScene" path="res://assets/art/exports_godot/asset_kenney_exit_gate_frame.glb" id="1_gate_frame"]
+[ext_resource type="PackedScene" path="res://assets/art/exports_godot/asset_kenney_exit_gate_panel.glb" id="2_gate_panel"]
 
 [node name="ExitGateArcadeWrapper" type="Node3D"]
 
@@ -8,4 +9,17 @@
 
 [node name="VisualRoot" type="Node3D" parent="."]
 
-[node name="Asset" parent="VisualRoot" instance=ExtResource("1_exit_gate_glb")]
+[node name="Frame" parent="VisualRoot" instance=ExtResource("1_gate_frame")]
+transform = Transform3D(1.55, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="exit_gate_left_pivot" type="Node3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, 0, -0.18)
+
+[node name="LeftPanel" parent="VisualRoot/exit_gate_left_pivot" instance=ExtResource("2_gate_panel")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.46, 0, 0)
+
+[node name="exit_gate_right_pivot" type="Node3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, 0, -0.18)
+
+[node name="RightPanel" parent="VisualRoot/exit_gate_right_pivot" instance=ExtResource("2_gate_panel")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0.46, 0, 0)

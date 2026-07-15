@@ -1,8 +1,8 @@
 class_name MapDefinition
 extends Resource
 
-@export var map_id: StringName = &"toybox_mint"
-@export var display_name: String = "Toybox Mint"
+@export var map_id: StringName = &"kenney_meadow"
+@export var display_name: String = "Kenney Meadow"
 @export var arena_config: ArenaConfig = ArenaConfig.new()
 @export var arena_theme: ArenaThemeConfig = ArenaThemeConfig.new()
 @export var director_config: DangerDirectorConfig = DangerDirectorConfig.new()

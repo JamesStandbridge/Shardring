@@ -17,42 +17,44 @@ representent plus la qualite visuelle ciblee.
 
 - Kenney : assets publics CC0, utilisables commercialement, attribution non
   requise. Source : https://kenney.nl/support
-- Quaternius : packs low-poly gratuits sous licence CC0. Source :
-  https://quaternius.com/
 - Poly Haven : HDRI, textures et modeles CC0. Source :
   https://polyhaven.com/license
 
 La selection concrete des premiers packs candidats est documentee dans
 `docs/art/asset_sourcing_shortlist.md`.
 
-## Packs Quaternius Extraits
+## Packs Kenney Extraits
 
-Les trois premiers packs Quaternius ont ete extraits depuis `~/Downloads` vers
-`assets/art/source_external/quaternius/` :
+Les premiers packs Kenney ont ete extraits depuis `~/Downloads` vers
+`assets/art/source_external/kenney/` :
 
-- `toon_shooter_game_kit` depuis `Toon Shooter Game Kit - Dec 2022`.
-- `cyberpunk_game_kit` depuis `Cyberpunk Game Kit - Quaternius`.
-- `cute_animated_monsters` depuis `Cute Animated Monsters - Aug 2020`.
+- `blocky_characters` depuis `kenney_blocky-characters_20.zip`.
+- `cube_pets` depuis `kenney_cube-pets_1.0.zip`.
+- `factory_kit` depuis `kenney_factory-kit_3.0.zip`.
+- `graveyard_kit` depuis `kenney_graveyard-kit_5.0.zip`.
+- `pirate_kit` depuis `kenney_pirate-kit.zip`.
+- `platformer_kit` depuis `kenney_platformer-kit.zip`.
 
 Le catalogue local genere est
-`assets/art/source_external/quaternius/asset_catalog.json`.
+`assets/art/source_external/kenney/asset_catalog.json`.
 
-Selection V1 en revue :
+Chaque pack contient un `License.txt` local indiquant Creative Commons Zero
+CC0, utilisable pour projets personnels, educatifs et commerciaux. Le credit
+Kenney est encourage mais non requis.
 
-- joueur : `Enemy_2Legs` depuis Cyberpunk, retenu comme candidat robot propre ;
-- chaser : `Cyclops`;
-- lanceur : `Turret_Cannon`;
-- projectile : `Grenade`;
-- porte : `Door`.
+Analyse de contenu :
 
-Ces assets sont en statut `candidate_review` dans le manifest. Ils ne remplacent
-pas encore les placeholders runtime tant qu'ils ne sont pas valides dans
-`just external-art-review`.
+- 501 assets catalogues.
+- 18 candidats joueur.
+- 24 candidats chaser.
+- 14 candidats lanceur.
+- 26 candidats projectile ou objet lance.
+- 15 candidats porte ou gate.
+- 106 candidats arene.
+- 53 candidats hazard.
 
-Note analyse : les personnages humanoides `Character_Soldier` et
-`Character` ont ete rejetes pour l'instant, car leurs exports glTF/Blender
-affichent des elements de rig/equipement incompatibles avec une silhouette
-joueur propre.
+La selection V1 recommandee est documentee dans
+`docs/art/kenney_asset_analysis.md`.
 
 ## Sources IA Payantes Ou Controlees
 

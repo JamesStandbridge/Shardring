@@ -30,7 +30,7 @@ func test_camera_rig_follows_target_with_vertical_offset() -> void:
 	)
 
 	target.position = Vector3(-4.0, 2.0, 6.0)
-	await get_tree().process_frame
+	camera_rig.step_follow_for_tests(0.1)
 
 	_assert_vector3_almost_eq(
 		camera_rig.global_position, target.global_position + camera_rig.target_offset, 0.001

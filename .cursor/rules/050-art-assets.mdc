@@ -18,6 +18,8 @@ alwaysApply: false
 - Use the functional palette consistently. Dangers are red, orange, or magenta; temporary interactables are cyan; run currency is gold; cross-game currency is white-violet.
 - Do not use decorative colors that conflict with gameplay color meaning.
 - Avoid photorealistic textures, noisy micro-details, mostly beige/brown/purple/dark palettes, and overbright floors that hide player silhouettes.
+- Terrain in normal state must read as one coherent material, not a per-cell rainbow or board-game mosaic. Use real texture resources or deterministic generated PNGs as the material backbone; procedural noise can modulate but should not be the only production treatment.
+- Terrain hazards must use authored visual effects or texture resources, not only flat color swaps. Warning, lava, ice, and collapse need distinct readable patterns or animation.
 - Apply transforms before export. Use `1 Godot unit = 1 approximate meter`.
 - Name objects and files in `snake_case`: `asset_<name>.blend`, `asset_<name>.glb`, `concept_<name>.png`, `mat_arcade_<role>`, and `<name>_arcade_wrapper.tscn`.
 - Test important assets in the `art_review_playground` with the game camera before integrating them into gameplay.

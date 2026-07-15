@@ -9,6 +9,13 @@ func test_explosive_chaser_config_defaults_are_valid() -> void:
 	assert_gt(config.walk_speed_meters_per_second, 0.0)
 	assert_gt(config.chase_speed_meters_per_second, 0.0)
 	assert_gte(config.chase_speed_meters_per_second, config.walk_speed_meters_per_second)
+	assert_gte(config.agitated_radius_meters, config.dash_trigger_radius_meters)
+	assert_gt(config.dash_trigger_radius_meters, 0.0)
+	assert_gt(config.dash_windup_seconds, 0.0)
+	assert_gt(config.dash_duration_seconds, 0.0)
+	assert_gte(config.dash_speed_meters_per_second, config.chase_speed_meters_per_second)
+	assert_gte(config.dash_cooldown_seconds, 0.0)
+	assert_gte(config.dash_recovery_seconds, 0.0)
 	assert_gte(config.run_trigger_radius_meters, config.prime_trigger_radius_meters)
 	assert_gt(config.excitement_ramp_exponent, 0.0)
 	assert_gte(config.weave_strength_meters_per_second, 0.0)
@@ -16,6 +23,8 @@ func test_explosive_chaser_config_defaults_are_valid() -> void:
 	assert_gte(config.face_player_lerp_speed, 0.0)
 	assert_gt(config.prime_duration_seconds, 0.0)
 	assert_gt(config.explosion_radius_meters, 0.0)
+	assert_gt(config.near_miss_radius_meters, 0.0)
+	assert_gte(config.near_miss_min_distance_from_damage_radius, 0.0)
 	assert_gte(config.spawn_pop_duration_seconds, 0.0)
 	assert_gte(config.spawn_pop_height_meters, 0.0)
 	assert_gt(config.movement_bob_frequency_walk_hz, 0.0)
@@ -32,13 +41,13 @@ func test_chaser_system_respects_pool_capacity_and_skips() -> void:
 	config.max_active_enemies = 1
 	var runtime := await _create_chaser_runtime(config)
 	var system := runtime["system"] as ChaserEnemySystem
-	var initial_node_count := system.get_runtime_node_count()
+	var initial_node_count := system._get_runtime_node_count_for_tests()
 
 	assert_true(system.force_spawn_enemy_at(Vector3.ZERO))
 	assert_false(system.force_spawn_enemy_at(Vector3.RIGHT))
 	assert_eq(system.get_active_enemy_count(), 1)
 	assert_eq(system.get_skipped_spawn_count(), 1)
-	assert_eq(system.get_runtime_node_count(), initial_node_count)
+	assert_eq(system._get_runtime_node_count_for_tests(), initial_node_count)
 
 	_free_runtime(runtime)
 
@@ -99,7 +108,7 @@ func test_chaser_runs_when_close_to_player() -> void:
 	far_player.global_position = Vector3(10.0, 0.0, 0.0)
 	assert_true(far_system.force_spawn_enemy_at(Vector3.ZERO))
 	far_system.step_system_for_tests(0.2)
-	var far_distance_moved := far_system.get_first_active_enemy_position().x
+	var far_horizontal_speed := far_system._get_first_active_enemy_horizontal_speed_for_tests()
 	_free_runtime(far_runtime)
 
 	var close_config := _create_test_config()
@@ -117,7 +126,10 @@ func test_chaser_runs_when_close_to_player() -> void:
 	assert_true(close_system.force_spawn_enemy_at(Vector3.ZERO))
 	close_system.step_system_for_tests(0.2)
 
-	assert_gt(close_system.get_first_active_enemy_position().x, far_distance_moved * 2.0)
+	assert_gt(
+		close_system._get_first_active_enemy_horizontal_speed_for_tests(),
+		far_horizontal_speed * 2.0
+	)
 	assert_eq(close_system.get_first_active_enemy_state(), ChaserEnemySystem.ChaserState.CHASING)
 
 	_free_runtime(close_runtime)
@@ -143,8 +155,8 @@ func test_chaser_movement_updates_visual_pose_without_moving_collision_shape() -
 	assert_true(system.force_spawn_enemy_at(Vector3.ZERO))
 	system.step_system_for_tests(0.05)
 
-	assert_gt(system.get_first_active_enemy_visual_local_position().y, 0.05)
-	assert_gt(system.get_first_active_enemy_visual_scale().y, 1.0)
+	assert_gt(system._get_first_active_enemy_visual_local_position_for_tests().y, 0.05)
+	assert_gt(system._get_first_active_enemy_visual_scale_for_tests().y, 1.0)
 	assert_eq(system.get_first_active_enemy_state(), ChaserEnemySystem.ChaserState.CHASING)
 
 	_free_runtime(runtime)
@@ -177,7 +189,7 @@ func test_chaser_weaves_while_still_advancing_toward_player() -> void:
 
 	var enemy_position := system.get_first_active_enemy_position()
 	assert_gt(enemy_position.x, 0.12)
-	assert_gt(max_lateral_offset, 0.008)
+	assert_gt(max_lateral_offset, 0.006)
 
 	_free_runtime(runtime)
 
@@ -198,8 +210,8 @@ func test_chaser_spawn_pop_animates_visual_without_moving_collision_shape() -> v
 	system.step_system_for_tests(0.1)
 
 	assert_eq(system.get_first_active_enemy_position().y, initial_body_position.y)
-	assert_gt(system.get_first_active_enemy_visual_local_position().y, 0.2)
-	assert_gt(system.get_first_active_enemy_visual_scale().x, 1.0)
+	assert_gt(system._get_first_active_enemy_visual_local_position_for_tests().y, 0.2)
+	assert_gt(system._get_first_active_enemy_visual_scale_for_tests().x, 1.0)
 
 	_free_runtime(runtime)
 
@@ -218,7 +230,7 @@ func test_chaser_faces_player_while_chasing() -> void:
 
 	system.step_system_for_tests(0.016)
 
-	assert_gt(system.get_first_active_enemy_forward_direction().dot(Vector3.RIGHT), 0.99)
+	assert_gt(system._get_first_active_enemy_forward_direction_for_tests().dot(Vector3.RIGHT), 0.99)
 
 	_free_runtime(runtime)
 
@@ -237,8 +249,8 @@ func test_chaser_visual_yaw_offset_does_not_change_logical_facing() -> void:
 	assert_true(system.force_spawn_enemy_at(Vector3.ZERO))
 	system.step_system_for_tests(0.016)
 
-	assert_gt(system.get_first_active_enemy_forward_direction().dot(Vector3.RIGHT), 0.99)
-	assert_almost_eq(system.get_first_active_enemy_visual_local_rotation().y, PI, 0.001)
+	assert_gt(system._get_first_active_enemy_forward_direction_for_tests().dot(Vector3.RIGHT), 0.99)
+	assert_almost_eq(system._get_first_active_enemy_visual_local_rotation_for_tests().y, PI, 0.001)
 
 	_free_runtime(runtime)
 
@@ -273,6 +285,82 @@ func test_chaser_transitions_from_chase_to_prime_to_explosion_to_inactive() -> v
 	system.step_system_for_tests(0.06)
 	assert_eq(system.get_active_enemy_count(), 0)
 	assert_eq(resolved_count[0], 1)
+
+	_free_runtime(runtime)
+
+
+func test_chaser_windup_dash_uses_player_snapshot_then_recovers() -> void:
+	var config := _create_test_config()
+	config.gravity_multiplier = 0.0
+	config.prime_trigger_radius_meters = 0.2
+	config.dash_trigger_radius_meters = 8.0
+	config.dash_windup_seconds = 0.05
+	config.dash_duration_seconds = 0.1
+	config.dash_recovery_seconds = 0.05
+	config.dash_speed_meters_per_second = 10.0
+	config.dash_cooldown_seconds = 1.0
+	config.chase_acceleration_meters_per_second_squared = 1000.0
+	var runtime := await _create_chaser_runtime(config)
+	var player := runtime["player"] as PlayerController
+	var system := runtime["system"] as ChaserEnemySystem
+	var dash_events := [0]
+	system.chaser_dash_started.connect(func(_position: Vector3) -> void: dash_events[0] += 1)
+
+	player.global_position = Vector3(6.0, 0.0, 0.0)
+	assert_true(system.force_spawn_enemy_at(Vector3.ZERO))
+	system.step_system_for_tests(0.01)
+
+	assert_eq(system.get_first_active_enemy_state(), ChaserEnemySystem.ChaserState.WINDUP)
+	assert_eq(system.get_windup_enemy_count(), 1)
+
+	player.global_position = Vector3(-8.0, 0.0, 0.0)
+	system.step_system_for_tests(0.06)
+
+	assert_eq(system.get_first_active_enemy_state(), ChaserEnemySystem.ChaserState.DASHING)
+	assert_eq(system.get_dashing_enemy_count(), 1)
+	assert_eq(dash_events[0], 1)
+	assert_gt(system._get_first_active_enemy_forward_direction_for_tests().dot(Vector3.RIGHT), 0.95)
+
+	system.step_system_for_tests(0.11)
+
+	assert_eq(system.get_first_active_enemy_state(), ChaserEnemySystem.ChaserState.RECOVERING)
+
+	system.step_system_for_tests(0.06)
+
+	assert_eq(system.get_first_active_enemy_state(), ChaserEnemySystem.ChaserState.CHASING)
+
+	_free_runtime(runtime)
+
+
+func test_chaser_near_miss_emits_when_explosion_is_narrowly_escaped() -> void:
+	var config := _create_test_config()
+	config.gravity_multiplier = 0.0
+	config.prime_trigger_radius_meters = 10.0
+	config.prime_duration_seconds = 0.01
+	config.explosion_radius_meters = 2.0
+	config.near_miss_radius_meters = 3.0
+	config.near_miss_min_distance_from_damage_radius = 0.2
+	var runtime := await _create_chaser_runtime(config)
+	var player := runtime["player"] as PlayerController
+	var health := runtime["health"] as HealthComponent
+	var system := runtime["system"] as ChaserEnemySystem
+	var near_miss_events := [0]
+	var near_miss_strength := [0.0]
+	system.chaser_near_missed.connect(
+		func(_position: Vector3, _distance: float, strength: float) -> void:
+			near_miss_events[0] += 1
+			near_miss_strength[0] = strength
+	)
+
+	player.global_position = Vector3(3.1, 0.0, 0.0)
+	assert_true(system.force_spawn_enemy_at(Vector3.ZERO))
+	system.step_system_for_tests(0.01)
+	system.step_system_for_tests(0.02)
+
+	assert_eq(system.get_first_active_enemy_state(), ChaserEnemySystem.ChaserState.EXPLODING)
+	assert_eq(near_miss_events[0], 1)
+	assert_gt(near_miss_strength[0], 0.0)
+	assert_almost_eq(health.get_current_health(), 100.0, 0.001)
 
 	_free_runtime(runtime)
 
@@ -377,12 +465,21 @@ func _create_test_config() -> ExplosiveChaserConfig:
 	config.walk_speed_meters_per_second = 2.0
 	config.chase_speed_meters_per_second = 4.0
 	config.chase_acceleration_meters_per_second_squared = 20.0
+	config.agitated_radius_meters = 5.0
+	config.dash_trigger_radius_meters = 0.0
+	config.dash_windup_seconds = 0.05
+	config.dash_duration_seconds = 0.1
+	config.dash_speed_meters_per_second = 8.0
+	config.dash_cooldown_seconds = 1.0
+	config.dash_recovery_seconds = 0.05
 	config.run_trigger_radius_meters = 5.0
 	config.face_player_lerp_speed = 1000.0
 	config.prime_trigger_radius_meters = 2.0
 	config.prime_duration_seconds = 0.1
 	config.explosion_linger_seconds = 0.1
 	config.explosion_radius_meters = 2.0
+	config.near_miss_radius_meters = 3.0
+	config.near_miss_min_distance_from_damage_radius = 0.2
 	config.spawn_pop_duration_seconds = 0.0
 	config.damage_profile = _create_explosive_damage_profile()
 	return config

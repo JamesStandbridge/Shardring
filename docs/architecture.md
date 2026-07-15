@@ -9,6 +9,8 @@ Ce projet part d'un socle volontairement simple : Godot gere les scenes, les noe
   separees du runtime principal.
 - `src/gameplay/run` contiendra le cycle de run : preparation, jeu actif, mort, recompense, restart.
 - `src/gameplay/stages` contient la progression de levels d'une run, la selection de maps et la porte de sortie.
+- `src/gameplay/objectives` contient les objectifs volontaires de level,
+  notamment les Shards qui declenchent l'exit gate.
 - `src/gameplay/player` contiendra le controleur third-person, les etats de mouvement et les upgrades joueur.
 - `src/gameplay/combat` contient la sante, les degats typés et les futurs points d'extension pour bouclier, armure et resistances.
 - `src/gameplay/feedback` contient les reactions visuelles et sensorielles aux evenements acceptes, comme le shake camera et les flashs HUD.
@@ -16,7 +18,8 @@ Ce projet part d'un socle volontairement simple : Godot gere les scenes, les noe
 - `src/gameplay/dangers` contient le Director qui budgete et declenche les menaces de run.
 - `src/gameplay/projectiles` contient le systeme de lanceurs/projectiles. Les volumes eleves doivent utiliser des pools data-oriented et du rendu batche, pas une node par projectile.
 - `src/gameplay/enemies` contient les ennemis physiques controles par des pools de nodes capes et des machines a etats simples.
-- `src/gameplay/hazards` contiendra les effets temporaires de terrain et evenements speciaux.
+- `src/gameplay/hazards` contient les effets temporaires de terrain comme lave,
+  glace, effondrement, destruction et reconstruction de cellules.
 - `src/gameplay/difficulty` contiendra la courbe de difficulte, l'intensite et les unlocks progressifs.
 - `src/gameplay/events` contiendra les evenements speciaux, comme l'ennemi au baril explosif.
 - `src/gameplay/economy` contiendra les pieces, achats et upgrades.
@@ -30,9 +33,11 @@ Ce projet part d'un socle volontairement simple : Godot gere les scenes, les noe
 
 - `Run` pilote le cycle `start -> playing -> death -> reward -> restart`. Les autres systemes doivent reagir a ce cycle plutot que le recreer localement.
 - `Stage` pilote les levels infinis d'une run persistante. Il choisit une map dans un catalogue fini, applique l'arene/theme/dangers, suit l'objectif et fait apparaitre l'exit gate.
+- `Objective` donne au joueur une action volontaire pour terminer le level. En
+  V1, les Shards remplacent l'ancien objectif passif de budget de menace.
 - `Combat` centralise les degats via `DamageProfile` et `HealthComponent`. Les dangers appliquent des degats, la run ne meurt que lorsque la sante est epuisee.
 - `Feedback` reagit aux signaux de gameplay deja valides, par exemple `HealthComponent.damaged`. Les dangers ne pilotent pas directement la camera ou l'UI.
-- `Danger` pilote la pression de run via credits, couts, cooldowns et limites actives, puis delegue aux executors specialises (`ProjectileSystem`, `ChaserEnemySystem`, futurs hazards/events).
+- `Danger` pilote la pression de run via credits, couts, cooldowns et limites actives, puis delegue aux executors specialises (`ProjectileSystem`, `ChaserEnemySystem`, `ArenaHazardSystem`, futurs events).
 - `Difficulty` expose une intensite temporelle et debloque progressivement les familles de dangers.
 - `Economy` separe la monnaie de run, remise a zero a chaque partie, de la monnaie cross-game persistante.
 - `Save` persiste uniquement les donnees cross-game et doit rester absent de la boucle de run immediate.
@@ -49,7 +54,7 @@ Ce projet part d'un socle volontairement simple : Godot gere les scenes, les noe
 - Les premieres configs officielles sont `PlayerMovementConfig`,
   `ArenaConfig`, `HealthConfig`, `PlayerHurtboxConfig`, `DamageProfile`,
   `CameraShakeConfig`, `DamageFeedbackConfig`, `DangerDefinition`, `DangerDirectorConfig`,
-  `StageSequenceConfig`, `MapDefinition`, `ArenaThemeConfig`,
+  `StageSequenceConfig`, `ShardObjectiveConfig`, `MapDefinition`, `ArenaThemeConfig`, `ArenaHazardConfig`,
   `ProjectileConfig`, `ProjectileLauncherConfig`,
   `TelegraphVisualConfig`, `ExplosiveChaserConfig`, `DifficultyConfig` et
   `UpgradeConfig`.

@@ -4,6 +4,12 @@ extends Node3D
 const TERRAIN_COLLISION_LAYER := 1 << 1
 const PLAYER_SPAWN_HEIGHT_METERS := 1.05
 const BOUNDARY_EPSILON_METERS := 0.14
+const TERRAIN_SHADER_PATH := "res://src/gameplay/arena/terrain_surface.gdshader"
+const HAZARD_SHADER_PATH := "res://src/gameplay/arena/hazard_surface.gdshader"
+const WARNING_EFFECT_TEXTURE_PATH := "res://assets/art/textures/terrain/hazard_warning_stripes.png"
+const LAVA_EFFECT_TEXTURE_PATH := "res://assets/art/textures/terrain/hazard_lava_flow.png"
+const ICE_EFFECT_TEXTURE_PATH := "res://assets/art/textures/terrain/hazard_ice_cracks.png"
+const COLLAPSE_EFFECT_TEXTURE_PATH := "res://assets/art/textures/terrain/hazard_collapse_cracks.png"
 
 @export var arena_config: ArenaConfig = ArenaConfig.new()
 @export var arena_theme: ArenaThemeConfig = ArenaThemeConfig.new()
@@ -11,6 +17,12 @@ const BOUNDARY_EPSILON_METERS := 0.14
 var _cells: Array[ArenaCell] = []
 var _generated_root: Node3D
 var _boundary_polygon := PackedVector2Array()
+var _cell_bodies: Dictionary = {}
+var _cell_mesh_instances: Dictionary = {}
+var _cell_collision_shapes: Dictionary = {}
+var _terrain_shader: Shader
+var _hazard_shader: Shader
+var _hazard_effect_textures: Dictionary = {}
 
 
 func _ready() -> void:
@@ -34,6 +46,7 @@ func generate_arena() -> void:
 	_cells = _build_cells()
 	for cell: ArenaCell in _cells:
 		_create_cell_body(cell)
+	_create_arena_trim()
 
 	DebugLog.info(
 		&"Arena",
@@ -59,6 +72,51 @@ func get_cells() -> Array[ArenaCell]:
 	return _cells.duplicate()
 
 
+func get_cell_at_position(world_position: Vector3) -> ArenaCell:
+	for cell: ArenaCell in _cells:
+		if cell.contains_horizontal_position(world_position):
+			return cell
+	return null
+
+
+func get_cell_state_at_position(world_position: Vector3) -> ArenaCell.ArenaCellState:
+	var cell := get_cell_at_position(world_position)
+	if cell == null:
+		return ArenaCell.ArenaCellState.DESTROYED
+	return cell.state
+
+
+func get_cell_state_name_at_position(world_position: Vector3) -> String:
+	return ArenaCell.ArenaCellState.keys()[get_cell_state_at_position(world_position)]
+
+
+func get_cells_by_state(state: ArenaCell.ArenaCellState) -> Array[ArenaCell]:
+	var matching_cells: Array[ArenaCell] = []
+	for cell: ArenaCell in _cells:
+		if cell.state == state:
+			matching_cells.append(cell)
+	return matching_cells
+
+
+func get_cell_count_by_state(state: ArenaCell.ArenaCellState) -> int:
+	return get_cells_by_state(state).size()
+
+
+func set_cell_state(cell_index: int, state: ArenaCell.ArenaCellState) -> bool:
+	if cell_index < 0 or cell_index >= _cells.size():
+		return false
+
+	var cell := _cells[cell_index]
+	cell.state = state
+	_update_cell_runtime_state(cell)
+	return true
+
+
+func reset_all_cell_states() -> void:
+	for cell: ArenaCell in _cells:
+		set_cell_state(cell.index, ArenaCell.ArenaCellState.NORMAL)
+
+
 func get_spawn_position() -> Vector3:
 	var spawn_point := Vector2.ZERO
 	return Vector3(
@@ -75,7 +133,12 @@ func get_random_valid_position(rng: RandomNumberGenerator) -> Vector3:
 	if _cells.is_empty():
 		return Vector3.ZERO
 
-	var cell := _pick_weighted_cell(rng)
+	var cell := _pick_weighted_cell(rng, true)
+	if cell == null:
+		cell = _pick_weighted_cell(rng, false)
+	if cell == null:
+		return Vector3.ZERO
+
 	var point := _sample_point_in_cell(cell, rng)
 	return Vector3(point.x, _get_surface_height(point), point.y)
 
@@ -246,7 +309,9 @@ func _create_cell_body(cell: ArenaCell) -> void:
 	var mesh_instance := MeshInstance3D.new()
 	mesh_instance.name = "Mesh"
 	mesh_instance.mesh = mesh
-	mesh_instance.set_surface_override_material(0, _create_cell_material(cell.index))
+	mesh_instance.set_surface_override_material(0, _create_floor_material(cell.index))
+	if mesh.get_surface_count() > 1:
+		mesh_instance.set_surface_override_material(1, _create_wall_material())
 	body.add_child(mesh_instance)
 
 	var collision_shape := CollisionShape3D.new()
@@ -258,31 +323,51 @@ func _create_cell_body(cell: ArenaCell) -> void:
 		body.add_child(_create_cell_label(cell))
 
 	_generated_root.add_child(body)
+	_cell_bodies[cell.index] = body
+	_cell_mesh_instances[cell.index] = mesh_instance
+	_cell_collision_shapes[cell.index] = collision_shape
+	_update_cell_runtime_state(cell)
 
 
 func _create_cell_mesh(cell: ArenaCell) -> ArrayMesh:
-	var surface_tool := SurfaceTool.new()
-	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var mesh := ArrayMesh.new()
 
-	_add_top_polygon_triangles(surface_tool, cell.polygon)
-	_add_outer_boundary_walls(surface_tool, cell)
+	var top_surface := SurfaceTool.new()
+	top_surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	_add_top_polygon_triangles(top_surface, cell.polygon)
+	top_surface.commit(mesh)
 
-	surface_tool.generate_normals()
-	return surface_tool.commit()
+	var wall_surface := SurfaceTool.new()
+	wall_surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var wall_vertex_count := _add_outer_boundary_walls(wall_surface, cell)
+	if wall_vertex_count > 0:
+		wall_surface.generate_normals()
+		wall_surface.commit(mesh)
+
+	return mesh
 
 
-func _add_top_polygon_triangles(surface_tool: SurfaceTool, polygon: PackedVector2Array) -> void:
+func _add_top_polygon_triangles(surface_tool: SurfaceTool, polygon: PackedVector2Array) -> int:
+	var added_vertices := 0
 	var triangles := Geometry2D.triangulate_polygon(polygon)
 	for triangle_index in range(0, triangles.size(), 3):
 		var first := polygon[triangles[triangle_index]]
 		var second := polygon[triangles[triangle_index + 1]]
 		var third := polygon[triangles[triangle_index + 2]]
-		surface_tool.add_vertex(_to_surface_vector3(first))
-		surface_tool.add_vertex(_to_surface_vector3(third))
-		surface_tool.add_vertex(_to_surface_vector3(second))
+		_add_floor_vertex(surface_tool, first)
+		_add_floor_vertex(surface_tool, third)
+		_add_floor_vertex(surface_tool, second)
+		added_vertices += 3
+	return added_vertices
 
 
-func _add_outer_boundary_walls(surface_tool: SurfaceTool, cell: ArenaCell) -> void:
+func _add_floor_vertex(surface_tool: SurfaceTool, point: Vector2) -> void:
+	surface_tool.set_normal(Vector3.UP)
+	surface_tool.add_vertex(_to_surface_vector3(point))
+
+
+func _add_outer_boundary_walls(surface_tool: SurfaceTool, cell: ArenaCell) -> int:
+	var added_vertices := 0
 	for vertex_index in range(cell.polygon.size()):
 		var current := cell.polygon[vertex_index]
 		var next := cell.polygon[(vertex_index + 1) % cell.polygon.size()]
@@ -298,6 +383,8 @@ func _add_outer_boundary_walls(surface_tool: SurfaceTool, cell: ArenaCell) -> vo
 			next_top - Vector3.UP * cell.thickness_meters,
 			next_top
 		)
+		added_vertices += 6
+	return added_vertices
 
 
 func _create_cell_collision_shape(cell: ArenaCell) -> ConcavePolygonShape3D:
@@ -329,14 +416,333 @@ func _create_cell_label(cell: ArenaCell) -> Label3D:
 	return label
 
 
-func _create_cell_material(cell_index: int) -> StandardMaterial3D:
+func _create_floor_material(cell_index: int) -> Material:
+	if arena_theme == null:
+		arena_theme = ArenaThemeConfig.new()
+	if arena_theme.terrain_texture_enabled:
+		return _create_terrain_shader_material(cell_index)
+
+	var material := StandardMaterial3D.new()
+	material.albedo_color = arena_theme.get_floor_color(cell_index)
+	material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	material.roughness = arena_theme.material_roughness
+	return material
+
+
+func _create_terrain_shader_material(cell_index: int) -> ShaderMaterial:
+	var material := ShaderMaterial.new()
+	material.shader = _get_terrain_shader()
+	var has_albedo_texture := arena_theme.terrain_albedo_texture != null
+	var has_detail_texture := arena_theme.terrain_detail_texture != null
+	material.set_shader_parameter("base_color", arena_theme.get_floor_color(cell_index))
+	material.set_shader_parameter("secondary_color", arena_theme.terrain_secondary_color)
+	material.set_shader_parameter("accent_color", arena_theme.terrain_accent_color)
+	material.set_shader_parameter("use_albedo_texture", has_albedo_texture)
+	material.set_shader_parameter("use_detail_texture", has_detail_texture)
+	if has_albedo_texture:
+		material.set_shader_parameter("albedo_texture", arena_theme.terrain_albedo_texture)
+	if has_detail_texture:
+		material.set_shader_parameter("detail_texture", arena_theme.terrain_detail_texture)
+	material.set_shader_parameter("texture_strength", arena_theme.terrain_texture_strength)
+	material.set_shader_parameter("texture_tile_meters", arena_theme.terrain_texture_tile_meters)
+	material.set_shader_parameter(
+		"variation_strength", arena_theme.terrain_color_variation_strength
+	)
+	material.set_shader_parameter("patch_scale", arena_theme.terrain_patch_scale_meters)
+	material.set_shader_parameter(
+		"detail_texture_strength", arena_theme.terrain_detail_texture_strength
+	)
+	material.set_shader_parameter(
+		"detail_texture_tile_meters", arena_theme.terrain_detail_texture_tile_meters
+	)
+	material.set_shader_parameter("detail_scale", arena_theme.terrain_detail_scale_meters)
+	material.set_shader_parameter("detail_strength", arena_theme.terrain_detail_strength)
+	material.set_shader_parameter("speckle_strength", arena_theme.terrain_speckle_strength)
+	material.set_shader_parameter("roughness_value", arena_theme.material_roughness)
+	return material
+
+
+func _get_terrain_shader() -> Shader:
+	if _terrain_shader != null:
+		return _terrain_shader
+
+	_terrain_shader = load(TERRAIN_SHADER_PATH) as Shader
+	return _terrain_shader
+
+
+func _create_wall_material() -> StandardMaterial3D:
 	var material := StandardMaterial3D.new()
 	if arena_theme == null:
 		arena_theme = ArenaThemeConfig.new()
-	material.albedo_color = arena_theme.get_floor_color(cell_index)
+	material.albedo_color = arena_theme.wall_color
 	material.cull_mode = BaseMaterial3D.CULL_DISABLED
-	material.roughness = 0.78
+	material.roughness = arena_theme.material_roughness
 	return material
+
+
+func _update_cell_runtime_state(cell: ArenaCell) -> void:
+	var body := _cell_bodies.get(cell.index) as StaticBody3D
+	var mesh_instance := _cell_mesh_instances.get(cell.index) as MeshInstance3D
+	var collision_shape := _cell_collision_shapes.get(cell.index) as CollisionShape3D
+	var is_destroyed := cell.state == ArenaCell.ArenaCellState.DESTROYED
+
+	if body != null:
+		body.visible = not is_destroyed
+	if collision_shape != null:
+		collision_shape.disabled = is_destroyed
+	if mesh_instance != null:
+		mesh_instance.set_surface_override_material(0, _create_cell_state_material(cell))
+
+
+func _create_cell_state_material(cell: ArenaCell) -> Material:
+	if arena_theme == null:
+		arena_theme = ArenaThemeConfig.new()
+	if cell.state == ArenaCell.ArenaCellState.NORMAL:
+		return _create_floor_material(cell.index)
+	var color := arena_theme.get_floor_color(cell.index)
+	var emission_energy := 0.0
+	match cell.state:
+		ArenaCell.ArenaCellState.WARNING:
+			color = Color(1.0, 0.78, 0.18, 1.0)
+			emission_energy = 0.8
+		ArenaCell.ArenaCellState.LAVA:
+			color = Color(1.0, 0.22, 0.08, 1.0)
+			emission_energy = 1.5
+		ArenaCell.ArenaCellState.ICE:
+			color = Color(0.18, 0.78, 1.0, 1.0)
+			emission_energy = 0.7
+		ArenaCell.ArenaCellState.COLLAPSING:
+			color = Color(1.0, 0.48, 0.08, 1.0)
+			emission_energy = 1.0
+		ArenaCell.ArenaCellState.DESTROYED:
+			color = Color(0.08, 0.07, 0.06, 1.0)
+		ArenaCell.ArenaCellState.REBUILDING:
+			color = Color(0.2, 0.92, 0.72, 1.0)
+			emission_energy = 0.6
+	return _create_hazard_material(color, emission_energy, cell.state)
+
+
+func _create_hazard_material(
+	color: Color, emission_energy: float, state: ArenaCell.ArenaCellState
+) -> Material:
+	var material := ShaderMaterial.new()
+	material.shader = _get_hazard_shader()
+	var effect_texture := _get_hazard_effect_texture(state)
+	material.set_shader_parameter("base_color", color)
+	material.set_shader_parameter("emission_energy", emission_energy)
+	material.set_shader_parameter("use_effect_texture", effect_texture != null)
+	if effect_texture != null:
+		material.set_shader_parameter("effect_texture", effect_texture)
+	material.set_shader_parameter("effect_mode", _get_hazard_effect_mode(state))
+	material.set_shader_parameter("effect_strength", _get_hazard_effect_strength(state))
+	material.set_shader_parameter("effect_tile_meters", _get_hazard_effect_tile_meters(state))
+	material.set_shader_parameter("pulse_speed", _get_hazard_pulse_speed(state))
+	material.set_shader_parameter("roughness_value", 0.72)
+	return material
+
+
+func _get_hazard_shader() -> Shader:
+	if _hazard_shader != null:
+		return _hazard_shader
+
+	_hazard_shader = load(HAZARD_SHADER_PATH) as Shader
+	return _hazard_shader
+
+
+func _get_hazard_effect_texture(state: ArenaCell.ArenaCellState) -> Texture2D:
+	var path := _get_hazard_effect_texture_path(state)
+	if path.is_empty():
+		return null
+	if _hazard_effect_textures.has(path):
+		return _hazard_effect_textures[path] as Texture2D
+
+	var texture := load(path) as Texture2D
+	_hazard_effect_textures[path] = texture
+	return texture
+
+
+func _get_hazard_effect_texture_path(state: ArenaCell.ArenaCellState) -> String:
+	match state:
+		ArenaCell.ArenaCellState.WARNING:
+			return WARNING_EFFECT_TEXTURE_PATH
+		ArenaCell.ArenaCellState.LAVA:
+			return LAVA_EFFECT_TEXTURE_PATH
+		ArenaCell.ArenaCellState.ICE:
+			return ICE_EFFECT_TEXTURE_PATH
+		ArenaCell.ArenaCellState.COLLAPSING:
+			return COLLAPSE_EFFECT_TEXTURE_PATH
+		ArenaCell.ArenaCellState.REBUILDING:
+			return ICE_EFFECT_TEXTURE_PATH
+	return ""
+
+
+func _get_hazard_effect_mode(state: ArenaCell.ArenaCellState) -> int:
+	match state:
+		ArenaCell.ArenaCellState.LAVA:
+			return 1
+		ArenaCell.ArenaCellState.ICE:
+			return 2
+		ArenaCell.ArenaCellState.REBUILDING:
+			return 3
+	return 0
+
+
+func _get_hazard_effect_strength(state: ArenaCell.ArenaCellState) -> float:
+	match state:
+		ArenaCell.ArenaCellState.WARNING:
+			return 0.56
+		ArenaCell.ArenaCellState.LAVA:
+			return 0.74
+		ArenaCell.ArenaCellState.ICE:
+			return 0.62
+		ArenaCell.ArenaCellState.COLLAPSING:
+			return 0.7
+		ArenaCell.ArenaCellState.REBUILDING:
+			return 0.48
+	return 0.0
+
+
+func _get_hazard_effect_tile_meters(state: ArenaCell.ArenaCellState) -> float:
+	match state:
+		ArenaCell.ArenaCellState.WARNING:
+			return 3.0
+		ArenaCell.ArenaCellState.LAVA:
+			return 5.2
+		ArenaCell.ArenaCellState.ICE:
+			return 4.4
+		ArenaCell.ArenaCellState.COLLAPSING:
+			return 4.0
+		ArenaCell.ArenaCellState.REBUILDING:
+			return 3.6
+	return 4.0
+
+
+func _get_hazard_pulse_speed(state: ArenaCell.ArenaCellState) -> float:
+	match state:
+		ArenaCell.ArenaCellState.WARNING:
+			return 4.5
+		ArenaCell.ArenaCellState.LAVA:
+			return 2.0
+		ArenaCell.ArenaCellState.ICE:
+			return 1.1
+		ArenaCell.ArenaCellState.COLLAPSING:
+			return 5.4
+		ArenaCell.ArenaCellState.REBUILDING:
+			return 2.8
+	return 1.0
+
+
+func _create_trim_material(color: Color) -> StandardMaterial3D:
+	var material := StandardMaterial3D.new()
+	material.albedo_color = color
+	material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	material.roughness = 0.9
+	return material
+
+
+func _create_arena_trim() -> void:
+	if arena_theme == null:
+		arena_theme = ArenaThemeConfig.new()
+
+	var mesh := ArrayMesh.new()
+	var seam_vertex_count := 0
+	var border_vertex_count := 0
+
+	var seam_surface := SurfaceTool.new()
+	seam_surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	seam_vertex_count = _add_arena_trim_edges(seam_surface, false, arena_theme.seam_width_meters)
+	if seam_vertex_count > 0:
+		seam_surface.generate_normals()
+		seam_surface.commit(mesh)
+
+	var border_surface := SurfaceTool.new()
+	border_surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	border_vertex_count = _add_arena_trim_edges(
+		border_surface, true, arena_theme.border_width_meters
+	)
+	if border_vertex_count > 0:
+		border_surface.generate_normals()
+		border_surface.commit(mesh)
+
+	if mesh.get_surface_count() == 0:
+		return
+
+	var mesh_instance := MeshInstance3D.new()
+	mesh_instance.name = "ArenaTrim"
+	mesh_instance.mesh = mesh
+	var surface_index := 0
+	if seam_vertex_count > 0:
+		mesh_instance.set_surface_override_material(
+			surface_index, _create_trim_material(arena_theme.seam_color)
+		)
+		surface_index += 1
+	if border_vertex_count > 0:
+		mesh_instance.set_surface_override_material(
+			surface_index, _create_trim_material(arena_theme.border_color)
+		)
+	_generated_root.add_child(mesh_instance)
+
+
+func _add_arena_trim_edges(
+	surface_tool: SurfaceTool, include_outer_edges: bool, width_meters: float
+) -> int:
+	if width_meters <= 0.0:
+		return 0
+
+	var added_vertices := 0
+	var emitted_edges := {}
+	for cell: ArenaCell in _cells:
+		for vertex_index in range(cell.polygon.size()):
+			var current := cell.polygon[vertex_index]
+			var next := cell.polygon[(vertex_index + 1) % cell.polygon.size()]
+			var is_outer := _is_outer_boundary_edge(current, next)
+			if is_outer != include_outer_edges:
+				continue
+
+			var edge_key := _create_edge_key(current, next)
+			if emitted_edges.has(edge_key):
+				continue
+
+			emitted_edges[edge_key] = true
+			added_vertices += _add_edge_strip(surface_tool, current, next, width_meters)
+
+	return added_vertices
+
+
+func _add_edge_strip(
+	surface_tool: SurfaceTool, first: Vector2, second: Vector2, width_meters: float
+) -> int:
+	var segment := second - first
+	if segment.length_squared() <= 0.0001:
+		return 0
+
+	var direction := segment.normalized()
+	var normal := Vector2(-direction.y, direction.x)
+	var half_width := width_meters * 0.5
+	var first_left := first + normal * half_width
+	var first_right := first - normal * half_width
+	var second_left := second + normal * half_width
+	var second_right := second - normal * half_width
+
+	surface_tool.add_vertex(_to_trim_vector3(first_left))
+	surface_tool.add_vertex(_to_trim_vector3(second_left))
+	surface_tool.add_vertex(_to_trim_vector3(second_right))
+	surface_tool.add_vertex(_to_trim_vector3(first_left))
+	surface_tool.add_vertex(_to_trim_vector3(second_right))
+	surface_tool.add_vertex(_to_trim_vector3(first_right))
+	return 6
+
+
+func _create_edge_key(first: Vector2, second: Vector2) -> String:
+	var first_key := _rounded_point_key(first)
+	var second_key := _rounded_point_key(second)
+	if first_key < second_key:
+		return "%s|%s" % [first_key, second_key]
+	return "%s|%s" % [second_key, first_key]
+
+
+func _rounded_point_key(point: Vector2) -> String:
+	return "%d,%d" % [roundi(point.x * 100.0), roundi(point.y * 100.0)]
 
 
 func _get_total_cell_area() -> float:
@@ -346,19 +752,34 @@ func _get_total_cell_area() -> float:
 	return total_area
 
 
-func _pick_weighted_cell(rng: RandomNumberGenerator) -> ArenaCell:
-	var total_area := 0.0
+func _pick_weighted_cell(rng: RandomNumberGenerator, safe_only: bool = false) -> ArenaCell:
+	var candidate_cells: Array[ArenaCell] = []
 	for cell: ArenaCell in _cells:
+		if safe_only and not _is_cell_safe_for_spawn(cell):
+			continue
+		if not safe_only and cell.state == ArenaCell.ArenaCellState.DESTROYED:
+			continue
+		candidate_cells.append(cell)
+
+	if candidate_cells.is_empty():
+		return null
+
+	var total_area := 0.0
+	for cell: ArenaCell in candidate_cells:
 		total_area += cell.get_area()
 
 	var target_area := rng.randf_range(0.0, total_area)
 	var cumulative_area := 0.0
-	for cell: ArenaCell in _cells:
+	for cell: ArenaCell in candidate_cells:
 		cumulative_area += cell.get_area()
 		if cumulative_area >= target_area:
 			return cell
 
-	return _cells.back()
+	return candidate_cells.back()
+
+
+func _is_cell_safe_for_spawn(cell: ArenaCell) -> bool:
+	return cell.state == ArenaCell.ArenaCellState.NORMAL
 
 
 func _sample_point_in_cell(cell: ArenaCell, rng: RandomNumberGenerator) -> Vector2:
@@ -442,6 +863,13 @@ func _to_surface_vector3(point: Vector2) -> Vector3:
 	return Vector3(point.x, _get_surface_height(point), point.y)
 
 
+func _to_trim_vector3(point: Vector2) -> Vector3:
+	var height_offset := 0.04
+	if arena_theme != null:
+		height_offset = arena_theme.trim_height_offset_meters
+	return Vector3(point.x, _get_surface_height(point) + height_offset, point.y)
+
+
 func _get_surface_height(point: Vector2) -> float:
 	var amplitude := maxf(arena_config.surface_height_amplitude_meters, 0.0)
 	if is_zero_approx(amplitude):
@@ -461,3 +889,6 @@ func _clear_generated_arena() -> void:
 		_generated_root.free()
 		_generated_root = null
 	_cells.clear()
+	_cell_bodies.clear()
+	_cell_mesh_instances.clear()
+	_cell_collision_shapes.clear()

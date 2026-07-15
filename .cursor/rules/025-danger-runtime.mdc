@@ -7,7 +7,7 @@ alwaysApply: false
 # Danger Runtime
 
 - `DangerDirector` chooses and budgets threats. Specialized systems execute threats.
-- Successful Director spawns must emit a compact event with danger id, family, and spent cost. Stage progression consumes that event as survived threat budget.
+- Successful Director spawns must emit a compact event with danger id, family, and spent cost. Stage systems may track that as survived threat pressure, but it is not the level completion objective.
 - Pressure rhythm belongs in `DangerDirector`: buildup, peak, recovery, and reduced exit pressure. Specialized executors should not implement their own global spawn cadence.
 - `DangerDirector` must route through `danger_executor_paths`; do not add a growing `match` inside the Director for every new danger family.
 - Each danger executor must expose:
@@ -15,13 +15,20 @@ alwaysApply: false
   - `request_spawn_danger(definition) -> bool`
   - `get_active_danger_count(definition) -> int`
   - `get_total_active_danger_count() -> int`
+- Executors that produce temporary warning clutter should expose `get_active_readability_pressure() -> int`. Count active warnings/telegraphs/priming states, not raw damage potential.
+- `DangerDirector` must cap readability pressure per phase. Use explicit skip reasons such as `readability_pressure_capped`, `placement_failed`, `active_cap`, `cooldown`, `credits`, and `unsupported`.
+- Shared spawn fairness belongs in `DangerPlacementRules` and `DangerPlacementService`. Prefer per-definition `placement_rules` over family-specific hardcoded distance checks.
+- `DangerPlacementService` validates/proposes positions only. It must not spawn dangers, mutate stage state, or know specialized executor internals.
 - Do not force enemies, projectiles, explosions, sky attacks, terrain hazards, and special events into one massive spawner.
 - High-volume dangers such as bullets, simple beams, trails, and repeated warning visuals should use bounded data-oriented pools and batched rendering.
 - Complex actors such as chasing enemies, throwers, and special enemies may use nodes, but they must be capped, poolable when repeated often, and driven by simple state machines.
 - Every danger must define a cost, active limit, cooldown, readability tags, lifetime or cleanup condition, and specialized config.
 - Every damaging danger must apply a `DamageProfile` to `HealthComponent` after confirming a hit. Do not bypass the health pipeline for normal damage.
 - Actor enemies must live behind a capped actor system such as `ChaserEnemySystem`, not as one-off ad hoc spawns from `DangerDirector`.
+- Terrain hazards must live behind `ArenaHazardSystem`, which changes official `ArenaCell` states and exposes active counts through the executor contract.
+- Terrain hazards should be grouped by affected cells and timers; do not create one node per hazardous cell.
+- Terrain hazard cleanup must restore affected cells to `NORMAL` and clear player surface movement modifiers.
 - Active limits are counted by the executor responsible for that danger definition. Do not approximate all families as projectile counts.
 - `Difficulty` and future spawn balancing must talk to `DangerDirector` or data definitions, not directly to projectile, enemy, hazard, or event internals.
-- Do not make stage progress depend on a specific enemy family resolving, exploding, or being cleaned up unless a future objective type explicitly says so.
+- Do not make stage completion depend on a specific enemy family resolving, exploding, being cleaned up, or simply spawning. Current completion is Shard collection.
 - A danger is not acceptable unless its warning, silhouette, timing, or color makes it survivable in combination with current active dangers.

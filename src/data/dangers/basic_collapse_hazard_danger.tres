@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="DangerDefinition" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/data/dangers/danger_definition.gd" id="1_danger_definition_script"]
+[ext_resource type="Resource" path="res://src/data/hazards/basic_collapse_hazard.tres" id="2_collapse_hazard"]
+[ext_resource type="Resource" path="res://src/data/dangers/basic_hazard_placement.tres" id="3_hazard_placement"]
+
+[resource]
+script = ExtResource("1_danger_definition_script")
+danger_id = &"basic_collapse_hazard"
+family = 4
+spawn_cost = 1.8
+selection_weight = 0.25
+cooldown_seconds = 8.5
+minimum_intensity = 1.0
+max_active_instances = 1
+readability_tags = PackedStringArray("terrain", "telegraphed", "destruction")
+placement_rules = ExtResource("3_hazard_placement")
+specialized_config = ExtResource("2_collapse_hazard")

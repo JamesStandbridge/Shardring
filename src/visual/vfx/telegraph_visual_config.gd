@@ -3,6 +3,7 @@ extends Resource
 
 @export var beam_color: Color = Color(1.0, 0.12, 0.18, 0.62)
 @export var marker_color: Color = Color(1.0, 0.22, 0.28, 0.82)
+@export var beam_enabled: bool = true
 @export var beam_radius_meters: float = 0.055
 @export var muzzle_marker_radius_meters: float = 0.12
 @export var target_marker_radius_meters: float = 0.24

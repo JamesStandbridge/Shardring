@@ -6,6 +6,7 @@ extends Resource
 @export var threat_budget_per_level: float = 8.0
 @export var difficulty_intensity_per_level: float = 0.25
 @export var map_seed_stride: int = 1009
+@export var shard_objective_config: ShardObjectiveConfig = ShardObjectiveConfig.new()
 
 
 func is_valid_sequence() -> bool:
@@ -15,6 +16,8 @@ func is_valid_sequence() -> bool:
 		or threat_budget_per_level < 0.0
 		or difficulty_intensity_per_level < 0.0
 		or map_seed_stride <= 0
+		or shard_objective_config == null
+		or not shard_objective_config.is_valid_config()
 	):
 		return false
 

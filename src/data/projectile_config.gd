@@ -13,6 +13,7 @@ enum MotionType {
 @export var warning_duration_seconds: float = 0.4
 @export var explosion_radius_meters: float = 0.0
 @export var collision_radius_meters: float = 0.34
+@export var near_miss_radius_meters: float = 1.2
 @export var visual_radius_meters: float = 0.42
 @export var visual_scene: PackedScene
 @export var danger_color: Color = Color(1.0, 0.12, 0.08, 1.0)

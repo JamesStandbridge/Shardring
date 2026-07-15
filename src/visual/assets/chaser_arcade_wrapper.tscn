@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="PackedScene" path="res://assets/art/exports_godot/asset_toybox_chaser.glb" id="1_chaser_glb"]
+[ext_resource type="PackedScene" path="res://assets/art/exports_godot/asset_kenney_chaser_bee.glb" id="1_chaser_glb"]
 
 [node name="ChaserArcadeWrapper" type="Node3D"]
 

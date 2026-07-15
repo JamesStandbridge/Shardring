@@ -13,6 +13,7 @@ enum PressurePhase {
 }
 
 const DEFAULT_SKIP_REASON := &"no_candidate"
+const NO_SKIP_REASON := &""
 
 @export var director_config: DangerDirectorConfig = DangerDirectorConfig.new()
 @export var difficulty_config: DifficultyConfig = DifficultyConfig.new()
@@ -33,9 +34,11 @@ var _skipped_spawn_count: int = 0
 var _last_logged_skip_count: int = 0
 var _last_spawned_danger_id: StringName = &""
 var _last_skip_reason: StringName = &""
+var _candidate_skip_reason: StringName = DEFAULT_SKIP_REASON
 var _pressure_phase := PressurePhase.BUILDUP
 var _pressure_phase_timer_seconds: float = 0.0
 var _exit_pressure_enabled := false
+var _objective_intensity_bonus: float = 0.0
 
 
 func _ready() -> void:
@@ -82,7 +85,8 @@ func get_current_intensity() -> float:
 		* difficulty_config.intensity_gain_per_minute
 	)
 	return minf(
-		difficulty_config.starting_intensity + gained_intensity, difficulty_config.max_intensity
+		difficulty_config.starting_intensity + gained_intensity + _objective_intensity_bonus,
+		difficulty_config.max_intensity
 	)
 
 
@@ -96,6 +100,18 @@ func get_active_danger_count() -> int:
 		if executor.has_method("get_total_active_danger_count"):
 			active_count += int(executor.call("get_total_active_danger_count"))
 	return active_count
+
+
+func get_active_readability_pressure() -> int:
+	var pressure := 0
+	for executor: Node in _danger_executors:
+		if executor.has_method("get_active_readability_pressure"):
+			pressure += int(executor.call("get_active_readability_pressure"))
+	return pressure
+
+
+func get_readability_pressure_limit() -> int:
+	return _get_readability_pressure_limit()
 
 
 func get_skipped_spawn_count() -> int:
@@ -135,12 +151,18 @@ func get_credit_pressure_multiplier() -> float:
 	return _get_credit_pressure_multiplier()
 
 
-func get_decision_interval_pressure_multiplier() -> float:
-	return _get_decision_interval_pressure_multiplier()
-
-
 func is_exit_pressure_enabled() -> bool:
 	return _exit_pressure_enabled
+
+
+func set_objective_intensity_bonus(value: float) -> void:
+	_objective_intensity_bonus = maxf(value, 0.0)
+
+
+func force_peak(duration_seconds: float) -> void:
+	if _exit_pressure_enabled or duration_seconds <= 0.0:
+		return
+	_set_pressure_phase(PressurePhase.PEAK, duration_seconds)
 
 
 func set_exit_pressure_enabled(enabled: bool) -> void:
@@ -152,10 +174,6 @@ func set_exit_pressure_enabled(enabled: bool) -> void:
 		_set_pressure_phase(PressurePhase.EXIT_PRESSURE, 0.0)
 	else:
 		_set_pressure_phase(PressurePhase.BUILDUP, director_config.first_peak_delay_seconds)
-
-
-func reset_director() -> void:
-	_reset_runtime_state()
 
 
 func configure_for_stage(
@@ -227,7 +245,9 @@ func _reset_runtime_state() -> void:
 	_last_logged_skip_count = 0
 	_last_spawned_danger_id = &""
 	_last_skip_reason = &""
+	_candidate_skip_reason = DEFAULT_SKIP_REASON
 	_exit_pressure_enabled = false
+	_objective_intensity_bonus = 0.0
 	_pressure_phase = PressurePhase.BUILDUP
 	_pressure_phase_timer_seconds = director_config.first_peak_delay_seconds
 	_initialize_cooldowns()
@@ -276,7 +296,7 @@ func _update_decision_timer(delta: float) -> void:
 func _try_spawn_danger() -> bool:
 	var candidates := _collect_candidates()
 	if candidates.is_empty():
-		_increment_skipped_spawn(DEFAULT_SKIP_REASON)
+		_increment_skipped_spawn(_candidate_skip_reason)
 		return false
 
 	var definition := _pick_weighted_candidate(candidates)
@@ -285,7 +305,7 @@ func _try_spawn_danger() -> bool:
 		return false
 
 	if not _execute_danger(definition):
-		_increment_skipped_spawn(&"spawn_failed")
+		_increment_skipped_spawn(&"placement_failed")
 		return false
 
 	_available_credits = maxf(_available_credits - definition.spawn_cost, 0.0)
@@ -367,30 +387,54 @@ func _get_decision_interval_pressure_multiplier() -> float:
 
 func _collect_candidates() -> Array[DangerDefinition]:
 	var candidates: Array[DangerDefinition] = []
+	_candidate_skip_reason = DEFAULT_SKIP_REASON
 	var total_active := get_active_danger_count()
 	if total_active >= director_config.max_total_active_dangers:
+		_candidate_skip_reason = &"active_cap"
+		return candidates
+
+	if get_active_readability_pressure() >= _get_readability_pressure_limit():
+		_candidate_skip_reason = &"readability_pressure_capped"
 		return candidates
 
 	for definition: DangerDefinition in _get_all_definitions():
-		if _can_spawn_definition(definition):
+		var block_reason := _get_definition_block_reason(definition)
+		if block_reason == NO_SKIP_REASON:
 			candidates.append(definition)
+		else:
+			_candidate_skip_reason = block_reason
 
 	return candidates
 
 
 func _can_spawn_definition(definition: DangerDefinition) -> bool:
-	if definition == null or not definition.is_valid_definition():
-		return false
-	if not definition.can_unlock_at_intensity(get_current_intensity()):
-		return false
-	if _available_credits < definition.spawn_cost:
-		return false
-	if _get_cooldown_seconds(definition.danger_id) > 0.0:
-		return false
-	if _get_active_count_for_definition(definition) >= definition.max_active_instances:
-		return false
+	return _get_definition_block_reason(definition) == NO_SKIP_REASON
 
-	return _is_supported_definition(definition)
+
+func _get_definition_block_reason(definition: DangerDefinition) -> StringName:
+	var block_reason := NO_SKIP_REASON
+	if definition == null or not definition.is_valid_definition():
+		block_reason = DEFAULT_SKIP_REASON
+	elif not definition.can_unlock_at_intensity(get_current_intensity()):
+		block_reason = &"intensity"
+	elif _available_credits < definition.spawn_cost:
+		block_reason = &"credits"
+	elif _get_cooldown_seconds(definition.danger_id) > 0.0:
+		block_reason = &"cooldown"
+	elif _get_active_count_for_definition(definition) >= definition.max_active_instances:
+		block_reason = &"active_cap"
+	elif not _is_supported_definition(definition):
+		block_reason = &"unsupported"
+	return block_reason
+
+
+func _get_readability_pressure_limit() -> int:
+	match _pressure_phase:
+		PressurePhase.PEAK:
+			return director_config.peak_max_readability_pressure
+		PressurePhase.EXIT_PRESSURE:
+			return director_config.exit_max_readability_pressure
+	return director_config.max_readability_pressure
 
 
 func _is_supported_definition(definition: DangerDefinition) -> bool:

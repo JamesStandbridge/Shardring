@@ -15,3 +15,28 @@ extends Resource
 @export var recovery_credit_multiplier: float = 0.45
 @export var exit_credit_multiplier: float = 0.55
 @export var exit_decision_interval_multiplier: float = 1.45
+@export var max_readability_pressure: int = 5
+@export var exit_max_readability_pressure: int = 3
+@export var peak_max_readability_pressure: int = 7
+
+
+func is_valid_config() -> bool:
+	return (
+		credits_per_second > 0.0
+		and max_stored_credits > 0.0
+		and initial_decision_delay_seconds >= 0.0
+		and decision_interval_seconds > 0.0
+		and max_total_active_dangers > 0
+		and skip_log_interval > 0
+		and first_peak_delay_seconds >= 0.0
+		and peak_duration_seconds > 0.0
+		and recovery_duration_seconds > 0.0
+		and peak_credit_multiplier > 0.0
+		and peak_decision_interval_multiplier > 0.0
+		and recovery_credit_multiplier >= 0.0
+		and exit_credit_multiplier >= 0.0
+		and exit_decision_interval_multiplier > 0.0
+		and max_readability_pressure >= 0
+		and exit_max_readability_pressure >= 0
+		and peak_max_readability_pressure >= 0
+	)

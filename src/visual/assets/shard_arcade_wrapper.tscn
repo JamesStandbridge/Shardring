@@ -1,0 +1,73 @@
+[gd_scene load_steps=8 format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shard_core"]
+albedo_color = Color(0.2, 0.86, 0.92, 1)
+emission_enabled = true
+emission = Color(0.16, 0.82, 0.92, 1)
+emission_energy_multiplier = 1.35
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shard_cap"]
+albedo_color = Color(0.96, 0.68, 0.22, 1)
+emission_enabled = true
+emission = Color(0.96, 0.62, 0.18, 1)
+emission_energy_multiplier = 0.6
+roughness = 0.52
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shard_halo"]
+albedo_color = Color(0.18, 0.8, 0.95, 0.22)
+emission_enabled = true
+emission = Color(0.18, 0.8, 0.95, 1)
+emission_energy_multiplier = 0.9
+transparency = 1
+
+[sub_resource type="SphereMesh" id="SphereMesh_shard_core"]
+material = SubResource("StandardMaterial3D_shard_core")
+radius = 0.42
+height = 1.1
+radial_segments = 6
+rings = 4
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_shard_cap"]
+material = SubResource("StandardMaterial3D_shard_cap")
+top_radius = 0.04
+bottom_radius = 0.24
+height = 0.28
+radial_segments = 6
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_shard_halo"]
+material = SubResource("StandardMaterial3D_shard_halo")
+top_radius = 0.72
+bottom_radius = 0.72
+height = 0.025
+radial_segments = 32
+
+[sub_resource type="BoxMesh" id="BoxMesh_shard_marker"]
+material = SubResource("StandardMaterial3D_shard_halo")
+size = Vector3(0.08, 2.4, 0.08)
+
+[node name="ShardArcadeWrapper" type="Node3D"]
+
+[node name="GroundAnchor" type="Node3D" parent="."]
+
+[node name="VisualRoot" type="Node3D" parent="."]
+
+[node name="Core" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(0.82, 0, 0, 0, 1.05, 0, 0, 0, 0.82, 0, 0.62, 0)
+mesh = SubResource("SphereMesh_shard_core")
+
+[node name="TopCap" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(0.86, 0, 0, 0, 0.86, 0, 0, 0, 0.86, 0, 1.2, 0)
+mesh = SubResource("CylinderMesh_shard_cap")
+
+[node name="BottomCap" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(0.86, 0, 0, 0, -0.86, 0, 0, 0, 0.86, 0, 0.03, 0)
+mesh = SubResource("CylinderMesh_shard_cap")
+
+[node name="Halo" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+mesh = SubResource("CylinderMesh_shard_halo")
+
+[node name="Marker" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.35, 0)
+mesh = SubResource("BoxMesh_shard_marker")

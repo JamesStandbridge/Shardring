@@ -18,6 +18,7 @@ enum DangerFamily {
 @export var minimum_intensity: float = 1.0
 @export var max_active_instances: int = 1
 @export var readability_tags: PackedStringArray = PackedStringArray(["telegraphed", "directional"])
+@export var placement_rules: DangerPlacementRules
 @export var specialized_config: Resource
 
 
@@ -29,6 +30,7 @@ func is_valid_definition() -> bool:
 		and cooldown_seconds >= 0.0
 		and minimum_intensity >= 0.0
 		and max_active_instances > 0
+		and (placement_rules == null or placement_rules.is_valid_rules())
 	)
 
 

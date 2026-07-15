@@ -5,10 +5,12 @@ func test_stage_resource_defaults_are_valid() -> void:
 	var theme := ArenaThemeConfig.new()
 	var map := MapDefinition.new()
 	var sequence := StageSequenceConfig.new()
+	var shard_config := ShardObjectiveConfig.new()
 
 	assert_true(theme.is_valid_theme())
 	assert_true(map.is_valid_map())
 	assert_true(sequence.is_valid_sequence())
+	assert_true(shard_config.is_valid_config())
 
 
 func test_stage_sequence_cycles_maps_for_infinite_levels() -> void:
@@ -33,9 +35,11 @@ func test_stage_sequence_threat_budget_and_intensity_grow_with_level() -> void:
 	assert_almost_eq(sequence.get_required_threat_budget_for_level(3), 38.0, 0.001)
 	assert_almost_eq(sequence.get_starting_intensity_for_level(first_map, 1), 1.0, 0.001)
 	assert_almost_eq(sequence.get_starting_intensity_for_level(first_map, 3), 1.5, 0.001)
+	assert_eq(sequence.shard_objective_config.get_required_shards_for_level(1), 3)
+	assert_eq(sequence.shard_objective_config.get_required_shards_for_level(3), 4)
 
 
-func test_stage_counts_spawned_threat_budget_only_while_surviving() -> void:
+func test_stage_tracks_threat_budget_without_completing_level() -> void:
 	var sequence := _create_sequence([_create_map(&"first_map", "First Map", 11)])
 	sequence.base_required_threat_budget = 3.0
 	sequence.threat_budget_per_level = 0.0
@@ -58,9 +62,9 @@ func test_stage_counts_spawned_threat_budget_only_while_surviving() -> void:
 	stage.register_threat_spawned_for_tests(2.0)
 
 	assert_almost_eq(stage.get_survived_threat_budget(), 3.0, 0.001)
-	assert_eq(stage.get_stage_state(), StageController.StageState.EXIT_AVAILABLE)
-	assert_true(gate.is_gate_available())
-	assert_true(danger_director.is_exit_pressure_enabled())
+	assert_eq(stage.get_stage_state(), StageController.StageState.SURVIVING)
+	assert_false(gate.is_gate_available())
+	assert_false(danger_director.is_exit_pressure_enabled())
 
 	stage.register_threat_spawned_for_tests(99.0)
 	assert_almost_eq(stage.get_survived_threat_budget(), 3.0, 0.001)
@@ -72,13 +76,50 @@ func test_stage_counts_spawned_threat_budget_only_while_surviving() -> void:
 	_free_runtime(runtime)
 
 
-func test_stage_transition_advances_level_resets_objective_and_regenerates_map() -> void:
+func test_stage_shard_objective_reveals_exit_and_updates_difficulty() -> void:
+	var sequence := _create_sequence([_create_map(&"first_map", "First Map", 11)])
+	sequence.shard_objective_config.base_required_shards = 2
+	sequence.shard_objective_config.max_required_shards = 2
+	sequence.shard_objective_config.spawn_delay_after_collect_seconds = 0.01
+	var runtime := await _create_stage_runtime(sequence)
+	var run_controller := runtime["run_controller"] as RunController
+	var stage := runtime["stage"] as StageController
+	var gate := runtime["gate"] as ExitGateController
+	var danger_director := runtime["danger_director"] as DangerDirector
+	var objective := runtime["objective"] as ShardObjectiveController
+	var player := runtime["player"] as PlayerController
+
+	run_controller.start_run()
+	assert_eq(stage.get_collected_shards(), 0)
+	assert_eq(stage.get_required_shards(), 2)
+	assert_true(objective.has_active_shard())
+
+	_collect_active_shard(objective, player)
+	assert_eq(stage.get_collected_shards(), 1)
+	assert_almost_eq(danger_director.get_current_intensity(), 1.45, 0.001)
+	assert_eq(danger_director.get_pressure_phase(), DangerDirector.PressurePhase.PEAK)
+	assert_false(gate.is_gate_available())
+
+	objective.step_objective_for_tests(0.02)
+	_collect_active_shard(objective, player)
+
+	assert_eq(stage.get_stage_state(), StageController.StageState.EXIT_AVAILABLE)
+	assert_true(gate.is_gate_available())
+	assert_true(danger_director.is_exit_pressure_enabled())
+	assert_eq(stage.get_collected_shards(), 2)
+
+	_free_runtime(runtime)
+
+
+func test_stage_transition_advances_level_resets_shards_and_regenerates_map() -> void:
 	var first_map := _create_map(&"first_map", "First Map", 11)
 	var second_map := _create_map(&"second_map", "Second Map", 22)
 	var sequence := _create_sequence([first_map, second_map])
 	sequence.base_required_threat_budget = 3.0
 	sequence.threat_budget_per_level = 2.0
 	sequence.map_seed_stride = 1009
+	sequence.shard_objective_config.base_required_shards = 2
+	sequence.shard_objective_config.max_required_shards = 2
 	var runtime := await _create_stage_runtime(sequence)
 	var run_controller := runtime["run_controller"] as RunController
 	var stage := runtime["stage"] as StageController
@@ -87,8 +128,7 @@ func test_stage_transition_advances_level_resets_objective_and_regenerates_map()
 	var danger_director := runtime["danger_director"] as DangerDirector
 
 	run_controller.start_run()
-	stage.register_threat_spawned_for_tests(3.0)
-	assert_true(stage.is_exit_available())
+	stage.force_complete_stage_for_tests()
 
 	assert_true(stage.request_advance_stage())
 
@@ -96,6 +136,8 @@ func test_stage_transition_advances_level_resets_objective_and_regenerates_map()
 	assert_eq(stage.get_current_map_id(), &"second_map")
 	assert_almost_eq(stage.get_required_threat_budget(), 5.0, 0.001)
 	assert_almost_eq(stage.get_survived_threat_budget(), 0.0, 0.001)
+	assert_eq(stage.get_collected_shards(), 0)
+	assert_eq(stage.get_required_shards(), 2)
 	assert_eq(stage.get_stage_state(), StageController.StageState.SURVIVING)
 	assert_false(gate.is_gate_available())
 	assert_false(danger_director.is_exit_pressure_enabled())
@@ -151,6 +193,7 @@ func _create_sequence(maps: Array[MapDefinition]) -> StageSequenceConfig:
 	sequence.threat_budget_per_level = 8.0
 	sequence.difficulty_intensity_per_level = 0.25
 	sequence.map_seed_stride = 1009
+	sequence.shard_objective_config = ShardObjectiveConfig.new()
 	return sequence
 
 
@@ -184,6 +227,7 @@ func _create_stage_runtime(sequence: StageSequenceConfig) -> Dictionary:
 	var arena := ArenaController.new()
 	var player := PlayerController.new()
 	var danger_director := DangerDirector.new()
+	var objective := ShardObjectiveController.new()
 	var stage := StageController.new()
 	var gate := ExitGateController.new()
 
@@ -192,15 +236,20 @@ func _create_stage_runtime(sequence: StageSequenceConfig) -> Dictionary:
 	arena.name = "Arena"
 	player.name = "Player"
 	danger_director.name = "DangerDirector"
+	objective.name = "ShardObjective"
 	stage.name = "StageController"
 	gate.name = "ExitGate"
 
 	danger_director.run_controller_path = NodePath("../RunController")
+	objective.run_controller_path = NodePath("../RunController")
+	objective.arena_path = NodePath("../Arena")
+	objective.player_path = NodePath("../Player")
 	stage.stage_sequence_config = sequence
 	stage.run_controller_path = NodePath("../RunController")
 	stage.arena_path = NodePath("../Arena")
 	stage.player_path = NodePath("../Player")
 	stage.danger_director_path = NodePath("../DangerDirector")
+	stage.shard_objective_path = NodePath("../ShardObjective")
 	stage.exit_gate_path = NodePath("../ExitGate")
 	gate.player_path = NodePath("../Player")
 	gate.stage_controller_path = NodePath("../StageController")
@@ -209,6 +258,7 @@ func _create_stage_runtime(sequence: StageSequenceConfig) -> Dictionary:
 	root.add_child(arena)
 	root.add_child(player)
 	root.add_child(danger_director)
+	root.add_child(objective)
 	root.add_child(stage)
 	root.add_child(gate)
 	add_child(root)
@@ -220,9 +270,15 @@ func _create_stage_runtime(sequence: StageSequenceConfig) -> Dictionary:
 		"arena": arena,
 		"player": player,
 		"danger_director": danger_director,
+		"objective": objective,
 		"stage": stage,
 		"gate": gate,
 	}
+
+
+func _collect_active_shard(objective: ShardObjectiveController, player: PlayerController) -> void:
+	player.global_position = objective.get_current_shard_position()
+	objective.step_objective_for_tests(0.0)
 
 
 func _free_runtime(runtime: Dictionary) -> void:

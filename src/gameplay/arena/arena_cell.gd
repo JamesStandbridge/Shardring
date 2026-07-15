@@ -3,10 +3,12 @@ extends RefCounted
 
 enum ArenaCellState {
 	NORMAL,
+	WARNING,
 	DESTROYED,
 	LAVA,
 	ICE,
 	COLLAPSING,
+	REBUILDING,
 }
 
 var index: int

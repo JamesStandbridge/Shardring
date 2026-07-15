@@ -26,6 +26,7 @@ func test_launcher_config_defaults_prepare_single_shot_and_future_multi_shot() -
 	assert_true(config.projectile_config.trail_enabled)
 	assert_gt(config.projectile_config.trail_length_meters, 0.0)
 	assert_gt(config.projectile_config.trail_width_meters, 0.0)
+	assert_gt(config.projectile_config.near_miss_radius_meters, 0.0)
 
 
 func test_launcher_transitions_from_telegraph_to_shot_and_linger() -> void:
@@ -181,6 +182,29 @@ func test_telegraph_visual_config_renders_segmented_batched_beam() -> void:
 	var muzzle_marker_batch := system.get_node("TelegraphMuzzleMarkerBatch") as MultiMeshInstance3D
 	var target_marker_batch := system.get_node("TelegraphTargetMarkerBatch") as MultiMeshInstance3D
 	assert_eq(telegraph_batch.multimesh.visible_instance_count, 5)
+	assert_eq(muzzle_marker_batch.multimesh.visible_instance_count, 1)
+	assert_eq(target_marker_batch.multimesh.visible_instance_count, 1)
+
+	remove_child(system)
+	system.free()
+
+
+func test_telegraph_visual_config_can_hide_beam_without_hiding_markers() -> void:
+	var system := _create_projectile_system()
+	var visual_config := TelegraphVisualConfig.new()
+	visual_config.beam_enabled = false
+	visual_config.segment_count = 5
+	system.launcher_config.telegraph_visual_config = visual_config
+	add_child(system)
+	await get_tree().process_frame
+
+	assert_true(system.force_spawn_launcher_at(Vector3(2.0, 0.55, -3.0)))
+	await get_tree().process_frame
+
+	var telegraph_batch := system.get_node("TelegraphBatch") as MultiMeshInstance3D
+	var muzzle_marker_batch := system.get_node("TelegraphMuzzleMarkerBatch") as MultiMeshInstance3D
+	var target_marker_batch := system.get_node("TelegraphTargetMarkerBatch") as MultiMeshInstance3D
+	assert_eq(telegraph_batch.multimesh.visible_instance_count, 0)
 	assert_eq(muzzle_marker_batch.multimesh.visible_instance_count, 1)
 	assert_eq(target_marker_batch.multimesh.visible_instance_count, 1)
 
@@ -382,7 +406,7 @@ func test_many_projectile_hits_accept_one_damage_during_invulnerability() -> voi
 	var player := runtime["player"] as PlayerController
 	var health := runtime["health"] as HealthComponent
 	var system := runtime["system"] as ProjectileSystem
-	var initial_node_count := system.get_runtime_node_count()
+	var initial_node_count := system._get_runtime_node_count_for_tests()
 
 	for projectile_index in range(1000):
 		assert_true(
@@ -397,7 +421,7 @@ func test_many_projectile_hits_accept_one_damage_during_invulnerability() -> voi
 	assert_almost_eq(health.get_current_health(), 75.0, 0.001)
 	assert_eq(health.get_last_damage_type(), DamageProfile.DamageType.PROJECTILE)
 	assert_eq(system.get_active_projectile_count(), 0)
-	assert_eq(system.get_runtime_node_count(), initial_node_count)
+	assert_eq(system._get_runtime_node_count_for_tests(), initial_node_count)
 
 	_free_runtime(runtime)
 
@@ -422,15 +446,15 @@ func test_projectile_system_keeps_runtime_node_count_bounded_for_many_projectile
 	add_child(system)
 	await get_tree().process_frame
 
-	var initial_node_count := system.get_runtime_node_count()
+	var initial_node_count := system._get_runtime_node_count_for_tests()
 	for projectile_index in range(1000):
 		var angle := float(projectile_index) * 0.013
 		var direction := Vector3(cos(angle), 0.0, sin(angle))
 		assert_true(system.force_spawn_projectile(Vector3.ZERO, direction))
 
 	assert_eq(system.get_active_projectile_count(), 1000)
-	assert_eq(system.get_runtime_node_count(), initial_node_count)
-	assert_true(system.get_runtime_node_count() <= 6)
+	assert_eq(system._get_runtime_node_count_for_tests(), initial_node_count)
+	assert_true(system._get_runtime_node_count_for_tests() <= 6)
 
 	remove_child(system)
 	system.free()
@@ -445,7 +469,7 @@ func test_custom_visual_scenes_keep_projectile_runtime_batched() -> void:
 	add_child(system)
 	await get_tree().process_frame
 
-	var initial_node_count := system.get_runtime_node_count()
+	var initial_node_count := system._get_runtime_node_count_for_tests()
 	assert_true(system.force_spawn_launcher_at(Vector3(2.0, 0.5, 0.0)))
 	for projectile_index in range(16):
 		var angle := float(projectile_index) * 0.25
@@ -453,8 +477,32 @@ func test_custom_visual_scenes_keep_projectile_runtime_batched() -> void:
 			system.force_spawn_projectile(Vector3.ZERO, Vector3(cos(angle), 0.0, sin(angle)))
 		)
 
-	assert_eq(system.get_runtime_node_count(), initial_node_count)
-	assert_true(system.get_runtime_node_count() <= 6)
+	assert_eq(system._get_runtime_node_count_for_tests(), initial_node_count)
+	assert_true(system._get_runtime_node_count_for_tests() <= 6)
+
+	remove_child(system)
+	system.free()
+
+
+func test_custom_projectile_visual_scene_uses_configured_danger_material() -> void:
+	var visual_scene := _create_mesh_packed_scene(SphereMesh.new())
+	var system := _create_projectile_system()
+	var configured_color := Color(1.0, 0.34, 0.08, 1.0)
+	system.launcher_config.projectile_config.visual_scene = visual_scene
+	system.launcher_config.projectile_config.danger_color = configured_color
+	system.launcher_config.projectile_config.emission_energy = 1.55
+	add_child(system)
+	await get_tree().process_frame
+
+	var projectile_batch := system.get_node("ProjectileBatch") as MultiMeshInstance3D
+	var projectile_mesh := projectile_batch.multimesh.mesh
+	var material := projectile_mesh.surface_get_material(0) as StandardMaterial3D
+
+	assert_not_null(material)
+	assert_eq(material.albedo_color, configured_color)
+	assert_true(material.emission_enabled)
+	assert_eq(material.emission, configured_color)
+	assert_almost_eq(material.emission_energy_multiplier, 1.55, 0.001)
 
 	remove_child(system)
 	system.free()

@@ -1,11 +1,12 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="PackedScene" path="res://assets/art/exports_godot/asset_toybox_projectile.glb" id="1_projectile_glb"]
+[ext_resource type="PackedScene" path="res://assets/art/exports_godot/asset_kenney_projectile_cannon_ball.glb" id="1_projectile_glb"]
 
 [node name="ProjectileArcadeWrapper" type="Node3D"]
 
 [node name="GroundAnchor" type="Node3D" parent="."]
 
 [node name="VisualRoot" type="Node3D" parent="."]
+transform = Transform3D(0.54, 0, 0, 0, 0.54, 0, 0, 0, 0.54, 0, 0, 0)
 
 [node name="Asset" parent="VisualRoot" instance=ExtResource("1_projectile_glb")]

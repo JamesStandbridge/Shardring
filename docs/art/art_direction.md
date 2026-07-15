@@ -26,9 +26,11 @@ animations, pas de details cheap.
 
 | Usage | Couleur | Hex |
 | --- | --- | --- |
-| Sol principal | Vert mineral moyen | `#5F9B86` |
-| Variation sol | Bleu ardoise clair | `#668EAD` |
-| Variation sol | Vert mousse stylise | `#7D9C68` |
+| Sol principal | Vert prairie Kenney assourdi | `#4F7845` |
+| Variation sol | Vert mousse proche | `#638A52` |
+| Accent sol rare | Terre douce | `#807044` |
+| Bordure arene | Brun plateau | `#5C4730` |
+| Joints arene | Vert ombre | `#385640` |
 | Neutre UI/ombres | Graphite doux | `#333A46` |
 | Joueur | Bleu pervenche sature | `#536DDE` |
 | Direction joueur | Cyan vert lisible | `#39D4C2` |
@@ -78,6 +80,11 @@ production des assets finaux.
 - Pas de ligne rouge ou forme debug comme warning final.
 - Pas de micro-details invisibles en vue third-person.
 - Pas de couleurs danger sur un objet non dangereux sans raison gameplay.
+- Pas de terrain normal multicolore : le sol doit avoir une colonne vertebrale
+  chromatique claire, avec une vraie texture de matiere et une variation
+  subtile plutot qu'un patchwork par cellule.
+- Pas de hazard represente seulement par un aplat de couleur : warning, lave,
+  glace et collapse doivent avoir une texture ou un effet visuel dedie.
 - Pas d'asset IA ou externe sans licence documentee.
 
 ## Reference Courte

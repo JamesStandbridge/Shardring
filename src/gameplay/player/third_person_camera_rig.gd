@@ -42,13 +42,20 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	_update_follow(delta)
+	_update_camera_shake(delta)
+
+
+func step_follow_for_tests(delta: float) -> void:
+	_update_follow(delta)
+
+
+func _update_follow(delta: float) -> void:
 	var target := get_node_or_null(target_path) as Node3D
 	if target != null:
 		var target_position := target.global_position + target_offset
 		var interpolation_weight := clampf(follow_lerp_speed * delta, 0.0, 1.0)
 		global_position = global_position.lerp(target_position, interpolation_weight)
-
-	_update_camera_shake(delta)
 
 
 func _unhandled_input(event: InputEvent) -> void:

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="DangerPlacementRules" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/dangers/danger_placement_rules.gd" id="1_placement_rules_script"]
+
+[resource]
+script = ExtResource("1_placement_rules_script")
+spawn_search_attempts = 24
+min_distance_from_player_meters = 10.0
+center_safe_radius_meters = 4.0
+min_distance_from_exit_gate_meters = 5.0
+avoid_warning_cells = true
+avoid_lava_cells = true
+avoid_destroyed_cells = true
+avoid_rebuilding_cells = true

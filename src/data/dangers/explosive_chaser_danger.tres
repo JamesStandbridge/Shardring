@@ -1,16 +1,18 @@
-[gd_resource type="Resource" script_class="DangerDefinition" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="DangerDefinition" load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://src/data/dangers/danger_definition.gd" id="1_danger_definition_script"]
 [ext_resource type="Resource" path="res://src/data/enemies/basic_explosive_chaser.tres" id="2_basic_explosive_chaser"]
+[ext_resource type="Resource" path="res://src/data/dangers/basic_chaser_placement.tres" id="3_chaser_placement"]
 
 [resource]
 script = ExtResource("1_danger_definition_script")
 danger_id = &"explosive_chaser"
 family = 1
-spawn_cost = 2.0
-selection_weight = 0.55
-cooldown_seconds = 4.25
+spawn_cost = 1.25
+selection_weight = 0.85
+cooldown_seconds = 2.6
 minimum_intensity = 1.0
-max_active_instances = 3
+max_active_instances = 5
 readability_tags = PackedStringArray("actor", "chase", "telegraphed", "explosive")
+placement_rules = ExtResource("3_chaser_placement")
 specialized_config = ExtResource("2_basic_explosive_chaser")

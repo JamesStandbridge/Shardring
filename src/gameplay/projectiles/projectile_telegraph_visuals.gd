@@ -9,6 +9,11 @@ static func get_segment_count(config: ProjectileLauncherConfig) -> int:
 	return maxi(visual_config.segment_count, 1)
 
 
+static func is_beam_enabled(config: ProjectileLauncherConfig) -> bool:
+	var visual_config := config.telegraph_visual_config
+	return visual_config == null or visual_config.beam_enabled
+
+
 static func get_segment_gap_ratio(config: ProjectileLauncherConfig) -> float:
 	var visual_config := config.telegraph_visual_config
 	if visual_config == null:

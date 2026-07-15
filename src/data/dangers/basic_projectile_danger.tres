@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="DangerDefinition" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="DangerDefinition" load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://src/data/dangers/danger_definition.gd" id="1_danger_definition_script"]
 [ext_resource type="Resource" path="res://src/data/projectiles/basic_single_shot_launcher.tres" id="2_basic_launcher"]
+[ext_resource type="Resource" path="res://src/data/dangers/basic_projectile_placement.tres" id="3_projectile_placement"]
 
 [resource]
 script = ExtResource("1_danger_definition_script")
@@ -13,4 +14,5 @@ cooldown_seconds = 2.15
 minimum_intensity = 1.0
 max_active_instances = 2
 readability_tags = PackedStringArray("telegraphed", "directional")
+placement_rules = ExtResource("3_projectile_placement")
 specialized_config = ExtResource("2_basic_launcher")

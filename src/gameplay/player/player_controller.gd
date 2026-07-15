@@ -11,6 +11,11 @@ var _remaining_jumps: int = 1
 var _coyote_timer_seconds: float = 0.0
 var _jump_buffer_timer_seconds: float = 0.0
 var _jump_cut_applied: bool = false
+var _surface_speed_multiplier: float = 1.0
+var _surface_acceleration_multiplier: float = 1.0
+var _surface_deceleration_multiplier: float = 1.0
+var _surface_turn_acceleration_multiplier: float = 1.0
+var _surface_modifier_id: StringName = &""
 
 
 func _ready() -> void:
@@ -48,6 +53,7 @@ func set_movement_enabled(enabled: bool) -> void:
 	_movement_enabled = enabled
 	if not _movement_enabled:
 		velocity = Vector3.ZERO
+		clear_surface_movement_modifier()
 	DebugLog.info(&"Player", "movement_enabled=%s" % enabled)
 
 
@@ -62,6 +68,7 @@ func reset_to_spawn() -> void:
 	_coyote_timer_seconds = 0.0
 	_jump_buffer_timer_seconds = 0.0
 	_jump_cut_applied = false
+	clear_surface_movement_modifier()
 	DebugLog.info(&"Player", "reset_to_spawn position=%s" % global_position)
 
 
@@ -83,6 +90,36 @@ func is_movement_enabled() -> bool:
 
 func is_grounded() -> bool:
 	return is_on_floor()
+
+
+func set_surface_movement_modifier(
+	modifier_id: StringName,
+	speed_multiplier: float,
+	acceleration_multiplier: float,
+	deceleration_multiplier: float,
+	turn_acceleration_multiplier: float
+) -> void:
+	_surface_modifier_id = modifier_id
+	_surface_speed_multiplier = maxf(speed_multiplier, 0.0)
+	_surface_acceleration_multiplier = maxf(acceleration_multiplier, 0.0)
+	_surface_deceleration_multiplier = maxf(deceleration_multiplier, 0.0)
+	_surface_turn_acceleration_multiplier = maxf(turn_acceleration_multiplier, 0.0)
+
+
+func clear_surface_movement_modifier() -> void:
+	_surface_modifier_id = &""
+	_surface_speed_multiplier = 1.0
+	_surface_acceleration_multiplier = 1.0
+	_surface_deceleration_multiplier = 1.0
+	_surface_turn_acceleration_multiplier = 1.0
+
+
+func get_surface_modifier_id() -> StringName:
+	return _surface_modifier_id
+
+
+func get_surface_speed_multiplier() -> float:
+	return _surface_speed_multiplier
 
 
 func get_hurtbox_radius() -> float:
@@ -154,7 +191,10 @@ func _apply_horizontal_movement(delta: float) -> void:
 	var desired_direction := _get_camera_relative_direction(input_vector)
 	var input_strength := clampf(input_vector.length(), 0.0, 1.0)
 	var target_horizontal_velocity := (
-		desired_direction * movement_config.run_speed_meters_per_second * input_strength
+		desired_direction
+		* movement_config.run_speed_meters_per_second
+		* _surface_speed_multiplier
+		* input_strength
 	)
 	var current_horizontal_velocity := Vector3(velocity.x, 0.0, velocity.z)
 	var acceleration := _get_horizontal_acceleration(
@@ -183,10 +223,19 @@ func _get_horizontal_acceleration(
 ) -> float:
 	if is_on_floor():
 		if not has_input:
-			return movement_config.ground_deceleration_meters_per_second_squared
+			return (
+				movement_config.ground_deceleration_meters_per_second_squared
+				* _surface_deceleration_multiplier
+			)
 		if _is_reversing_direction(current_horizontal_velocity, target_horizontal_velocity):
-			return movement_config.ground_turn_acceleration_meters_per_second_squared
-		return movement_config.ground_acceleration_meters_per_second_squared
+			return (
+				movement_config.ground_turn_acceleration_meters_per_second_squared
+				* _surface_turn_acceleration_multiplier
+			)
+		return (
+			movement_config.ground_acceleration_meters_per_second_squared
+			* _surface_acceleration_multiplier
+		)
 
 	var acceleration: float
 	if not has_input:

@@ -7,11 +7,13 @@ extends CanvasLayer
 @export var projectile_system_path: NodePath
 @export var danger_director_path: NodePath
 @export var chaser_enemy_system_path: NodePath
+@export var arena_hazard_system_path: NodePath
 @export var stage_controller_path: NodePath
 @export var exit_gate_path: NodePath
 @export var health_component_path: NodePath
 @export var camera_rig_path: NodePath
 @export var damage_feedback_controller_path: NodePath
+@export var shard_objective_path: NodePath
 
 @onready var _label: Label = $DebugLabel
 
@@ -26,6 +28,7 @@ func _process(_delta: float) -> void:
 	var projectile_system := get_node_or_null(projectile_system_path) as ProjectileSystem
 	var danger_director := get_node_or_null(danger_director_path) as DangerDirector
 	var chaser_enemy_system := get_node_or_null(chaser_enemy_system_path) as ChaserEnemySystem
+	var arena_hazard_system := get_node_or_null(arena_hazard_system_path) as ArenaHazardSystem
 	var stage_controller := get_node_or_null(stage_controller_path) as StageController
 	var exit_gate := get_node_or_null(exit_gate_path) as ExitGateController
 	var health_component := get_node_or_null(health_component_path) as HealthComponent
@@ -33,6 +36,7 @@ func _process(_delta: float) -> void:
 	var damage_feedback := (
 		get_node_or_null(damage_feedback_controller_path) as DamageFeedbackController
 	)
+	var shard_objective := get_node_or_null(shard_objective_path) as ShardObjectiveController
 
 	var run_state := "unknown"
 	var survival_time := 0.0
@@ -58,22 +62,26 @@ func _process(_delta: float) -> void:
 
 	var danger_credits := 0.0
 	var active_dangers := 0
+	var readability_pressure := 0
+	var readability_limit := 0
 	var skipped_dangers := 0
 	var last_danger_id := ""
+	var last_danger_skip := ""
 	var next_danger_decision := 0.0
 	var danger_phase := ""
 	var danger_credit_multiplier := 1.0
-	var danger_decision_multiplier := 1.0
 	var exit_pressure_enabled := false
 	if danger_director != null:
 		danger_credits = danger_director.get_available_credits()
 		active_dangers = danger_director.get_active_danger_count()
+		readability_pressure = danger_director.get_active_readability_pressure()
+		readability_limit = danger_director.get_readability_pressure_limit()
 		skipped_dangers = danger_director.get_skipped_spawn_count()
 		last_danger_id = str(danger_director.get_last_spawned_danger_id())
+		last_danger_skip = str(danger_director.get_last_skip_reason())
 		next_danger_decision = danger_director.get_next_decision_seconds()
 		danger_phase = danger_director.get_pressure_phase_name()
 		danger_credit_multiplier = danger_director.get_credit_pressure_multiplier()
-		danger_decision_multiplier = danger_director.get_decision_interval_pressure_multiplier()
 		exit_pressure_enabled = danger_director.is_exit_pressure_enabled()
 
 	var active_launchers := 0
@@ -93,28 +101,66 @@ func _process(_delta: float) -> void:
 		launcher_direction = projectile_system.get_first_active_launcher_direction()
 
 	var active_enemies := 0
+	var windup_chasers := 0
+	var dashing_chasers := 0
 	var priming_chasers := 0
 	var exploding_chasers := 0
 	var chaser_explosions := 0
 	var skipped_chasers := 0
 	if chaser_enemy_system != null:
 		active_enemies = chaser_enemy_system.get_active_enemy_count()
+		windup_chasers = chaser_enemy_system.get_windup_enemy_count()
+		dashing_chasers = chaser_enemy_system.get_dashing_enemy_count()
 		priming_chasers = chaser_enemy_system.get_priming_enemy_count()
 		exploding_chasers = chaser_enemy_system.get_exploding_enemy_count()
 		chaser_explosions = chaser_enemy_system.get_triggered_explosion_count()
 		skipped_chasers = chaser_enemy_system.get_skipped_spawn_count()
+
+	var active_hazards := 0
+	var warning_cells := 0
+	var lava_cells := 0
+	var ice_cells := 0
+	var destroyed_cells := 0
+	var skipped_hazards := 0
+	var last_hazard := ""
+	var player_cell_state := ""
+	if arena_hazard_system != null:
+		active_hazards = arena_hazard_system.get_active_hazard_count()
+		warning_cells = arena_hazard_system.get_warning_cell_count()
+		lava_cells = arena_hazard_system.get_lava_cell_count()
+		ice_cells = arena_hazard_system.get_ice_cell_count()
+		destroyed_cells = arena_hazard_system.get_destroyed_cell_count()
+		skipped_hazards = arena_hazard_system.get_skipped_spawn_count()
+		last_hazard = arena_hazard_system.get_last_spawned_hazard_type_name()
+		player_cell_state = arena_hazard_system.get_cell_state_under_player_name()
 
 	var stage_state := ""
 	var level_index := 0
 	var map_id := ""
 	var survived_threat_budget := 0.0
 	var required_threat_budget := 0.0
+	var collected_shards := 0
+	var required_shards := 0
+	var shard_risk_tier := 0
+	var overstay_seconds := 0.0
+	var risk_bonus_multiplier := 1.0
 	if stage_controller != null:
 		stage_state = stage_controller.get_stage_state_name()
 		level_index = stage_controller.get_level_index()
 		map_id = str(stage_controller.get_current_map_id())
 		survived_threat_budget = stage_controller.get_survived_threat_budget()
 		required_threat_budget = stage_controller.get_required_threat_budget()
+		collected_shards = stage_controller.get_collected_shards()
+		required_shards = stage_controller.get_required_shards()
+		shard_risk_tier = stage_controller.get_current_shard_risk_tier()
+		overstay_seconds = stage_controller.get_overstay_seconds()
+		risk_bonus_multiplier = stage_controller.get_risk_bonus_multiplier()
+
+	var shard_active := false
+	var shard_position := Vector3.ZERO
+	if shard_objective != null:
+		shard_active = shard_objective.has_active_shard()
+		shard_position = shard_objective.get_current_shard_position()
 
 	var exit_gate_available := false
 	var exit_gate_open := 0.0
@@ -152,13 +198,19 @@ func _process(_delta: float) -> void:
 			+ "HP: %.0f / %.0f\nInvuln: %.2fs\nLast damage: %s %.2f\n"
 			+ "Shake: %.3f\nFeedback: %s %.2f\n"
 			+ "Jumps: %d\nArena cells: %d\nDanger credits: %.2f\n"
-			+ "Danger active: %d\nDanger skipped: %d\nDanger last: %s\n"
-			+ "Danger phase: %s credit x%.2f decision x%.2f exit=%s\n"
+			+ "Danger active: %d readability: %d / %d\n"
+			+ "Danger skipped: %d reason=%s\nDanger last: %s\n"
+			+ "Danger phase: %s credit x%.2f exit=%s\n"
 			+ "Danger next: %.2fs\nLaunchers: %d\nTelegraphs: %d\n"
 			+ "Projectiles: %d\nSkipped spawns: %d\nCharge: %.2f\nTelegraph: %.2fm\n"
-			+ "Aim: %.2f, %.2f, %.2f\nEnemies: %d\nChasers priming: %d\n"
+			+ "Aim: %.2f, %.2f, %.2f\nEnemies: %d\nChasers windup: %d dashing: %d\n"
+			+ "Chasers priming: %d\n"
 			+ "Chasers exploding: %d\nChaser explosions: %d\nSkipped chasers: %d\n"
+			+ "Hazards: %d warning=%d lava=%d ice=%d destroyed=%d\n"
+			+ "Hazard skipped: %d last=%s player_cell=%s\n"
 			+ "Stage: %s L%d %s\nStage threat: %.1f / %.1f\n"
+			+ "Stage shards: %d / %d risk=%d overstay=%.1fs x%.2f\n"
+			+ "Shard active: %s pos=%.1f, %.1f, %.1f\n"
 			+ "Exit gate: %s open=%.2f dist=%.2f\n"
 			+ "Death: %s"
 		)
@@ -180,11 +232,13 @@ func _process(_delta: float) -> void:
 			arena_cells,
 			danger_credits,
 			active_dangers,
+			readability_pressure,
+			readability_limit,
 			skipped_dangers,
+			last_danger_skip,
 			last_danger_id,
 			danger_phase,
 			danger_credit_multiplier,
-			danger_decision_multiplier,
 			str(exit_pressure_enabled),
 			next_danger_decision,
 			active_launchers,
@@ -197,15 +251,34 @@ func _process(_delta: float) -> void:
 			launcher_direction.y,
 			launcher_direction.z,
 			active_enemies,
+			windup_chasers,
+			dashing_chasers,
 			priming_chasers,
 			exploding_chasers,
 			chaser_explosions,
 			skipped_chasers,
+			active_hazards,
+			warning_cells,
+			lava_cells,
+			ice_cells,
+			destroyed_cells,
+			skipped_hazards,
+			last_hazard,
+			player_cell_state,
 			stage_state,
 			level_index,
 			map_id,
 			survived_threat_budget,
 			required_threat_budget,
+			collected_shards,
+			required_shards,
+			shard_risk_tier,
+			overstay_seconds,
+			risk_bonus_multiplier,
+			str(shard_active),
+			shard_position.x,
+			shard_position.y,
+			shard_position.z,
 			str(exit_gate_available),
 			exit_gate_open,
 			exit_gate_distance,

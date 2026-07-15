@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="ArenaHazardConfig" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/data/hazards/arena_hazard_config.gd" id="1_arena_hazard_config"]
+[ext_resource type="Resource" path="res://src/data/combat/basic_lava_damage.tres" id="2_lava_damage"]
+[ext_resource type="Resource" path="res://src/data/combat/basic_destroyed_terrain_damage.tres" id="3_destroyed_damage"]
+
+[resource]
+script = ExtResource("1_arena_hazard_config")
+hazard_type = 0
+affected_cell_count_min = 2
+affected_cell_count_max = 3
+warning_duration_seconds = 1.1
+active_duration_seconds = 5.0
+collapsing_duration_seconds = 0.6
+destroyed_duration_seconds = 8.0
+rebuilding_duration_seconds = 1.0
+min_distance_from_player_meters = 7.5
+center_safe_radius_meters = 6.0
+lava_damage_tick_seconds = 0.45
+lava_damage_profile = ExtResource("2_lava_damage")
+destroyed_damage_profile = ExtResource("3_destroyed_damage")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="PackedScene" path="res://assets/art/exports_godot/asset_toybox_player.glb" id="1_player_glb"]
+[ext_resource type="PackedScene" path="res://assets/art/exports_godot/asset_kenney_player_blocky_character.glb" id="1_player_glb"]
 
 [node name="PlayerArcadeWrapper" type="Node3D"]
 

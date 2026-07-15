@@ -5,8 +5,8 @@ player_playground := "res://src/dev/playgrounds/player_movement_playground.tscn"
 arena_playground := "res://src/dev/playgrounds/arena_playground.tscn"
 projectile_playground := "res://src/dev/playgrounds/projectile_playground.tscn"
 chaser_playground := "res://src/dev/playgrounds/chaser_enemy_playground.tscn"
+hazard_playground := "res://src/dev/playgrounds/hazard_playground.tscn"
 art_review_playground := "res://src/dev/playgrounds/art_review_playground.tscn"
-external_asset_review_playground := "res://src/dev/playgrounds/external_asset_review_playground.tscn"
 blender_bin := env_var_or_default("BLENDER_BIN", "/Applications/Blender.app/Contents/MacOS/Blender")
 
 alias b := bootstrap
@@ -18,9 +18,12 @@ alias p := playground
 alias a := arena
 alias pr := projectiles
 alias ch := chaser
+alias hz := hazards
 alias ak := art-kit
 alias ar := art-review
-alias ear := external-art-review
+alias kc := kenney-catalog
+alias kva := kenney-v1-assets
+alias tt := terrain-textures
 
 default:
 	@just --list
@@ -55,11 +58,20 @@ projectiles:
 chaser:
 	"{{godot_bin}}" --path . --scene "{{chaser_playground}}"
 
+hazards:
+	"{{godot_bin}}" --path . --scene "{{hazard_playground}}"
+
 art-review:
 	"{{godot_bin}}" --path . --scene "{{art_review_playground}}"
 
-external-art-review:
-	"{{godot_bin}}" --path . --scene "{{external_asset_review_playground}}"
+kenney-catalog:
+	python3 scripts/art/catalog_kenney_assets.py
+
+kenney-v1-assets:
+	"{{blender_bin}}" --background --python scripts/art/prepare_kenney_v1_assets.py
+
+terrain-textures:
+	python3 scripts/art/generate_terrain_textures.py
 
 debug-collisions:
 	"{{godot_bin}}" --path . --debug-collisions

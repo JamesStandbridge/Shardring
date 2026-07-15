@@ -25,13 +25,14 @@ Chaque couleur importante a une fonction gameplay. Les dangers sont rouges, oran
 
 1. Le joueur commence une run au centre de l'arene.
 2. Les premiers dangers testent le mouvement de base.
-3. Des pieces de run apparaissent rarement sur la carte.
-4. Le joueur prend un risque pour collecter, puis choisit plus tard comment depenser selon une mecanique d'achat a definir.
-5. La difficulte augmente, le terrain change ou se detruit, puis se reconstruit par cycles.
-6. Quand l'objectif de map est atteint, une porte de sortie apparait au centre.
+3. Un Shard apparait dans l'arene, volontairement loin de la zone sure.
+4. Le joueur decide quand prendre le risque de le recuperer.
+5. Chaque Shard collecte augmente la pression et rapproche de la sortie.
+6. Quand tous les Shards du level sont collectes, une porte de sortie apparait au centre.
 7. Le joueur choisit quand traverser la porte ; les dangers continuent tant qu'il reste.
-8. La run se termine a la mort du joueur.
-9. Les resultats de run pourront plus tard attribuer une monnaie cross-game rare.
+8. Rester apres la porte augmente un futur bonus de recompense, mais l'intensite continue de monter.
+9. La run se termine a la mort du joueur.
+10. Les resultats de run pourront plus tard attribuer une monnaie cross-game rare.
 
 ## Progression
 
@@ -65,6 +66,7 @@ code comme un raccourci temporaire difficile a remplacer.
 - Run : une tentative complete, du lancement a la mort/recompense.
 - Level : etape courante d'une run ; les levels sont infinis et reutilisent un catalogue fini de maps.
 - Map : definition thematique reutilisable avec arene, ambiance, dangers et configs.
+- Shard : fragment d'objectif a recuperer volontairement pour faire apparaitre l'exit gate.
 - Exit gate : porte de sortie qui apparait quand l'objectif du level est atteint.
 - Danger : tout element qui peut tuer ou contraindre le joueur.
 - Hazard : etat temporaire de terrain, comme lave, glace ou effondrement.

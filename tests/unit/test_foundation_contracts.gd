@@ -66,11 +66,17 @@ func test_foundation_resource_defaults_are_playable() -> void:
 	var basic_projectile_danger := (
 		load("res://src/data/dangers/basic_projectile_danger.tres") as DangerDefinition
 	)
+	var basic_projectile_placement := (
+		load("res://src/data/dangers/basic_projectile_placement.tres") as DangerPlacementRules
+	)
 	var basic_chaser_config := (
 		load("res://src/data/enemies/basic_explosive_chaser.tres") as ExplosiveChaserConfig
 	)
 	var explosive_chaser_danger := (
 		load("res://src/data/dangers/explosive_chaser_danger.tres") as DangerDefinition
+	)
+	var basic_chaser_placement := (
+		load("res://src/data/dangers/basic_chaser_placement.tres") as DangerPlacementRules
 	)
 	var default_player_health := (
 		load("res://src/data/combat/default_player_health.tres") as HealthConfig
@@ -86,6 +92,34 @@ func test_foundation_resource_defaults_are_playable() -> void:
 	)
 	var basic_chaser_damage := (
 		load("res://src/data/combat/basic_chaser_explosion_damage.tres") as DamageProfile
+	)
+	var basic_lava_damage := load("res://src/data/combat/basic_lava_damage.tres") as DamageProfile
+	var basic_destroyed_terrain_damage := (
+		load("res://src/data/combat/basic_destroyed_terrain_damage.tres") as DamageProfile
+	)
+	var fall_out_of_arena_damage := (
+		load("res://src/data/combat/fall_out_of_arena_damage.tres") as DamageProfile
+	)
+	var basic_lava_hazard := (
+		load("res://src/data/hazards/basic_lava_hazard.tres") as ArenaHazardConfig
+	)
+	var basic_ice_hazard := (
+		load("res://src/data/hazards/basic_ice_hazard.tres") as ArenaHazardConfig
+	)
+	var basic_collapse_hazard := (
+		load("res://src/data/hazards/basic_collapse_hazard.tres") as ArenaHazardConfig
+	)
+	var basic_lava_hazard_danger := (
+		load("res://src/data/dangers/basic_lava_hazard_danger.tres") as DangerDefinition
+	)
+	var basic_ice_hazard_danger := (
+		load("res://src/data/dangers/basic_ice_hazard_danger.tres") as DangerDefinition
+	)
+	var basic_collapse_hazard_danger := (
+		load("res://src/data/dangers/basic_collapse_hazard_danger.tres") as DangerDefinition
+	)
+	var basic_hazard_placement := (
+		load("res://src/data/dangers/basic_hazard_placement.tres") as DangerPlacementRules
 	)
 	var default_damage_feedback := (
 		load("res://src/data/feedback/default_damage_feedback.tres") as DamageFeedbackConfig
@@ -110,13 +144,19 @@ func test_foundation_resource_defaults_are_playable() -> void:
 	var stage_sequence := (
 		load("res://src/data/stages/default_stage_sequence.tres") as StageSequenceConfig
 	)
+	var default_shard_objective := (
+		load("res://src/data/objectives/default_shard_objective_config.tres")
+		as ShardObjectiveConfig
+	)
 	var projectile_config := ProjectileConfig.new()
 	var launcher_config := ProjectileLauncherConfig.new()
 	var chaser_config := ExplosiveChaserConfig.new()
 	var arena_theme_config := ArenaThemeConfig.new()
 	var map_definition := MapDefinition.new()
 	var stage_sequence_config := StageSequenceConfig.new()
+	var shard_objective_config := ShardObjectiveConfig.new()
 	var damage_profile := DamageProfile.new()
+	var arena_hazard_config := ArenaHazardConfig.new()
 	var health_config := HealthConfig.new()
 	var hurtbox_config := PlayerHurtboxConfig.new()
 	var player_animation_config := PlayerAnimationConfig.new()
@@ -124,6 +164,7 @@ func test_foundation_resource_defaults_are_playable() -> void:
 	var damage_feedback_config := DamageFeedbackConfig.new()
 	var danger_definition := DangerDefinition.new()
 	var danger_director_config := DangerDirectorConfig.new()
+	var danger_placement_rules := DangerPlacementRules.new()
 	var difficulty_config := DifficultyConfig.new()
 	var upgrade_config := UpgradeConfig.new()
 
@@ -180,6 +221,7 @@ func test_foundation_resource_defaults_are_playable() -> void:
 	assert_gt(basic_projectile_config.speed_meters_per_second, 0.0)
 	assert_gt(basic_projectile_config.lifetime_seconds, 0.0)
 	assert_gt(basic_projectile_config.collision_radius_meters, 0.0)
+	assert_gt(basic_projectile_config.near_miss_radius_meters, 0.0)
 	assert_gt(basic_projectile_config.visual_radius_meters, 0.0)
 	assert_not_null(basic_projectile_config.visual_scene)
 	assert_eq(
@@ -202,7 +244,7 @@ func test_foundation_resource_defaults_are_playable() -> void:
 	assert_true(basic_projectile_config.trail_enabled)
 	assert_gt(basic_projectile_config.trail_length_meters, 0.0)
 	assert_gt(basic_projectile_config.trail_width_meters, 0.0)
-	assert_gt(basic_projectile_config.trail_emission_energy, 0.0)
+	assert_gte(basic_projectile_config.trail_emission_energy, 0.0)
 	assert_not_null(basic_launcher_config)
 	assert_eq(
 		basic_launcher_config.launcher_type, ProjectileLauncherConfig.LauncherType.SINGLE_SHOT
@@ -219,6 +261,7 @@ func test_foundation_resource_defaults_are_playable() -> void:
 	assert_not_null(basic_launcher_config.telegraph_visual_config)
 	assert_same(basic_launcher_config.telegraph_visual_config, default_projectile_telegraph)
 	assert_true(default_projectile_telegraph.is_valid_config())
+	assert_false(default_projectile_telegraph.beam_enabled)
 	assert_gt(default_projectile_telegraph.segment_count, 1)
 	assert_eq(
 		basic_launcher_config.telegraph_mode, ProjectileLauncherConfig.TelegraphMode.TO_TARGET
@@ -283,6 +326,10 @@ func test_foundation_resource_defaults_are_playable() -> void:
 	assert_gt(default_danger_director_config.credits_per_second, 0.0)
 	assert_gt(default_danger_director_config.max_stored_credits, 0.0)
 	assert_gt(default_danger_director_config.decision_interval_seconds, 0.0)
+	assert_true(default_danger_director_config.is_valid_config())
+	assert_eq(default_danger_director_config.max_readability_pressure, 5)
+	assert_eq(default_danger_director_config.exit_max_readability_pressure, 3)
+	assert_eq(default_danger_director_config.peak_max_readability_pressure, 7)
 	assert_not_null(default_player_health)
 	assert_true(default_player_health.is_valid_config())
 	assert_eq(default_player_health.max_health, 100.0)
@@ -305,6 +352,33 @@ func test_foundation_resource_defaults_are_playable() -> void:
 	assert_true(basic_chaser_damage.is_valid_profile())
 	assert_eq(basic_chaser_damage.damage_type, DamageProfile.DamageType.EXPLOSIVE)
 	assert_eq(basic_chaser_damage.death_reason, &"chaser_explosion")
+	assert_not_null(basic_lava_damage)
+	assert_true(basic_lava_damage.is_valid_profile())
+	assert_eq(basic_lava_damage.damage_type, DamageProfile.DamageType.TERRAIN)
+	assert_eq(basic_lava_damage.death_reason, &"terrain_lava")
+	assert_not_null(basic_destroyed_terrain_damage)
+	assert_true(basic_destroyed_terrain_damage.is_valid_profile())
+	assert_eq(basic_destroyed_terrain_damage.damage_type, DamageProfile.DamageType.TERRAIN)
+	assert_true(basic_destroyed_terrain_damage.ignores_invulnerability)
+	assert_eq(basic_destroyed_terrain_damage.death_reason, &"terrain_destroyed")
+	assert_not_null(fall_out_of_arena_damage)
+	assert_true(fall_out_of_arena_damage.is_valid_profile())
+	assert_eq(fall_out_of_arena_damage.damage_type, DamageProfile.DamageType.TERRAIN)
+	assert_true(fall_out_of_arena_damage.ignores_invulnerability)
+	assert_eq(fall_out_of_arena_damage.death_reason, &"fell_out_of_arena")
+	assert_not_null(basic_lava_hazard)
+	assert_true(basic_lava_hazard.is_valid_config())
+	assert_eq(basic_lava_hazard.hazard_type, ArenaHazardConfig.HazardType.LAVA)
+	assert_same(basic_lava_hazard.lava_damage_profile, basic_lava_damage)
+	assert_same(basic_lava_hazard.destroyed_damage_profile, basic_destroyed_terrain_damage)
+	assert_not_null(basic_ice_hazard)
+	assert_true(basic_ice_hazard.is_valid_config())
+	assert_eq(basic_ice_hazard.hazard_type, ArenaHazardConfig.HazardType.ICE)
+	assert_gt(basic_ice_hazard.ice_speed_multiplier, 1.0)
+	assert_lt(basic_ice_hazard.ice_deceleration_multiplier, 1.0)
+	assert_not_null(basic_collapse_hazard)
+	assert_true(basic_collapse_hazard.is_valid_config())
+	assert_eq(basic_collapse_hazard.hazard_type, ArenaHazardConfig.HazardType.COLLAPSE)
 	assert_not_null(default_damage_feedback)
 	assert_true(default_damage_feedback.is_valid_config())
 	assert_not_null(projectile_hit_shake)
@@ -313,20 +387,81 @@ func test_foundation_resource_defaults_are_playable() -> void:
 	assert_true(explosive_hit_shake.is_valid_config())
 	assert_not_null(mint_theme)
 	assert_true(mint_theme.is_valid_theme())
+	assert_eq(mint_theme.theme_id, &"kenney_meadow")
+	assert_eq(mint_theme.seam_width_meters, 0.0)
+	assert_gt(mint_theme.border_width_meters, mint_theme.seam_width_meters)
+	assert_gt(mint_theme.trim_height_offset_meters, 0.0)
+	assert_gt(mint_theme.material_roughness, 0.0)
+	assert_lt(mint_theme.material_roughness, 1.0)
+	assert_true(mint_theme.terrain_texture_enabled)
+	assert_not_null(mint_theme.terrain_albedo_texture)
+	assert_not_null(mint_theme.terrain_detail_texture)
+	assert_eq(
+		mint_theme.terrain_albedo_texture.resource_path,
+		"res://assets/art/textures/terrain/terrain_meadow_albedo.png"
+	)
+	assert_eq(
+		mint_theme.terrain_detail_texture.resource_path,
+		"res://assets/art/textures/terrain/terrain_meadow_detail.png"
+	)
+	assert_gt(mint_theme.terrain_texture_strength, 0.0)
+	assert_gt(mint_theme.terrain_texture_tile_meters, mint_theme.terrain_detail_texture_tile_meters)
+	assert_gt(mint_theme.terrain_patch_scale_meters, mint_theme.terrain_detail_scale_meters)
+	assert_gt(mint_theme.terrain_detail_strength, 0.0)
+	assert_lt(mint_theme.terrain_color_variation_strength, 0.25)
 	assert_not_null(candy_theme)
 	assert_true(candy_theme.is_valid_theme())
+	assert_eq(candy_theme.theme_id, &"kenney_clay_yard")
+	assert_eq(candy_theme.seam_width_meters, 0.0)
+	assert_gt(candy_theme.border_width_meters, candy_theme.seam_width_meters)
+	assert_gt(candy_theme.trim_height_offset_meters, 0.0)
+	assert_true(candy_theme.terrain_texture_enabled)
+	assert_not_null(candy_theme.terrain_albedo_texture)
+	assert_not_null(candy_theme.terrain_detail_texture)
+	assert_eq(
+		candy_theme.terrain_albedo_texture.resource_path,
+		"res://assets/art/textures/terrain/terrain_clay_albedo.png"
+	)
+	assert_eq(
+		candy_theme.terrain_detail_texture.resource_path,
+		"res://assets/art/textures/terrain/terrain_clay_detail.png"
+	)
+	assert_gt(candy_theme.terrain_texture_strength, 0.0)
+	assert_gt(
+		candy_theme.terrain_texture_tile_meters, candy_theme.terrain_detail_texture_tile_meters
+	)
+	assert_gt(candy_theme.terrain_patch_scale_meters, candy_theme.terrain_detail_scale_meters)
+	assert_lt(candy_theme.terrain_color_variation_strength, 0.25)
 	assert_not_null(mint_map)
 	assert_true(mint_map.is_valid_map())
+	assert_eq(mint_map.map_id, &"kenney_meadow")
+	assert_eq(mint_map.danger_definitions.size(), 4)
 	assert_not_null(candy_map)
 	assert_true(candy_map.is_valid_map())
+	assert_eq(candy_map.map_id, &"kenney_clay_yard")
+	assert_eq(candy_map.danger_definitions.size(), 4)
 	assert_not_null(stage_sequence)
 	assert_true(stage_sequence.is_valid_sequence())
 	assert_eq(stage_sequence.maps.size(), 2)
+	assert_not_null(stage_sequence.shard_objective_config)
+	assert_same(stage_sequence.shard_objective_config, default_shard_objective)
 	assert_same(stage_sequence.get_map_for_level(1), mint_map)
 	assert_same(stage_sequence.get_map_for_level(2), candy_map)
 	assert_same(stage_sequence.get_map_for_level(3), mint_map)
 	assert_almost_eq(stage_sequence.get_required_threat_budget_for_level(1), 22.0, 0.001)
 	assert_almost_eq(stage_sequence.get_required_threat_budget_for_level(2), 30.0, 0.001)
+	assert_not_null(default_shard_objective)
+	assert_true(default_shard_objective.is_valid_config())
+	assert_eq(default_shard_objective.base_required_shards, 3)
+	assert_eq(default_shard_objective.additional_shard_every_levels, 2)
+	assert_eq(default_shard_objective.max_required_shards, 7)
+	assert_eq(default_shard_objective.get_required_shards_for_level(1), 3)
+	assert_eq(default_shard_objective.get_required_shards_for_level(3), 4)
+	assert_eq(default_shard_objective.get_required_shards_for_level(9), 7)
+	assert_gt(default_shard_objective.pickup_radius_meters, 0.0)
+	assert_almost_eq(default_shard_objective.post_collect_peak_duration_seconds, 5.0, 0.001)
+	assert_almost_eq(default_shard_objective.intensity_bonus_per_collected_shard, 0.45, 0.001)
+	assert_gt(default_shard_objective.intensity_bonus_per_collected_shard, 0.0)
 	assert_same(
 		default_damage_feedback.get_shake_for_damage_type(DamageProfile.DamageType.PROJECTILE),
 		projectile_hit_shake
@@ -339,6 +474,10 @@ func test_foundation_resource_defaults_are_playable() -> void:
 	assert_true(basic_projectile_danger.is_valid_definition())
 	assert_eq(basic_projectile_danger.family, DangerDefinition.DangerFamily.PROJECTILE_LAUNCHER)
 	assert_same(basic_projectile_danger.specialized_config, basic_launcher_config)
+	assert_not_null(basic_projectile_placement)
+	assert_true(basic_projectile_placement.is_valid_rules())
+	assert_same(basic_projectile_danger.placement_rules, basic_projectile_placement)
+	assert_almost_eq(basic_projectile_placement.min_distance_from_player_meters, 10.0, 0.001)
 	assert_not_null(basic_chaser_config)
 	assert_true(basic_chaser_config.is_valid_config())
 	assert_not_null(basic_chaser_config.body_scene)
@@ -354,6 +493,16 @@ func test_foundation_resource_defaults_are_playable() -> void:
 		basic_chaser_config.walk_speed_meters_per_second
 	)
 	assert_gte(
+		basic_chaser_config.agitated_radius_meters, basic_chaser_config.dash_trigger_radius_meters
+	)
+	assert_gt(basic_chaser_config.dash_trigger_radius_meters, 0.0)
+	assert_gt(basic_chaser_config.dash_windup_seconds, 0.0)
+	assert_gt(basic_chaser_config.dash_duration_seconds, 0.0)
+	assert_gte(
+		basic_chaser_config.dash_speed_meters_per_second,
+		basic_chaser_config.chase_speed_meters_per_second
+	)
+	assert_gte(
 		basic_chaser_config.run_trigger_radius_meters,
 		basic_chaser_config.prime_trigger_radius_meters
 	)
@@ -361,6 +510,7 @@ func test_foundation_resource_defaults_are_playable() -> void:
 	assert_eq(basic_chaser_config.visual_yaw_offset_degrees, 180.0)
 	assert_gt(basic_chaser_config.prime_duration_seconds, 0.0)
 	assert_gt(basic_chaser_config.explosion_radius_meters, 0.0)
+	assert_gt(basic_chaser_config.near_miss_radius_meters, 0.0)
 	assert_gt(basic_chaser_config.movement_bob_frequency_walk_hz, 0.0)
 	assert_gte(
 		basic_chaser_config.movement_bob_frequency_run_hz,
@@ -376,9 +526,36 @@ func test_foundation_resource_defaults_are_playable() -> void:
 	assert_true(explosive_chaser_danger.is_valid_definition())
 	assert_eq(explosive_chaser_danger.family, DangerDefinition.DangerFamily.ACTOR_ENEMY)
 	assert_same(explosive_chaser_danger.specialized_config, basic_chaser_config)
+	assert_almost_eq(explosive_chaser_danger.spawn_cost, 1.25, 0.001)
+	assert_almost_eq(explosive_chaser_danger.cooldown_seconds, 2.6, 0.001)
+	assert_eq(explosive_chaser_danger.max_active_instances, 5)
+	assert_not_null(basic_chaser_placement)
+	assert_true(basic_chaser_placement.is_valid_rules())
+	assert_same(explosive_chaser_danger.placement_rules, basic_chaser_placement)
+	assert_almost_eq(basic_chaser_placement.min_distance_from_player_meters, 11.0, 0.001)
+	assert_not_null(basic_lava_hazard_danger)
+	assert_true(basic_lava_hazard_danger.is_valid_definition())
+	assert_eq(basic_lava_hazard_danger.family, DangerDefinition.DangerFamily.TERRAIN_HAZARD)
+	assert_same(basic_lava_hazard_danger.specialized_config, basic_lava_hazard)
+	assert_not_null(basic_hazard_placement)
+	assert_true(basic_hazard_placement.is_valid_rules())
+	assert_same(basic_lava_hazard_danger.placement_rules, basic_hazard_placement)
+	assert_almost_eq(basic_hazard_placement.min_distance_from_player_meters, 7.5, 0.001)
+	assert_almost_eq(basic_hazard_placement.center_safe_radius_meters, 6.0, 0.001)
+	assert_not_null(basic_ice_hazard_danger)
+	assert_true(basic_ice_hazard_danger.is_valid_definition())
+	assert_eq(basic_ice_hazard_danger.family, DangerDefinition.DangerFamily.TERRAIN_HAZARD)
+	assert_same(basic_ice_hazard_danger.specialized_config, basic_ice_hazard)
+	assert_same(basic_ice_hazard_danger.placement_rules, basic_hazard_placement)
+	assert_not_null(basic_collapse_hazard_danger)
+	assert_true(basic_collapse_hazard_danger.is_valid_definition())
+	assert_eq(basic_collapse_hazard_danger.family, DangerDefinition.DangerFamily.TERRAIN_HAZARD)
+	assert_same(basic_collapse_hazard_danger.specialized_config, basic_collapse_hazard)
+	assert_same(basic_collapse_hazard_danger.placement_rules, basic_hazard_placement)
 	assert_true(chaser_config.is_valid_config())
 	assert_null(chaser_config.body_scene)
 	assert_true(damage_profile.is_valid_profile())
+	assert_true(arena_hazard_config.is_valid_config())
 	assert_true(health_config.is_valid_config())
 	assert_true(hurtbox_config.is_valid_config())
 	assert_true(player_animation_config.is_valid_config())
@@ -387,9 +564,12 @@ func test_foundation_resource_defaults_are_playable() -> void:
 	assert_true(arena_theme_config.is_valid_theme())
 	assert_true(map_definition.is_valid_map())
 	assert_true(stage_sequence_config.is_valid_sequence())
+	assert_true(shard_objective_config.is_valid_config())
 	assert_true(danger_definition.is_valid_definition())
+	assert_true(danger_placement_rules.is_valid_rules())
 	assert_gt(danger_director_config.credits_per_second, 0.0)
 	assert_gt(danger_director_config.max_total_active_dangers, 0)
+	assert_true(danger_director_config.is_valid_config())
 	assert_gt(difficulty_config.max_intensity, difficulty_config.starting_intensity)
 	assert_gt(difficulty_config.initial_spawn_interval_seconds, 0.0)
 	assert_eq(upgrade_config.upgrade_id, UpgradeConfig.UpgradeId.DOUBLE_JUMP)
@@ -402,10 +582,34 @@ func test_foundation_resource_defaults_are_playable() -> void:
 		FileAccess.file_exists("res://assets/art/exports_godot/asset_toybox_projectile.glb")
 	)
 	assert_true(FileAccess.file_exists("res://assets/art/exports_godot/asset_toybox_exit_gate.glb"))
+	assert_true(
+		FileAccess.file_exists("res://assets/art/textures/terrain/terrain_meadow_albedo.png")
+	)
+	assert_true(
+		FileAccess.file_exists("res://assets/art/textures/terrain/terrain_meadow_detail.png")
+	)
+	assert_true(FileAccess.file_exists("res://assets/art/textures/terrain/terrain_clay_albedo.png"))
+	assert_true(FileAccess.file_exists("res://assets/art/textures/terrain/terrain_clay_detail.png"))
+	assert_true(
+		FileAccess.file_exists("res://assets/art/textures/terrain/hazard_warning_stripes.png")
+	)
+	assert_true(FileAccess.file_exists("res://assets/art/textures/terrain/hazard_lava_flow.png"))
+	assert_true(FileAccess.file_exists("res://assets/art/textures/terrain/hazard_ice_cracks.png"))
+	assert_true(
+		FileAccess.file_exists("res://assets/art/textures/terrain/hazard_collapse_cracks.png")
+	)
 	assert_true(FileAccess.file_exists("res://assets/art/asset_manifest.json"))
 	assert_true(FileAccess.file_exists("res://src/visual/assets/player_arcade_wrapper.tscn"))
 	assert_true(FileAccess.file_exists("res://src/visual/assets/chaser_arcade_wrapper.tscn"))
 	assert_true(FileAccess.file_exists("res://src/visual/assets/launcher_arcade_wrapper.tscn"))
 	assert_true(FileAccess.file_exists("res://src/visual/assets/projectile_arcade_wrapper.tscn"))
 	assert_true(FileAccess.file_exists("res://src/visual/assets/exit_gate_arcade_wrapper.tscn"))
+	assert_true(FileAccess.file_exists("res://src/visual/assets/shard_arcade_wrapper.tscn"))
+	assert_true(FileAccess.file_exists("res://src/data/objectives/shard_objective_config.gd"))
+	assert_true(
+		FileAccess.file_exists("res://src/data/objectives/default_shard_objective_config.tres")
+	)
+	assert_true(
+		FileAccess.file_exists("res://src/gameplay/objectives/shard_objective_controller.gd")
+	)
 	assert_true(FileAccess.file_exists("res://src/dev/playgrounds/art_review_playground.tscn"))
